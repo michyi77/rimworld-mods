@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Window: built into a wall, the wall stays (SPEC-window.md).
+
+       A wall attachment, the same shape of def as the vanilla wall torch:
+       isEdifice=false + isAttachment=true + Placeworker_AttachedToWall, on a Wall that declares
+       supportsWallAttachments. So the cell's edifice is still the wall, the room boundary is
+       unchanged, and nothing here touches passability: pawns cannot walk through because the
+       wall cannot.
+
+       Stats are a copy of the vanilla Door's, not an inheritance (DoorBase would drag in
+       thingClass=Building_Door and fillPercent=1, and an attachment must not be an edifice):
+         DoorBase : MaxHitPoints 160, Flammability 1.0, stuffCategories Metallic/Woody/Stony, no Beauty
+         Door     : WorkToBuild 850, costStuffCount 25
+       Beauty is deliberately not set: on a door it comes from the stuff, so leaving it out is
+       what makes a window's beauty equal a door's of the same stuff.
+       DoorOpenSpeed is a stat the stuff drives, so opening costs what a door of that stuff costs.
+
+       Two defs, one per state: the open one has its own IsoRim model (panes swung out), so the
+       toggle is visible. They share everything but the name. PZ_WindowOpen has no
+       designationCategory, so it never shows in the architect menu. -->
+  <ThingDef Name="PZ_WindowBase" Abstract="True" ParentName="BuildingBase">
+    <label>window</label>
+    <description>A window built into a wall. Open it to let light and air through; close it to keep the weather out.</description>
+    <thingClass>ProjectZ.Windows.Building_Window</thingClass>
+    <graphicData>
+      <texPath>ProjectZ/Window</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <uiIconPath>ProjectZ/Window_MenuIcon</uiIconPath>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <passability>Standable</passability>
+    <pathCost>0</pathCost>
+    <!-- 0: the window adds nothing to the cell. Cover, sight and the room boundary belong to the
+         wall. When it is open the half-height cover is ProjectZ's own rule (M4), not fillPercent. -->
+    <fillPercent>0</fillPercent>
+    <!-- On a wall, so the ground underneath is irrelevant. IsNull is how the wall torch does it. -->
+    <terrainAffordanceNeeded IsNull="True" />
+    <rotatable>false</rotatable>
+    <useHitPoints>true</useHitPoints>
+    <castEdgeShadows>false</castEdgeShadows>
+    <statBases>
+      <MaxHitPoints>160</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <WorkToBuild>850</WorkToBuild>
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+      <li>Woody</li>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>25</costStuffCount>
+    <building>
+      <isEdifice>false</isEdifice>
+      <isAttachment>true</isAttachment>
+      <isInert>true</isInert>
+      <ai_chillDestination>false</ai_chillDestination>
+      <blueprintGraphicData>
+        <texPath>Things/Building/Door/Door_Blueprint</texPath>
+      </blueprintGraphicData>
+    </building>
+  </ThingDef>
+
+  <!-- Closed: the buildable one. -->
+  <ThingDef ParentName="PZ_WindowBase">
+    <defName>PZ_Window</defName>
+    <!-- Deprecated: this was the wall-attachment version, replaced by PZ_WindowWall (a structure that
+         takes the wall's cell). Kept registered so saves that already have one do not lose it, but it
+         no longer shows in the architect menu. Deconstruct any that are left. -->
+  </ThingDef>
+
+  <!-- Open: spawned by Building_Window.Toggle in place of the closed one, never built directly. -->
+  <ThingDef ParentName="PZ_WindowBase">
+    <defName>PZ_WindowOpen</defName>
+  </ThingDef>
+
+</Defs>

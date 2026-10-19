@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Half wall: the lower half of a wall, and like a barricade it is NOT a wall.
+         passability PassThroughOnly  pawns climb over it, so a ring of half walls does not enclose a room
+       fillPercent 0.55             the cover a barricade gives
+       holdsRoof false              no roof on a bare half wall
+       blockLight / blockWind off   a waist-high wall does not shut out light or wind
+       isFence true                 blocks animals the way a fence does (as a barricade does)
+       IsoRim draws it half height through the R3D_PZ_HalfWall ModelDef (height 0.825, no model file).
+
+       Once a window is fitted the wall is replaced by PZ_HalfWallGlazed, which IS a wall (impassable, holds a roof) -
+       that is how a room can be closed with half walls that all have windows (HalfWallState in the windows addon). -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>PZ_HalfWall</defName>
+    <label>half wall</label>
+    <description>The lower half of a wall. Gives cover like a barricade and lets light and air over the top, but it is not a wall: it encloses no room and holds up no roof until a window is fitted on it. Build it on open ground, or drag it over an existing wall to cut that wall down.</description>
+    <graphicData>
+      <texPath>Things/Building/Linked/Barricade_Atlas</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <linkType>Basic</linkType>
+      <linkFlags>
+        <li>Barricades</li>
+      </linkFlags>
+      <color>(139,122,87)</color>
+    </graphicData>
+    <uiIconPath>Things/Building/Linked/Barricade_MenuIcon</uiIconPath>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>42</pathCost>
+    <pathCostIgnoreRepeat>true</pathCostIgnoreRepeat>
+    <fillPercent>0.55</fillPercent>
+    <holdsRoof>false</holdsRoof>
+    <blockLight>false</blockLight>
+    <blockWind>false</blockWind>
+    <castEdgeShadows>true</castEdgeShadows>
+    <staticSunShadowHeight>0.20</staticSunShadowHeight>
+    <canOverlapZones>false</canOverlapZones>
+    <useHitPoints>true</useHitPoints>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <useStuffTerrainAffordance>true</useStuffTerrainAffordance>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>135</WorkToBuild>
+      <Flammability>1.0</Flammability>
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+      <li>Woody</li>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>5</costStuffCount>
+    <designationCategory>Structure</designationCategory>
+    <uiOrder>2006</uiOrder>
+    <building>
+      <isInert>true</isInert>
+      <isFence>true</isFence>
+      <!-- Drag it over a standing wall to cut that wall down (WallBoxes.CanBeCut patch lets it through). -->
+      <canPlaceOverWall>true</canPlaceOverWall>
+      <ai_chillDestination>false</ai_chillDestination>
+      <blueprintGraphicData>
+        <texPath>Things/Building/Linked/Barricade_Blueprint_Atlas</texPath>
+      </blueprintGraphicData>
+    </building>
+  </ThingDef>
+
+  <!-- The same half wall with a window in it: now it IS a wall. Impassable, holds a roof, blocks light and wind, so a
+       run of them closes a room and keeps it covered. Not in any menu: the window addon swaps a bare half wall for
+       this one when a window is fitted, and back when the window is taken out (HalfWallState). Same look, same model
+       height, same stats as the bare one. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>PZ_HalfWallGlazed</defName>
+    <label>half wall</label>
+    <description>The lower half of a wall with a window fitted on it: it counts as a wall, holds up a roof and closes a room.</description>
+    <graphicData>
+      <texPath>Things/Building/Linked/Barricade_Atlas</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <linkType>Basic</linkType>
+      <linkFlags>
+        <li>Barricades</li>
+      </linkFlags>
+      <color>(139,122,87)</color>
+    </graphicData>
+    <uiIconPath>Things/Building/Linked/Barricade_MenuIcon</uiIconPath>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>1</fillPercent>
+    <holdsRoof>true</holdsRoof>
+    <blockLight>true</blockLight>
+    <blockWind>true</blockWind>
+    <castEdgeShadows>true</castEdgeShadows>
+    <staticSunShadowHeight>0.20</staticSunShadowHeight>
+    <canOverlapZones>false</canOverlapZones>
+    <useHitPoints>true</useHitPoints>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <useStuffTerrainAffordance>true</useStuffTerrainAffordance>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>135</WorkToBuild>
+      <Flammability>1.0</Flammability>
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+      <li>Woody</li>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>5</costStuffCount>
+    <building>
+      <isInert>true</isInert>
+      <ai_chillDestination>false</ai_chillDestination>
+      <!-- A wall with a window in it seals the room: airtight while the window is shut. That is also what the vacuum
+           system reads for a room on an orbital map (Odyssey). -->
+      <isAirtight>true</isAirtight>
+    </building>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>PZ_HalfWallGlazedOpen</defName>
+    <label>half wall</label>
+    <description>The lower half of a wall with a window fitted on it and slid open: air passes the way it does through a vent.</description>
+    <graphicData>
+      <texPath>Things/Building/Linked/Barricade_Atlas</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <linkType>Basic</linkType>
+      <linkFlags>
+        <li>Barricades</li>
+      </linkFlags>
+      <color>(139,122,87)</color>
+    </graphicData>
+    <uiIconPath>Things/Building/Linked/Barricade_MenuIcon</uiIconPath>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>1</fillPercent>
+    <holdsRoof>true</holdsRoof>
+    <blockLight>true</blockLight>
+    <blockWind>true</blockWind>
+    <castEdgeShadows>true</castEdgeShadows>
+    <staticSunShadowHeight>0.20</staticSunShadowHeight>
+    <canOverlapZones>false</canOverlapZones>
+    <useHitPoints>true</useHitPoints>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <useStuffTerrainAffordance>true</useStuffTerrainAffordance>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>135</WorkToBuild>
+      <Flammability>1.0</Flammability>
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+      <li>Woody</li>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>5</costStuffCount>
+    <building>
+      <isInert>true</isInert>
+      <ai_chillDestination>false</ai_chillDestination>
+      <!-- A wall with a window in it, with the boards slid open. Same look and same flags as the shut one: the leak is
+           driven by CompWindowLatch as a monotonic ramp (the game's own vent exchange bounces against a room's vacuum
+           pump - it jumps between 100% and 48% - so it is not used). -->
+      <isAirtight>true</isAirtight>
+    </building>
+  </ThingDef>
+
+</Defs>

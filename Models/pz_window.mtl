@@ -1,0 +1,10 @@
+# ProjectZ window materials. {stuff} is substituted by IsoRim with the building's stuff.
+newmtl window_frame
+Kd 1.000 1.000 1.000
+map_Kd IsoRim/Swatches/{stuff}
+
+newmtl window_reveal
+Kd 0.180 0.190 0.210
+
+newmtl window_glass
+Kd 0.720 0.820 0.880

@@ -1,0 +1,16 @@
+# ProjectZ window materials.
+# A material whose NAME starts with 'stuff' is tinted by the building's stuff colour and its Kd is
+# forced to white (IsoRim Models.cs:1774/1780), so the colour has to come from map_Kd + tint.
+newmtl stuff_wall
+Kd 1.000 1.000 1.000
+# ProjectZ/WindowWall{stuff} -> WindowWallWood / WindowWallMetal / WindowWallStone / WindowWallRock:
+# copies of IsoRim's own wall side textures (MIT, see the mod's LICENSE), tinted by the stuff
+# colour exactly like the wall blocks next to it.
+map_Kd ProjectZ/WindowWall{stuff}
+
+# Not 'stuff*': a fixed dark frame, so it keeps this Kd instead of being forced white.
+newmtl frame_dark
+Kd 0.420 0.360 0.280
+
+newmtl glass_plain
+Kd 0.700 0.800 0.860

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Add windows to your house！</name>
+  <author>Lin</author>
+  <packageId>Peren.IsoRimProjectZWindows</packageId>
+  <supportedVersions>
+    <li>1.7</li>
+  </supportedVersions>
+  <modDependencies>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+      <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+    </li>
+    <li>
+      <packageId>Peren.IsoRim17</packageId>
+      <displayName>IsoRim Waylith</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/3819577715</steamWorkshopUrl>
+    </li>
+    <li>
+      <packageId>Peren.IsoRimProjectZ</packageId>
+      <displayName>IsoRim ProjectZ</displayName>
+    </li>
+  </modDependencies>
+  <loadAfter>
+    <li>brrainz.harmony</li>
+    <li>Peren.IsoRim17</li>
+    <li>Peren.IsoRimProjectZ</li>
+  </loadAfter>
+  <description>Add windows to your house！This mod adds half walls and the sliding windows that go on them.
+
+- Half walls: a waist-high wall that acts as cover - it is a barricade, not a wall, so it encloses no room and holds up
+  no roof.
+- Windows: fit one on top of a half wall (the button on the wall, or the Structure menu) and a colonist builds it.
+  Once a window is in, that half wall counts as a real wall: it closes a room and holds a roof.
+- Two solid boards in a frame, no glass. Open and close a window by hand: a colonist slides the boards apart or shut;
+  a half-open window carries on from where it stopped.
+- Ventilation: shut, the window seals the room like a brick wall; open, heat passes through in proportion to how far
+  the boards have moved, up to a vent's rate when it is fully open. On an orbital map an open window also lets the
+  vacuum in.
+- HP, build time, opening speed, flammability and beauty match a door of the same material; a wooden window costs 10
+  wood, two fifths of a wooden door.
+
+REQUIRES, in this order: Harmony, IsoRim Waylith, and IsoRim ProjectZ (the base mod this is built on - install it in
+Mods/ as well, from the same author). RimWorld 1.7.
+
+给房子开一扇窗！本 mod 添加半墙和装在半墙上的推拉窗。
+
+- 半墙：齐腰高的墙，当作掩体使用 —— 它算路障不算墙，所以不围房间、不撑屋顶。
+- 窗户：在半墙上装窗（半墙上的按钮，或建造菜单），小人建造。装上窗之后，那格半墙就算真正的墙：能围出房间、能撑屋顶。
+- 两扇实心木板加边框，没有玻璃。窗要手动开合：小人把木板推开或拉回；关到一半被打断，下次接着来。
+- 通风：关着时像砖墙一样密封；开着时按木板推开的程度通风，全开时约等于一个通风孔。在轨道环境下开窗还会放真空进来。
+- 血量、建造时间、开关速度、易燃性、美观都和同材料的门一致；木窗 10 木头，是同材料门成本的五分之二。
+
+**必须**按顺序装：Harmony、IsoRim Waylith，以及 **IsoRim ProjectZ**（本 mod 依赖的基座，需要另外放进 Mods 文件夹）。
+RimWorld 1.7。
+
+MIT License.</description>
+</ModMetaData>

@@ -1,0 +1,12 @@
+# Build caches (created by build.ps1)
+.dotnet-home/
+.nuget-packages/
+.appdata/
+Source/obj/
+Source/bin/
+obj/
+bin/
+
+# Release packages (put them on the Releases page instead)
+_dist/
+*.zip

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Loaded only while IsoRim is active (LoadFolders.xml): IsoRim's model definitions for the window.
+
+       The closed/open models are the FRAME only. The frame is static and IsoRim bakes it into the map mesh; the two
+       sashes are their own model (Models/pz_window_sash.obj) and are drawn every frame by
+       Building_WindowGlass.DrawAt -> WindowSashes.Draw, so a colonist's opening slides them over the opening.
+
+       Written by tools/make_window_glass_obj.py (frame) and the same script's sash output. No <model> on the sash:
+       it has no def of its own, it is loaded by path. -->
+  <IsoRim.ModelDef>
+    <defName>R3D_PZ_WindowGlass</defName>
+    <thingDef>PZ_WindowGlass</thingDef>
+    <model>Models/pz_window_glass.obj</model>
+    <builtFor>(1, 1)</builtFor>
+    <groundShadow>false</groundShadow>
+  </IsoRim.ModelDef>
+
+  <IsoRim.ModelDef>
+    <defName>R3D_PZ_WindowGlassOpen</defName>
+    <thingDef>PZ_WindowGlassOpen</thingDef>
+    <model>Models/pz_window_glass_open.obj</model>
+    <builtFor>(1, 1)</builtFor>
+    <groundShadow>false</groundShadow>
+  </IsoRim.ModelDef>
+
+  <!-- ==================== Deprecated: the earlier window designs ====================
+       Moved here from the base mod together with their defs, so a save that still holds one keeps it. Nothing places
+       them any more and none of them is in the architect menu. -->
+  <IsoRim.ModelDef>
+    <defName>R3D_PZ_WindowWall</defName>
+    <thingDef>PZ_WindowWall</thingDef>
+    <model>Models/pz_window_wall.obj</model>
+    <builtFor>(1, 1)</builtFor>
+    <groundShadow>false</groundShadow>
+  </IsoRim.ModelDef>
+
+  <IsoRim.ModelDef>
+    <defName>R3D_PZ_WindowWallOpenA</defName>
+    <thingDef>PZ_WindowWallOpenA</thingDef>
+    <model>Models/pz_window_wall_open_a.obj</model>
+    <builtFor>(1, 1)</builtFor>
+    <groundShadow>false</groundShadow>
+  </IsoRim.ModelDef>
+
+  <IsoRim.ModelDef>
+    <defName>R3D_PZ_WindowWallOpenB</defName>
+    <thingDef>PZ_WindowWallOpenB</thingDef>
+    <model>Models/pz_window_wall_open_b.obj</model>
+    <builtFor>(1, 1)</builtFor>
+    <groundShadow>false</groundShadow>
+  </IsoRim.ModelDef>
+
+  <IsoRim.ModelDef>
+    <defName>R3D_PZ_Window</defName>
+    <thingDef>PZ_Window</thingDef>
+    <model>Models/pz_window.obj</model>
+    <builtFor>(1, 1)</builtFor>
+    <groundShadow>false</groundShadow>
+  </IsoRim.ModelDef>
+
+  <IsoRim.ModelDef>
+    <defName>R3D_PZ_WindowOpen</defName>
+    <thingDef>PZ_WindowOpen</thingDef>
+    <model>Models/pz_window_open.obj</model>
+    <builtFor>(1, 1)</builtFor>
+    <groundShadow>false</groundShadow>
+  </IsoRim.ModelDef>
+
+  <!-- Half wall (this addon's own building, not the base mod's): NO <model> on purpose. With a listed entry but no
+       model file, IsoRim skips the model path (Baking.cs:107 needs `entry.HasModel`) and falls through to the block
+       path, where `setHeight = entry.def.height` overrides the drawn height. So the def keeps fillPercent 1 - a real
+       wall for rooms, roofs and upper floors - while the block is drawn half height with IsoRim's own wall textures
+       and tint. -->
+<IsoRim.ModelDef>
+    <defName>R3D_PZ_HalfWall</defName>
+    <thingDef>PZ_HalfWall</thingDef>
+    <height>0.825</height>
+  </IsoRim.ModelDef>
+
+  <!-- The half wall with a window in it: same height and same block look (no model file, height only). It is only a
+       wall as far as the game is concerned (HalfWallState swaps the def). -->
+  <IsoRim.ModelDef>
+    <defName>R3D_PZ_HalfWallGlazed</defName>
+    <thingDef>PZ_HalfWallGlazed</thingDef>
+    <height>0.825</height>
+  </IsoRim.ModelDef>
+
+  <!-- The same wall with the window open: same look, it only differs in the vacuum flag. -->
+  <IsoRim.ModelDef>
+    <defName>R3D_PZ_HalfWallGlazedOpen</defName>
+    <thingDef>PZ_HalfWallGlazedOpen</thingDef>
+    <height>0.825</height>
+  </IsoRim.ModelDef>
+
+</Defs>

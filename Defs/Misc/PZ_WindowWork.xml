@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Window glazing is opened and closed by a colonist, not by the player's click (SPEC-window.md, 2026-10-19):
+       the gizmo on the window only states what the player wants, WorkGiver_WindowLatch sends someone to the window,
+       and JobDriver_OperateWindow works at it for a door's opening time before the boards are swapped.
+
+       Work type BasicWorker on purpose: it is the same column the game's "flick switches" work sits in, so every
+       colonist can be sent and no new Work tab column appears. Nothing here is powered, so the game draws no
+       "switched off" icon over the window the way it does on a heater. -->
+  <JobDef>
+    <defName>PZ_OperateWindow</defName>
+    <driverClass>ProjectZ.Windows.JobDriver_OperateWindow</driverClass>
+    <reportString>Operating a window.</reportString>
+  </JobDef>
+
+  <WorkGiverDef>
+    <defName>PZ_OperateWindows</defName>
+    <label>operate windows</label>
+    <giverClass>ProjectZ.Windows.WorkGiver_WindowLatch</giverClass>
+    <workType>BasicWorker</workType>
+    <verb>operate a window</verb>
+    <gerund>operating a window</gerund>
+    <priorityInType>500</priorityInType>
+  </WorkGiverDef>
+
+</Defs>

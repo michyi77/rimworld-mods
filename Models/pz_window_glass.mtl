@@ -1,0 +1,9 @@
+# Boards: 'stuff' is tinted with the building's stuff colour, so wood reads as wood and steel as steel.
+newmtl stuff
+Kd 1.000 1.000 1.000
+map_Kd IsoRim/Swatches/{stuff}
+
+# Frame: still a 'stuff' material, so it follows the building's material too, darkened to 0.60.
+newmtl stuff_frame
+Kd 0.600 0.600 0.600
+map_Kd IsoRim/Swatches/{stuff}

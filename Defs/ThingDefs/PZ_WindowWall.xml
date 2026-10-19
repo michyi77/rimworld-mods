@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Window: a glazed half wall (SPEC-window.md, 2026-10-19).
+
+       It can only be built on a half wall (PlaceWorker_OnHalfWall) and takes that cell: the lower half
+       of its model is the same 0.825-high block a PZ_HalfWall is, the upper half is a through-hole
+       with a window in it (Models/pz_window_wall*.obj, tools/make_window_wall_obj.py).
+       building.canPlaceOverWall is what lets the blueprint sit on the occupied cell; the half wall is
+       replaced on completion.
+
+       Physical behaviour copies the half wall, since that is what it is: fillPercent 0.5 (partial
+       cover, sight passes over), impassable, no roof support, no blockLight. Only the model differs.
+
+       Open and closed are three ThingDefs sharing one class (Building_WindowWall), one model each.
+       "Outward" has no meaning for a wall, so the player picks the side: OpenA and OpenB swing the
+       sashes toward the two faces.
+
+       NOTE on colour: a model material whose name starts with "stuff" is tinted by the building's
+       stuff colour (IsoRim Models.cs:1774). The lower block therefore uses stuff_wall and comes out in
+       the right material colour - but it is a flat swatch, NOT IsoRim's brick/plank wall texture,
+       because IsoRim builds wall blocks itself and does not expose those textures to mod models. -->
+  <ThingDef Name="PZ_WindowWallBase" Abstract="True" ParentName="BuildingBase">
+    <label>window</label>
+    <description>A glazed half wall. Solid below and glass above, with a hole you can see through. Open it to let light and air through.</description>
+    <thingClass>ProjectZ.Windows.Building_WindowWall</thingClass>
+    <graphicData>
+      <texPath>ProjectZ/Window</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <linkType>None</linkType>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <uiIconPath>ProjectZ/Window_MenuIcon</uiIconPath>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.5</fillPercent>
+    <blockLight>false</blockLight>
+    <blockWind>false</blockWind>
+    <useHitPoints>true</useHitPoints>
+    <castEdgeShadows>true</castEdgeShadows>
+    <staticSunShadowHeight>0.20</staticSunShadowHeight>
+    <canOverlapZones>false</canOverlapZones>
+    <rotatable>true</rotatable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <useStuffTerrainAffordance>true</useStuffTerrainAffordance>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>135</WorkToBuild>
+      <Flammability>1.0</Flammability>
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+      <li>Woody</li>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>5</costStuffCount>
+    <building>
+      <canPlaceOverWall>true</canPlaceOverWall>
+      <isInert>true</isInert>
+      <ai_chillDestination>false</ai_chillDestination>
+      <blueprintGraphicData>
+        <texPath>Things/Building/Door/Door_Blueprint</texPath>
+      </blueprintGraphicData>
+    </building>
+  </ThingDef>
+
+  <!-- Closed: the buildable one, and the only one that asks for a half wall underneath. -->
+  <!-- DEPRECATED: the wall-replacing window. Superseded by PZ_WindowGlass on top of a PZ_HalfWall.
+       The def stays registered so saves that already built one keep working, but it is out of the
+       build menu and no longer a supported path. Deconstruct any left over. -->
+  <ThingDef ParentName="PZ_WindowWallBase">
+    <defName>PZ_WindowWall</defName>
+  </ThingDef>
+
+  <!-- Open, sashes swung toward one face. -->
+  <ThingDef ParentName="PZ_WindowWallBase">
+    <defName>PZ_WindowWallOpenA</defName>
+  </ThingDef>
+
+  <!-- Open, sashes swung toward the other face. -->
+  <ThingDef ParentName="PZ_WindowWallBase">
+    <defName>PZ_WindowWallOpenB</defName>
+  </ThingDef>
+
+</Defs>

@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- IsoRim ProjectZ: Windows - the window addon. RimWorld 1.7 (Waylith): net10.0 + Harmony 3.0.
+       References only the game, Unity stubs, IsoRim and Harmony; the base mod is reached by def names and Harmony
+       patches, never by assembly reference, so removing this mod cannot break the base.
+       Override with -p:RefsDir=... to build against live game files instead. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>IsoRimProjectZWindows</AssemblyName>
+    <RootNamespace>ProjectZ.Windows</RootNamespace>
+    <OutputPath>..\1.7\Assemblies\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <DebugType>none</DebugType>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <Optimize>true</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>$(DefineConstants);RW17</DefineConstants>
+    <RefsDir Condition="'$(RefsDir)' == ''">..\..\rimworld\refs</RefsDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="obj\**;bin\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp"><HintPath>$(RefsDir)\Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityStubs"><HintPath>$(RefsDir)\UnityStubs.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="IsoRim"><HintPath>$(RefsDir)\IsoRim.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Waylith"><HintPath>$(RefsDir)\Waylith.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(RefsDir)\0Harmony.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+</Project>
