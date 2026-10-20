@@ -5,36 +5,50 @@ using Verse;
 
 namespace ProjectZ.Windows
 {
-    // A window is flush with the wall it sits in, so a floor can go over it - but only the base mod (IsoRim ProjectZ) has
-    // that slab height rule, and this addon is published on its own. So the exemption is applied only when that mod is
-    // installed: no reference to its assembly, the rule is looked up by name from WindowsMod's constructor, and when it
-    // is missing nothing happens.
+    // The slab height rule belongs to IsoRim ProjectZ, which is not this addon's to change (and is downloaded from
+    // elsewhere), so everything a window needs from it is done from this side. Two halves of that rule matter:
     //
-    // The rule (ProjectZ.HeightRule.TallThingAt -> TooTall -> IsoRim model height) refuses a floor over anything drawn
-    // taller than a storey's clearance. A window's model is the frame plus the boards at the wall's own height, which is
-    // over that clearance, so the rule flags it ("Wooden window below is too tall"); this clears the window, and the
-    // glazed half wall under it, out of that answer.
+    //   ProjectZ.HeightRule.TallThingAt -> "is something in this cell too tall for a floor over it?"  (a window is flush
+    //   with the wall, so it must not count: it would refuse a floor over a fitted window)
+    //
+    //   ProjectZ.HeightRule.TooTall     -> "is this thing too tall to be placed under a floor?"        (the other
+    //   direction: a window ordered under an upper floor is refused as "too tall for the floor above")
+    //
+    // Both are looked up by name only - no reference to that assembly - so with the base mod missing nothing happens.
+    // TooTall is handed the plan def by the game when placing from the architect menu (a Blueprint or a Frame), so the
+    // window's own def has to be read out of entityDefToBuild first.
     public static class WindowIsNotTooTall
     {
         public static void TryPatch(Harmony harmony)
         {
             System.Type rule = AccessTools.TypeByName("ProjectZ.HeightRule");
-            MethodInfo target = rule == null ? null : AccessTools.Method(rule, "TallThingAt");
-            if (target == null)
+            if (rule == null)
             {
                 return;   // IsoRim ProjectZ is not installed: nothing to exempt from
             }
+            Patch(harmony, AccessTools.Method(rule, "TallThingAt"), nameof(TallThingAtPostfix), 0x5A17D0);
+            Patch(harmony, AccessTools.Method(rule, "TooTall", new[] { typeof(BuildableDef) }), nameof(TooTallPostfix), 0x5A17D1);
+        }
+
+        private static void Patch(Harmony harmony, MethodInfo target, string postfix, int errorKey)
+        {
+            if (target == null)
+            {
+                return;
+            }
             try
             {
-                harmony.Patch(target, postfix: new HarmonyMethod(typeof(WindowIsNotTooTall), nameof(Postfix)));
+                harmony.Patch(target, postfix: new HarmonyMethod(typeof(WindowIsNotTooTall), postfix));
             }
             catch (System.Exception e)
             {
-                Log.ErrorOnce("[ProjectZ] windows: could not exempt windows from IsoRim ProjectZ's height rule: " + e, 0x5A17C6);
+                Log.ErrorOnce("[ProjectZ] windows: could not exempt windows from " + target.Name
+                    + " in IsoRim ProjectZ's height rule: " + e, errorKey);
             }
         }
 
-        public static void Postfix(ref Thing __result)
+        // A floor over a cell holding a window or the glazed wall it stands in: neither is too tall.
+        public static void TallThingAtPostfix(ref Thing __result)
         {
             if (__result == null)
             {
@@ -49,6 +63,32 @@ namespace ProjectZ.Windows
             {
                 // The wall under the window: also flush with the storey, drawn half height.
                 __result = null;
+            }
+        }
+
+        // A window (or its plan) ordered under a floor: it is flush with the wall, so the rule must not count it.
+        public static void TooTallPostfix(BuildableDef def, ref bool __result)
+        {
+            if (!__result || def == null)
+            {
+                return;
+            }
+            ThingDef t = def as ThingDef;
+            if (t == null)
+            {
+                return;
+            }
+            if (t.IsBlueprint || t.IsFrame)
+            {
+                ThingDef built = t.entityDefToBuild as ThingDef;
+                if (built != null)
+                {
+                    t = built;
+                }
+            }
+            if (t.defName == Building_WindowGlass.ClosedDefName || t.defName == Building_WindowGlass.OpenDefName)
+            {
+                __result = false;
             }
         }
     }

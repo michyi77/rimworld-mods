@@ -16,6 +16,9 @@ Half walls, and the sliding windows that go on them, for RimWorld 1.7 with
 
 Requires RimWorld 1.7, Harmony, IsoRim Waylith and IsoRim ProjectZ.
 
+Works with **IsoRim ProjectZ as it is published** - nothing in the base mod has to be changed or updated for this
+addon: every rule it needs from the base is patched from this side.
+
 Taking it out again: remove the half walls and windows of a save first. Removing the mod while a save still holds them
 leaves them as missing defs, and RimWorld deletes unknown things - the same as removing any mod.
 
