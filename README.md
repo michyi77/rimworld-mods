@@ -21,20 +21,41 @@ leaves them as missing defs, and RimWorld deletes unknown things - the same as r
 
 ## What it adds
 
-- **Half walls**: a waist-high wall that acts as cover. It is a barricade, not a wall, so it encloses no room and holds
-  up no roof. Drag one over a standing wall to cut that wall down.
+- **Half walls**: a waist-high wall nothing crosses. Like a wall it closes a room, but it holds up no roof - and the day
+  comes in over its top. Drag one over a standing wall to cut that wall down.
 - **Windows**: fit a window on top of a half wall (the button on the wall, or the Structure menu) and a colonist builds
-  it, for two fifths of a door's cost. Once a window is in, that half wall counts as a real wall: it closes a room and
-  holds a roof.
+  it, for two fifths of a door's cost. One half wall takes one window. Once a window is in, that half wall counts as a
+  real wall: it closes a room and holds a roof.
 - Two solid boards in a frame, no glass. Open and close a window by hand: a colonist slides the boards apart or shut,
   and a half-open window carries on from where it stopped.
+- **Light**: shut, the window blocks light like a wall; open, it lets the day in. How bright it gets and how far it
+  reaches follow how far the boards are apart, and a lamp's light passes through an open window too. The light only
+  goes to the darker side - a window never glows back into the sunlight it faces, and two windows never add up.
+  A window set across the wall (sideways) is always open to the light, because its boards slide along the wall and
+  cover nothing.
 - **Ventilation**: shut, the window seals the room like a brick wall; open, heat passes through in proportion to how far
   the boards have moved, up to a vent's rate when it is fully open. On an orbital map an open window also lets the
   vacuum in.
 - HP, build time, opening speed, flammability and beauty match a door of the same material; a wooden window costs 10
-  wood, two fifths of a wooden door.
+  wood, two fifths of a wooden door. Deconstruct the window and half of that comes back; take the wall down with the
+  window still in it and the glazing is broken out instead, returning a quarter.
 
 MIT License.
+
+## Changelog
+
+### 1.0.0
+
+- Light passes through windows: shut a window blocks it like a wall, open it lets the day in, in proportion to how far
+  the boards are apart. A lamp's light goes through an open window as well, and the light only ever goes to the darker
+  side.
+- Sideways windows (set across the wall) are always open to the light.
+- A bare half wall lets the day in over its top, and a roofed place that lost its wall stays lit by the opening.
+- One window per half wall: a second one on the same cell, at any angle, is refused.
+- Half walls are impassable, like a wall; a ring of them closes a room (they still hold no roof).
+- Taking a glazed half wall down returns a quarter of the window's cost, the same as a window that was destroyed;
+  deconstructing the window itself still returns half.
+- Two rooms no longer both glow into each other, and stacked windows no longer add up past the light they let in.
 
 ## Building from source
 

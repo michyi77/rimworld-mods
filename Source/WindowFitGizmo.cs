@@ -42,26 +42,11 @@ namespace ProjectZ.Windows
             };
         }
 
-        // A window in this cell already, or one planned (its blueprint, or the frame of it being built).
+        // A window in this cell already, or one planned (its blueprint, or the frame of it being built). The same test
+        // the placement rule uses, so the button and the Structure menu agree on what "one window per half wall" means.
         private static bool WindowOrdered(Building wall)
         {
-            List<Thing> here = wall.Map.thingGrid.ThingsListAt(wall.Position);
-            for (int i = 0; i < here.Count; i++)
-            {
-                Thing t = here[i];
-                if (t.def != null && (t.def.defName == Building_WindowGlass.ClosedDefName
-                    || t.def.defName == Building_WindowGlass.OpenDefName))
-                {
-                    return true;
-                }
-                BuildableDef building = t is Blueprint || t is Frame ? t.def.entityDefToBuild : null;
-                if (building != null && (building.defName == Building_WindowGlass.ClosedDefName
-                    || building.defName == Building_WindowGlass.OpenDefName))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return PlaceWorker_OnHalfWall.WindowInCell(wall.Position, wall.Map);
         }
 
         private static void FitWindow(Building wall)

@@ -58,6 +58,12 @@ namespace ProjectZ.Windows
         // breathable room to full vacuum at normal speed, and slower while the boards are only part way open.
         public const float VacuumPerTick = 1f / 240f;
 
+        // LIGHT (user, 2026-10-20): what a window lets through - daylight, or a lamp's light from the other room - is
+        // worked out cell by cell in WindowLight, because the glow grid's blocker is a yes/no and its lights shine every
+        // way. Here it is only asked for again: on every step of the boards, and now and then so the light follows the
+        // sun and whatever lamps are about.
+        private const int LightCheckTicks = 60;
+
 
         public Building_WindowGlass Window
         {
@@ -118,6 +124,13 @@ namespace ProjectZ.Windows
                 HoldVacuum();
             }
 
+            // The daylight is asked for again now and then so it follows the sun; between those checks it only moves when
+            // the boards cross the "open" line (SetOpenPct).
+            if (parent.IsHashIntervalTick(LightCheckTicks))
+            {
+                WindowLight.RequestRefresh(parent.Map);
+            }
+
             if (!animating || Window == null)
             {
                 return;
@@ -147,6 +160,9 @@ namespace ProjectZ.Windows
                 vacuumLetIn = 0f;
                 NotifyVacuumChanged();
             }
+            // Every step of the boards moves the light: shut the cell is a wall's, cracked open a sliver's, fully open
+            // the day's. (It throttles itself, so this is safe to call on every tick of the slide.)
+            SyncLight();
         }
 
         // Vacuum (Odyssey): while the boards are open the outside vacuum seeps in. It only ever rises - a step of
@@ -219,6 +235,24 @@ namespace ProjectZ.Windows
             {
                 vacuum.Dirty();
             }
+        }
+
+        // Asks for the light to be worked out again: the boards moved, or it is time to look at the sun and the lamps
+        // again. WindowLight answers for the whole map and throttles itself, so this is safe on every step of the slide.
+        private void SyncLight()
+        {
+            if (parent.Spawned)
+            {
+                WindowLight.RequestRebuild(parent.Map);
+            }
+        }
+
+        // The window is gone: its light goes with it on the next look (the map load or the slow refresh clears it, and a
+        // full rebuild here would scan the whole map once per destroyed window).
+        public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
+        {
+            base.PostDeSpawn(map, mode);
+            WindowLight.RequestRebuild(map);
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()

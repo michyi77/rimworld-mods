@@ -10,10 +10,15 @@ namespace ProjectZ.Windows
     // The window is destroyed inside the wall's own Destroy, and must not turn the wall back into a barricade while that
     // happens (Building_WindowGlass.Destroy would otherwise spawn a fresh bare wall where the player just deconstructed
     // one), so HalfWallState.WallGoingDown is raised around it.
+    //
+    // It also has to hand back the window's material (user, 2026-10-20): the boards are broken out of the frame with the
+    // wall, not taken apart carefully, so they are left the way the game leaves a *destroyed* window - a quarter of its
+    // cost (GenLeaving.LeaveFraction_Kill 0.25) - and not what deconstructing the window itself gives back (half of it,
+    // resourcesFractionWhenDeconstructed). Destroy(Vanish) gave nothing at all before.
     [HarmonyPatch(typeof(Building), nameof(Building.Destroy))]
     public static class GlazedWallTakesItsWindow
     {
-        public static void Prefix(Building __instance)
+        public static void Prefix(Building __instance, DestroyMode mode)
         {
             if (HalfWallState.Swapping || HalfWallState.WallGoingDown)
             {
@@ -37,10 +42,15 @@ namespace ProjectZ.Windows
             {
                 return;
             }
+            // Taken down with the wall (deconstructed or destroyed): as if the glazing itself had been destroyed. Anything
+            // else that removes the wall (Vanish, WillReplace) takes the window with it and leaves nothing.
+            DestroyMode windowMode = mode == DestroyMode.Deconstruct || mode == DestroyMode.KillFinalize
+                ? DestroyMode.KillFinalize
+                : DestroyMode.Vanish;
             HalfWallState.WallGoingDown = true;
             try
             {
-                window.Destroy(DestroyMode.Vanish);
+                window.Destroy(windowMode);
             }
             finally
             {

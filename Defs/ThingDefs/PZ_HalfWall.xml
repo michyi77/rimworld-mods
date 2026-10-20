@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- Half wall: the lower half of a wall, and like a barricade it is NOT a wall.
-         passability PassThroughOnly  pawns climb over it, so a ring of half walls does not enclose a room
-       fillPercent 0.55             the cover a barricade gives
-       holdsRoof false              no roof on a bare half wall
+  <!-- Half wall: the lower half of a wall.
+         passability Impassable      nothing crosses it, exactly like a full wall (user, 2026-10-20: a barricade's
+                                     PassThroughOnly let colonists climb over, which was wrong for this building)
+       fillPercent 0.55             a waist-high block: it still gives cover and still lets a shot pass over its top
+       holdsRoof false              no roof support: only the windowed version holds a storey up
        blockLight / blockWind off   a waist-high wall does not shut out light or wind
-       isFence true                 blocks animals the way a fence does (as a barricade does)
+       isFence true                 blocks animals the way a fence does
        IsoRim draws it half height through the R3D_PZ_HalfWall ModelDef (height 0.825, no model file).
 
-       Once a window is fitted the wall is replaced by PZ_HalfWallGlazed, which IS a wall (impassable, holds a roof) -
-       that is how a room can be closed with half walls that all have windows (HalfWallState in the windows addon). -->
+       Once a window is fitted the wall is replaced by PZ_HalfWallGlazed, which adds the things a window brings with it:
+       roof support and an airtight seal (HalfWallState in the windows addon). Being impassable, a run of bare half
+       walls does enclose a room; it just holds no roof and lets light over the top. -->
   <ThingDef ParentName="BuildingBase">
     <defName>PZ_HalfWall</defName>
     <label>half wall</label>
-    <description>The lower half of a wall. Gives cover like a barricade and lets light and air over the top, but it is not a wall: it encloses no room and holds up no roof until a window is fitted on it. Build it on open ground, or drag it over an existing wall to cut that wall down.</description>
+    <description>The lower half of a wall: nothing can cross it, but light and air pass over the top. It holds up no roof, and only once a window is fitted on it does it support one and seal a room. Build it on open ground, or drag it over an existing wall to cut that wall down.</description>
     <graphicData>
       <texPath>Things/Building/Linked/Barricade_Atlas</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -26,13 +28,14 @@
     </graphicData>
     <uiIconPath>Things/Building/Linked/Barricade_MenuIcon</uiIconPath>
     <altitudeLayer>Building</altitudeLayer>
-    <passability>PassThroughOnly</passability>
-    <pathCost>42</pathCost>
-    <pathCostIgnoreRepeat>true</pathCostIgnoreRepeat>
+    <passability>Impassable</passability>
     <fillPercent>0.55</fillPercent>
     <holdsRoof>false</holdsRoof>
     <blockLight>false</blockLight>
     <blockWind>false</blockWind>
+    <!-- Normal only so the small light comp ticks: it keeps the daylight a bare half wall lets over its top up to date
+         (CompHalfWallLight -> WindowLight), a job the window's own comp cannot do when a map has no windows at all. -->
+    <tickerType>Normal</tickerType>
     <castEdgeShadows>true</castEdgeShadows>
     <staticSunShadowHeight>0.20</staticSunShadowHeight>
     <canOverlapZones>false</canOverlapZones>
@@ -63,6 +66,9 @@
         <texPath>Things/Building/Linked/Barricade_Blueprint_Atlas</texPath>
       </blueprintGraphicData>
     </building>
+    <comps>
+      <li Class="ProjectZ.Windows.CompProperties_HalfWallLight" />
+    </comps>
   </ThingDef>
 
   <!-- The same half wall with a window in it: now it IS a wall. Impassable, holds a roof, blocks light and wind, so a
@@ -134,6 +140,9 @@
     <passability>Impassable</passability>
     <fillPercent>1</fillPercent>
     <holdsRoof>true</holdsRoof>
+    <!-- The cell keeps blocking light even with the window open: the blocker is a yes/no per cell, so letting it through
+         here would pass a lamp's light whole no matter how little the window is open. What the window lets through is
+         worked out per cell in WindowLight (graded by openPct, and only towards the darker side). -->
     <blockLight>true</blockLight>
     <blockWind>true</blockWind>
     <castEdgeShadows>true</castEdgeShadows>

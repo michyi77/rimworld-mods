@@ -3,6 +3,7 @@
   <name>Add windows to your house！</name>
   <author>Lin</author>
   <packageId>Peren.IsoRimProjectZWindows</packageId>
+  <modVersion>1.0.0</modVersion>
   <supportedVersions>
     <li>1.7</li>
   </supportedVersions>
@@ -30,28 +31,40 @@
   </loadAfter>
   <description>Add windows to your house！This mod adds half walls and the sliding windows that go on them.
 
-- Half walls: a waist-high wall that acts as cover - it is a barricade, not a wall, so it encloses no room and holds up
-  no roof.
-- Windows: fit one on top of a half wall (the button on the wall, or the Structure menu) and a colonist builds it.
-  Once a window is in, that half wall counts as a real wall: it closes a room and holds a roof.
+- Half walls: a waist-high wall nothing crosses. Like a wall it closes a room, but it holds up no roof - and the day
+  comes in over its top.
+- Windows: fit one on top of a half wall (the button on the wall, or the Structure menu) and a colonist builds it. One
+  half wall takes one window. Once a window is in, that half wall counts as a real wall: it closes a room and holds a
+  roof.
 - Two solid boards in a frame, no glass. Open and close a window by hand: a colonist slides the boards apart or shut;
   a half-open window carries on from where it stopped.
+- Light: shut, the window blocks light like a wall; open, it lets the day in. How bright it gets and how far it
+  reaches follow how far the boards are apart, and a lamp's light passes through an open window too. The light only
+  goes to the darker side - a window never glows back into the sunlight it faces.
+- A window set across the wall (sideways) is always open to the light: its boards slide along the wall and cover
+  nothing.
 - Ventilation: shut, the window seals the room like a brick wall; open, heat passes through in proportion to how far
   the boards have moved, up to a vent's rate when it is fully open. On an orbital map an open window also lets the
   vacuum in.
 - HP, build time, opening speed, flammability and beauty match a door of the same material; a wooden window costs 10
-  wood, two fifths of a wooden door.
+  wood, two fifths of a wooden door. Deconstruct the window and half of that comes back; take the wall down with the
+  window still in it and the glazing is broken out instead, returning a quarter.
 
 REQUIRES, in this order: Harmony, IsoRim Waylith, and IsoRim ProjectZ (the base mod this is built on - install it in
 Mods/ as well, from the same author). RimWorld 1.7.
 
 给房子开一扇窗！本 mod 添加半墙和装在半墙上的推拉窗。
 
-- 半墙：齐腰高的墙，当作掩体使用 —— 它算路障不算墙，所以不围房间、不撑屋顶。
-- 窗户：在半墙上装窗（半墙上的按钮，或建造菜单），小人建造。装上窗之后，那格半墙就算真正的墙：能围出房间、能撑屋顶。
+- 半墙：齐腰高、过不去的墙。像墙一样能围出房间，但不撑屋顶 —— 日光从墙头上越过。
+- 窗户：在半墙上装窗（半墙上的按钮，或建造菜单），小人建造；一堵半墙只装一扇窗。装上窗之后，那格半墙就算真正的墙：
+  能围出房间、能撑屋顶。
 - 两扇实心木板加边框，没有玻璃。窗要手动开合：小人把木板推开或拉回；关到一半被打断，下次接着来。
+- 透光：关着时像墙一样挡光；开着时把日光放进屋里，亮度和照得多远都跟着木板推开的程度走，开着的窗也放灯光过去。
+  光只往暗的那一侧透，不会朝对着的太阳那一面发光。
+- 侧着放（横跨墙）的窗永远透光：它的木板是沿墙滑的，本来就挡不住开口。
 - 通风：关着时像砖墙一样密封；开着时按木板推开的程度通风，全开时约等于一个通风孔。在轨道环境下开窗还会放真空进来。
 - 血量、建造时间、开关速度、易燃性、美观都和同材料的门一致；木窗 10 木头，是同材料门成本的五分之二。
+  拆窗本身返还一半；连墙一起拆则是把窗砸下来，返还四分之一。
 
 **必须**按顺序装：Harmony、IsoRim Waylith，以及 **IsoRim ProjectZ**（本 mod 依赖的基座，需要另外放进 Mods 文件夹）。
 RimWorld 1.7。

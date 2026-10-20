@@ -29,6 +29,8 @@ namespace ProjectZ.Windows
                 harmony.PatchAll(typeof(WindowsMod).Assembly);
                 // Only when IsoRim ProjectZ is installed: its slab height rule must not count a window as too tall.
                 WindowIsNotTooTall.TryPatch(harmony);
+                // The window light rides on a private GlowGrid method, so it is patched (and reported) on its own.
+                WindowLight.TryPatch(harmony);
             }
             catch (Exception e)
             {
@@ -73,6 +75,8 @@ namespace ProjectZ.Windows
             }
             try
             {
+                // A frame's def carries no graphic of its own (it draws the thing's), so there is nothing to hide there
+                // and no size to read back: this must not turn into a NullReferenceException in the log every load.
                 if (d.graphicData != null)
                 {
                     // A sub-pixel sprite: nothing of the flat blueprint/frame/preview square is left on the floor, and
@@ -93,7 +97,9 @@ namespace ProjectZ.Windows
                     }
                 }
                 Log.Message("[ProjectZ] windows: " + d.defName + " graphic=" + (d.graphic == null ? "null" : d.graphic.GetType().Name)
-                    + " drawSize=" + d.graphicData.drawSize + " texPath=" + d.graphicData.texPath);
+                    + (d.graphicData == null
+                        ? " no graphicData of its own"
+                        : " drawSize=" + d.graphicData.drawSize + " texPath=" + d.graphicData.texPath));
             }
             catch (Exception e)
             {
