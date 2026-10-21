@@ -104,6 +104,37 @@ namespace ProjectZ.Windows
             }
         }
 
+        // The base mod forbids sight between floors (VoidRule is a prefix on the very line-of-sight method we complete),
+        // and a window in one floor's wall must not open a line into another band. SameBand is that mod's own test, called
+        // by name so this addon still works when it is older than that rule.
+        private static MethodInfo sameBand;
+
+        private static bool sameBandTried;
+
+        private static bool SameBand(IntVec3 start, IntVec3 end, Map map)
+        {
+            if (!sameBandTried)
+            {
+                sameBandTried = true;
+                System.Type projectZ = AccessTools.TypeByName("ProjectZ.ProjectZ");
+                sameBand = projectZ == null
+                    ? null
+                    : AccessTools.Method(projectZ, "SameBand", new[] { typeof(IntVec3), typeof(IntVec3), typeof(Map) });
+            }
+            if (sameBand == null)
+            {
+                return true;
+            }
+            try
+            {
+                return (bool)sameBand.Invoke(null, new object[] { start, end, map });
+            }
+            catch (Exception)
+            {
+                return true;
+            }
+        }
+
         public static bool OpenAt(IntVec3 c, Map map)
         {
             if (openCount <= 0 || map == null || !c.InBounds(map))
@@ -317,7 +348,15 @@ namespace ProjectZ.Windows
             {
                 return;
             }
-            __result = Walk(start, end, map, skipFirstCell, validator, halfXOffset, halfZOffset);
+            if (!Walk(start, end, map, skipFirstCell, validator, halfXOffset, halfZOffset))
+            {
+                return;
+            }
+            // Only a line inside one floor may be opened this way; between floors the base mod's rule stands.
+            if (SameBand(start, end, map))
+            {
+                __result = true;
+            }
         }
 
         // GenSight.LineOfSight (1.7) step by step: 1 + dx + dz cells, the game's own corner rule; the only change is that
@@ -417,6 +456,10 @@ namespace ProjectZ.Windows
             if (map == null)
             {
                 return;
+            }
+            if (!SameBand(caster.Position, target.Cell, map))
+            {
+                return;   // between floors: the base mod works the shot report out itself
             }
             float block;
             Building_WindowGlass window = BlockingWindow(caster.Position, target.Cell, map, out block);

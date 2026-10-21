@@ -56,6 +56,11 @@ MIT License.
 
 ## Changelog
 
+### 1.1.1
+
+- Stays out of the way of IsoRim ProjectZ's own inter-floor sight rule: the walk that lets a shot through an open window
+  now leaves lines that cross floors to the base mod, the same for its shot report.
+
 ### 1.1.0
 
 - Shooting through windows: from half open up a window lets sight and shots through in both directions - colonists fire
