@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -41,6 +41,11 @@ namespace ProjectZ.Windows
 
         // Where the boards are: 0 shut, 1 apart. Moved only while a colonist is working the window.
         public float openPct;
+
+        // One line per sideways window, so a report of "it does not ventilate" can be checked against what the addon
+        // thinks of the window.
+        private static readonly System.Collections.Generic.HashSet<int> reportedSideways =
+            new System.Collections.Generic.HashSet<int>();
 
         // A colonist is sliding the boards right now.
         public bool animating;
@@ -98,6 +103,8 @@ namespace ProjectZ.Windows
                 {
                     w.AdoptWallFaction();
                 }
+                // The sight table is not saved: a window that comes back fully open has to be registered again.
+                WindowSight.Sync(w);
             }
         }
 
@@ -107,28 +114,45 @@ namespace ProjectZ.Windows
         {
             base.CompTick();
 
+            // A window set across the wall is always open to the air, whatever its boards are doing: they slide along the
+            // wall and cover nothing (user, 2026-10-21). It is never open to a shot either - that is in WindowSight.
+            bool sideways;
+            IntVec3 axis = WindowOrientation.Axis(Window, out sideways);
+            float airOpen = sideways ? 1f : openPct;
+            if (sideways && Window != null && reportedSideways.Add(Window.thingIDNumber))
+            {
+                Log.Message("[ProjectZ] windows: window at " + Window.Position
+                    + " is set across the wall (sideways): it ventilates and leaks vacuum always, and shots pass as a slot");
+            }
+
             // Ventilation: heat passes through the way a vent passes it when the boards are open, and not at all when
             // they are shut - x + n*(y - x) with x = a wall's exchange (none) and y = a vent's. GenTemperature's own
             // equalisation is the vent's mechanism, so the two numbers stay the game's: rate = VentRate * openPct, on
             // the vent's own cadence (Rare = every 250 ticks).
-            if (openPct > 0.001f && Window != null && parent.IsHashIntervalTick(VentTicks))
+            //
+            // twoWay only looks along the building's own facing axis, and a sideways window faces along the wall - both
+            // of those cells are wall, so it finds no room at all and returns (user, 2026-10-21: a sideways window did
+            // not ventilate). For that one the four-way scan is used instead; it finds the same two rooms.
+            if (Window != null && airOpen > 0.001f && parent.IsHashIntervalTick(VentTicks))
             {
-                GenTemperature.EqualizeTemperaturesThroughBuilding(Window, VentRate * openPct, true);
+                Vent(Window, axis, sideways, VentRate * airOpen);
             }
 
-            if (openPct > 0.001f && Window != null)
+            if (Window != null && airOpen > 0.001f)
             {
                 // Every tick, so the climb is smooth and the room's vacuum pump cannot pull the figure down between
                 // steps: 0 to full vacuum in about four seconds, slower while the boards are only part way open.
-                StepVacuum(openPct);
+                StepVacuum(airOpen);
                 HoldVacuum();
             }
 
             // The daylight is asked for again now and then so it follows the sun; between those checks it only moves when
-            // the boards cross the "open" line (SetOpenPct).
+            // the boards cross the "open" line (SetOpenPct). The sight table is refreshed here too, because which way a
+            // window counts as open depends on the walls around it, and those can be built or taken down.
             if (parent.IsHashIntervalTick(LightCheckTicks))
             {
                 WindowLight.RequestRefresh(parent.Map);
+                WindowSight.Sync(Window);
             }
 
             if (!animating || Window == null)
@@ -156,13 +180,69 @@ namespace ProjectZ.Windows
                 {
                     HalfWallState.SetOpen(HalfWallState.WallAt(parent.Position, parent.Map), open);
                 }
-                // Opening starts the leak from wherever the room is now; shutting ends it.
-                vacuumLetIn = 0f;
+                // Opening starts the leak from wherever the room is now; shutting ends it. A sideways window never shuts
+                // against the air, so its leak is not interrupted (user, 2026-10-21).
+                if (!WindowOrientation.IsSideways(Window))
+                {
+                    vacuumLetIn = 0f;
+                }
                 NotifyVacuumChanged();
             }
             // Every step of the boards moves the light: shut the cell is a wall's, cracked open a sliver's, fully open
             // the day's. (It throttles itself, so this is safe to call on every tick of the slide.)
             SyncLight();
+            // And the same step decides when the window can be shot through: only once the boards are fully apart.
+            WindowSight.Sync(Window);
+        }
+
+        // Heat through the opening, in the three cases there are: two enclosed rooms, a room and the outdoors, and
+        // outdoors on both sides. The game's own equalisation is used for the first (it knows about vacuum maps), and it
+        // is what the vent's numbers come from; it only ever moves rooms that are not outdoor ones, so the outdoor case is
+        // done here with the same arithmetic: the room drifts toward the mean of itself and the outdoor temperature, at
+        // the vent's rate per its own size (user, 2026-10-21: a window should ventilate with the outside as well).
+        private void Vent(Building_WindowGlass window, IntVec3 axis, bool sideways, float rate)
+        {
+            Map map = window.Map;
+            if (map == null)
+            {
+                return;
+            }
+            Room a = RoomAt(map, window.Position + axis);
+            Room b = RoomAt(map, window.Position - axis);
+            bool aOut = Outside(a);
+            bool bOut = Outside(b);
+            if (aOut && bOut)
+            {
+                return;
+            }
+            if (aOut || bOut)
+            {
+                VentToOutdoors(map, aOut ? b : a, rate);
+                return;
+            }
+            GenTemperature.EqualizeTemperaturesThroughBuilding(window, rate, !sideways);
+        }
+
+        private static Room RoomAt(Map map, IntVec3 c)
+        {
+            return c.InBounds(map) ? c.GetRoom(map) : null;
+        }
+
+        private static bool Outside(Room room)
+        {
+            return room == null || room.UsesOutdoorTemperature;
+        }
+
+        private static void VentToOutdoors(Map map, Room inside, float rate)
+        {
+            if (inside == null || inside.UsesOutdoorTemperature)
+            {
+                return;
+            }
+            float outdoors = map.mapTemperature.OutdoorTemp;
+            float average = (inside.Temperature + outdoors) * 0.5f;
+            float cells = Mathf.Max(1f, inside.CellCount);
+            inside.Temperature += (average - inside.Temperature) * rate / cells;
         }
 
         // Vacuum (Odyssey): while the boards are open the outside vacuum seeps in. It only ever rises - a step of
@@ -194,9 +274,11 @@ namespace ProjectZ.Windows
             {
                 return;
             }
-            IntVec3 facing = parent.Rotation.FacingCell;
-            Raise(map, parent.Position + facing);
-            Raise(map, parent.Position - facing);
+            // The real opening axis: a window set across the wall opens along it, not along its own facing.
+            bool sideways;
+            IntVec3 axis = WindowOrientation.Axis(Window, out sideways);
+            Raise(map, parent.Position + axis);
+            Raise(map, parent.Position - axis);
         }
 
         private void Raise(Map map, IntVec3 c)
@@ -247,11 +329,19 @@ namespace ProjectZ.Windows
             }
         }
 
+        // A window that is built (or loaded) fully open is a firing slit from the start; a shut one is a wall.
+        public override void PostSpawnSetup(bool respawningAfterLoad)
+        {
+            base.PostSpawnSetup(respawningAfterLoad);
+            WindowSight.Sync(Window);
+        }
+
         // The window is gone: its light goes with it on the next look (the map load or the slow refresh clears it, and a
-        // full rebuild here would scan the whole map once per destroyed window).
+        // full rebuild here would scan the whole map once per destroyed window), and its cell goes back to being a wall.
         public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
         {
             base.PostDeSpawn(map, mode);
+            WindowSight.Forget(Window, map);
             WindowLight.RequestRebuild(map);
         }
 

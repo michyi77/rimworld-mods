@@ -283,15 +283,11 @@ namespace ProjectZ.Windows
                 return;
             }
             IntVec3 pos = window.Position;
-            // Which way the opening really faces is a question about the wall, not about the window's own turn. A window
-            // set across the wall ("sideways" - the player may well do that) has the wall running along its own facing
-            // axis, so its two sides are the cells across the wall instead. Count the open neighbours on both axes and
-            // take the axis with more of them: nothing here is a constant, it comes from the room and wall layout around
-            // this cell (user, 2026-10-20).
-            IntVec3 facing = window.Rotation.FacingCell;
-            IntVec3 across = new IntVec3(facing.z, 0, facing.x);
-            bool sideways = OpenSides(map, pos, across) > OpenSides(map, pos, facing);
-            IntVec3 axis = sideways ? across : facing;
+            // Which way the opening really faces is a question about the wall, not about the window's own turn (see
+            // WindowOrientation): a window set across the wall has the wall running along its own facing axis, so its two
+            // sides are the cells across the wall instead.
+            bool sideways;
+            IntVec3 axis = WindowOrientation.Axis(window, out sideways);
             // A sideways window is always open to the light: its boards slide along the wall and never cover the opening,
             // whatever the player asked them to do (user, 2026-10-20).
             float open = sideways ? 1f : Mathf.Clamp01(latch.openPct);
@@ -479,27 +475,6 @@ namespace ProjectZ.Windows
                     AddToCell(map, f, c, bright * (falloff * gain), brightLevel * falloff);
                 }
             }
-        }
-
-        // How many of the two cells on this axis are openings: walls, half walls and doors are what the window sits in,
-        // furniture is not an edifice and does not count. Laid out, it is the wall that decides - not the window's turn.
-        private static int OpenSides(Map map, IntVec3 pos, IntVec3 axis)
-        {
-            int open = 0;
-            if (IsOpening(map, pos + axis))
-            {
-                open++;
-            }
-            if (IsOpening(map, pos - axis))
-            {
-                open++;
-            }
-            return open;
-        }
-
-        private static bool IsOpening(Map map, IntVec3 c)
-        {
-            return c.InBounds(map) && c.GetEdifice(map) == null;
         }
 
         // What light a cell has, and of what colour: the sky for a cell under no roof, else the glow grid's own lights

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
@@ -31,6 +31,11 @@ namespace ProjectZ.Windows
                 WindowIsNotTooTall.TryPatch(harmony);
                 // The window light rides on a private GlowGrid method, so it is patched (and reported) on its own.
                 WindowLight.TryPatch(harmony);
+                // Sight through an open window: three separate hooks, each reported on its own.
+                WindowSight.TryPatch(harmony);
+                // A half wall swapped for another (fitting, sliding, taking out a window) must not throw the room's heat
+                // away: the room is rebuilt right after the swap and a new one starts at the outdoor temperature.
+                HalfWallState.TryPatch(harmony);
             }
             catch (Exception e)
             {

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -89,6 +89,7 @@ namespace ProjectZ.Windows
             }
             Map map = wall.Map;
             IntVec3 pos = wall.Position;
+            KeepRoom(map, pos);
             Rot4 rot = wall.Rotation;
             Faction fac = wall.Faction;
             ThingDef stuff = wall.Stuff;
@@ -115,6 +116,93 @@ namespace ProjectZ.Windows
             }
             int newMax = fresh.MaxHitPoints;
             fresh.HitPoints = Mathf.Clamp(Mathf.RoundToInt(newMax * (max > 0 ? (float)hp / max : 1f)), 1, newMax);
+        }
+
+        // The swap destroys the wall and spawns another in its place, and the game may then rebuild the room around it - a
+        // freshly made Room starts at the outdoor temperature (RoomTempTracker's constructor does exactly that), so a
+        // room's own heat and vacuum jumped to the outside figures just for taking a window out, then drifted back
+        // (user, 2026-10-21). What the room held is read before the swap and put back once the rooms are rebuilt.
+        private struct KeptRoom
+        {
+            public Map map;
+            public IntVec3 cell;
+            public float temperature;
+            public float vacuum;
+            public int until;
+        }
+
+        private static readonly System.Collections.Generic.List<KeptRoom> keptRooms =
+            new System.Collections.Generic.List<KeptRoom>();
+
+        public static void TryPatch(HarmonyLib.Harmony harmony)
+        {
+            System.Reflection.MethodInfo target = HarmonyLib.AccessTools.Method(typeof(RegionAndRoomUpdater),
+                "TryRebuildDirtyRegionsAndRooms");
+            if (target == null)
+            {
+                Log.ErrorOnce("[ProjectZ] windows: the room updater hook is missing; a room will lose its heat when a "
+                    + "window is fitted or taken out", 0x5A17F0);
+                return;
+            }
+            try
+            {
+                harmony.Patch(target, postfix: new HarmonyLib.HarmonyMethod(typeof(HalfWallState), nameof(RestoreRooms)));
+            }
+            catch (System.Exception e)
+            {
+                Log.ErrorOnce("[ProjectZ] windows: could not hook the room updater: " + e, 0x5A17F1);
+            }
+        }
+
+        private static void KeepRoom(Map map, IntVec3 cell)
+        {
+            if (map == null)
+            {
+                return;
+            }
+            Room room = cell.GetRoom(map);
+            if (room == null || room.UsesOutdoorTemperature)
+            {
+                return;
+            }
+            KeptRoom kept = new KeptRoom();
+            kept.map = map;
+            kept.cell = cell;
+            kept.temperature = room.Temperature;
+            kept.vacuum = room.Vacuum;
+            kept.until = Find.TickManager.TicksGame + 5;
+            keptRooms.Add(kept);
+        }
+
+        // Called right after the game rebuilds its rooms for the tick.
+        public static void RestoreRooms()
+        {
+            if (keptRooms.Count == 0)
+            {
+                return;
+            }
+            int now = Find.TickManager.TicksGame;
+            for (int i = keptRooms.Count - 1; i >= 0; i--)
+            {
+                KeptRoom kept = keptRooms[i];
+                if (kept.until < now || kept.map == null)
+                {
+                    keptRooms.RemoveAt(i);
+                    continue;
+                }
+                Room room = kept.cell.GetRoom(kept.map);
+                if (room == null)
+                {
+                    continue;   // no room there yet: another rebuild may still come
+                }
+                keptRooms.RemoveAt(i);
+                if (room.UsesOutdoorTemperature)
+                {
+                    continue;   // the room really is open to the sky now: the game's answer stands
+                }
+                room.Temperature = kept.temperature;
+                room.Vacuum = kept.vacuum;
+            }
         }
     }
 }

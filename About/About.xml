@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
   <name>Add windows to your house！</name>
   <author>Lin</author>
   <packageId>Peren.IsoRimProjectZWindows</packageId>
-  <modVersion>1.0.0</modVersion>
+  <modVersion>1.1.0</modVersion>
   <supportedVersions>
     <li>1.7</li>
   </supportedVersions>
@@ -41,11 +41,20 @@
 - Light: shut, the window blocks light like a wall; open, it lets the day in. How bright it gets and how far it
   reaches follow how far the boards are apart, and a lamp's light passes through an open window too. The light only
   goes to the darker side - a window never glows back into the sunlight it faces.
-- A window set across the wall (sideways) is always open to the light: its boards slide along the wall and cover
-  nothing.
+- A window set across the wall (sideways) is always open to the light, always ventilates at a fully open vent's rate,
+  and always leaks vacuum like a fully open window: its boards slide along the wall and cover nothing. Shots go
+  through it too, but only as a slot (below).
+- Shooting: any crack lets a shot through. From 50% to 99% open - and always for a sideways window - the opening is a
+  slot: shots go, but part of them are stopped by the window itself. Fully open (100%) is a clean shot. Below half
+  open it is a crack: nine in ten shots are stopped by the window. Only a window shut tight is a wall - and even then
+  the window can be attacked and shot apart like any building. It works both ways: colonists fire out, enemies fire
+  in, and grenades, explosions and beam weapons pass too. Whoever stands beside the window is covered by the half wall
+  like behind a barricade, not like a full wall. A shot a window stops lands on the window and damages it - a window
+  shot apart leaves the bare half wall; a fully open window is never hit by bullets.
 - Ventilation: shut, the window seals the room like a brick wall; open, heat passes through in proportion to how far
-  the boards have moved, up to a vent's rate when it is fully open. On an orbital map an open window also lets the
-  vacuum in.
+  the boards have moved, up to a vent's rate when it is fully open - with the next room and with the outdoors alike.
+  On an orbital map an open window also lets the vacuum in. A window set across the wall always ventilates and always
+  leaks vacuum, whatever its boards are doing.
 - HP, build time, opening speed, flammability and beauty match a door of the same material; a wooden window costs 10
   wood, two fifths of a wooden door. Deconstruct the window and half of that comes back; take the wall down with the
   window still in it and the glazing is broken out instead, returning a quarter.
@@ -62,8 +71,15 @@ has to be changed or updated for this addon.
 - 两扇实心木板加边框，没有玻璃。窗要手动开合：小人把木板推开或拉回；关到一半被打断，下次接着来。
 - 透光：关着时像墙一样挡光；开着时把日光放进屋里，亮度和照得多远都跟着木板推开的程度走，开着的窗也放灯光过去。
   光只往暗的那一侧透，不会朝对着的太阳那一面发光。
-- 侧着放（横跨墙）的窗永远透光：它的木板是沿墙滑的，本来就挡不住开口。
-- 通风：关着时像砖墙一样密封；开着时按木板推开的程度通风，全开时约等于一个通风孔。在轨道环境下开窗还会放真空进来。
+- 侧着放（横跨墙）的窗永远透光、永远按全开通风孔的速率通风、永远像全开的窗一样漏真空 —— 它的木板是沿墙滑的，
+  挡不住开口；它也能被射击穿过，但只算一个射孔（见下）。
+- 隔窗射击：开度一半以上的窗可以射击、可以看穿，侧向窗任何时候都可以；全开（100%）没有惩罚，
+  50%–99%（以及侧向窗）只算一个射孔 —— 能打但命中打折；开度低于 50% 就是一条缝，还能打，但九成打在窗上。
+  只有完全关死才等于墙——而且关死的窗本身仍然可以被打、被打烂。双向生效：屋里能打出去、
+  外面能打进来，手雷、爆炸、射线武器也穿得过去。站在窗旁的人仍以半墙当掩体（按路障算，不是整墙）。
+  被半开的窗（或任何侧向窗）挡下的子弹会打在窗上、把窗打坏 —— 窗被打烂后只剩半墙；全开的窗不会被枪弹打到。
+- 通风：关着时像砖墙一样密封；开着时按木板推开的程度通风，全开时约等于一个通风孔 —— 房间之间、房间与室外之间都算。
+  在轨道环境下开窗还会放真空进来。侧向窗无论开关，永远按全开通风孔的速率通风、永远漏真空。
 - 血量、建造时间、开关速度、易燃性、美观都和同材料的门一致；木窗 10 木头，是同材料门成本的五分之二。
   拆窗本身返还一半；连墙一起拆则是把窗砸下来，返还四分之一。
 

@@ -1,4 +1,4 @@
-# Add windows to your house！
+﻿# Add windows to your house！
 
 Half walls, and the sliding windows that go on them, for RimWorld 1.7 with
 [IsoRim Waylith](https://github.com/peren717/IsoRim-1.7) and **IsoRim ProjectZ**.
@@ -34,11 +34,20 @@ leaves them as missing defs, and RimWorld deletes unknown things - the same as r
 - **Light**: shut, the window blocks light like a wall; open, it lets the day in. How bright it gets and how far it
   reaches follow how far the boards are apart, and a lamp's light passes through an open window too. The light only
   goes to the darker side - a window never glows back into the sunlight it faces, and two windows never add up.
-  A window set across the wall (sideways) is always open to the light, because its boards slide along the wall and
-  cover nothing.
+  A window set across the wall (sideways) is always open to the light, always ventilates at a fully open vent's rate
+  and always leaks vacuum like a fully open window, because its boards slide along the wall and cover nothing. Shots
+  go through it too, but only as a slot (below).
+- **Shooting**: any crack lets a shot through. From 50% to 99% open - and always for a sideways window - the opening
+  is a slot: shots go, but part of them are stopped by the window itself. Fully open (100%) is a clean shot. Below
+  half open it is a crack: nine in ten shots are stopped by the window. Only a window shut tight is a wall - and even
+  then the window can be attacked and shot apart like any building. It works both ways: colonists fire out, enemies
+  fire in, and grenades, explosions and beam weapons pass too. Whoever stands beside the window is covered by the half
+  wall like behind a barricade (0.55), not like a full wall (0.75). A shot a window stops lands on the window and
+  damages it - a window shot apart leaves the bare half wall; a fully open window is never hit by bullets.
 - **Ventilation**: shut, the window seals the room like a brick wall; open, heat passes through in proportion to how far
-  the boards have moved, up to a vent's rate when it is fully open. On an orbital map an open window also lets the
-  vacuum in.
+  the boards have moved, up to a vent's rate when it is fully open - with the next room and with the outdoors alike.
+  On an orbital map an open window also lets the vacuum in. A window set across the wall always ventilates and always
+  leaks vacuum, whatever its boards are doing.
 - HP, build time, opening speed, flammability and beauty match a door of the same material; a wooden window costs 10
   wood, two fifths of a wooden door. Deconstruct the window and half of that comes back; take the wall down with the
   window still in it and the glazing is broken out instead, returning a quarter.
@@ -46,6 +55,22 @@ leaves them as missing defs, and RimWorld deletes unknown things - the same as r
 MIT License.
 
 ## Changelog
+
+### 1.1.0
+
+- Shooting through windows: from half open up a window lets sight and shots through in both directions - colonists fire
+  out, enemies fire in - and explosions, beam weapons and grenades pass too. Fully open (100%) is a clean shot; from
+  50% to 99% open, and always for a window set across the wall (sideways), the opening is a slot: shots go, but part of
+  them are stopped by the window itself. Below half open it is a crack: nine in ten shots are stopped by the window.
+  A window shut tight blocks shots, but can still be attacked and shot apart like any building. The half wall under a
+  window covers whoever stands beside it like a barricade (0.55), not like a wall (0.75).
+- A window catches the bullets it stops: the boards, not the half wall under them, take the damage, and a window shot
+  apart leaves the bare half wall.
+- Ventilation with the outdoors as well as with the next room, for both window kinds.
+- A window set across the wall always ventilates at a fully open vent's rate, always leaks vacuum, and always lets
+  shots through as a slot, whatever its boards are doing.
+- Fitting, sliding or taking out a window no longer throws the room's heat (and vacuum) away: the game rebuilds the
+  room around the new wall, and a rebuilt room would otherwise start at the outdoor temperature.
 
 ### 1.0.0
 
