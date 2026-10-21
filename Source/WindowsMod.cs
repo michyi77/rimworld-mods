@@ -36,6 +36,8 @@ namespace ProjectZ.Windows
                 // A half wall swapped for another (fitting, sliding, taking out a window) must not throw the room's heat
                 // away: the room is rebuilt right after the swap and a new one starts at the outdoor temperature.
                 HalfWallState.TryPatch(harmony);
+                // Only while HSK's FPS Control Bridge is installed: its own bullets have to meet a window too.
+                FpsBridgeCompat.TryPatch(harmony);
             }
             catch (Exception e)
             {

@@ -3,7 +3,7 @@
   <name>Add windows to your house！</name>
   <author>Lin</author>
   <packageId>Peren.IsoRimProjectZWindows</packageId>
-  <modVersion>1.1.1</modVersion>
+  <modVersion>1.1.2</modVersion>
   <supportedVersions>
     <li>1.7</li>
   </supportedVersions>
@@ -18,10 +18,6 @@
       <packageId>Peren.IsoRim17</packageId>
       <displayName>IsoRim Waylith</displayName>
       <steamWorkshopUrl>steam://url/CommunityFilePage/3819577715</steamWorkshopUrl>
-    </li>
-    <li>
-      <packageId>Peren.IsoRimProjectZ</packageId>
-      <displayName>IsoRim ProjectZ</displayName>
     </li>
   </modDependencies>
   <loadAfter>
@@ -59,10 +55,9 @@
   wood, two fifths of a wooden door. Deconstruct the window and half of that comes back; take the wall down with the
   window still in it and the glazing is broken out instead, returning a quarter.
 
-REQUIRES, in this order: Harmony, IsoRim Waylith, and IsoRim ProjectZ (the base mod this is built on - install it in
-Mods/ as well, from the same author). RimWorld 1.7. Works with IsoRim ProjectZ as published: nothing in the base mod
-has to be changed or updated for this addon.
-
+REQUIRES, in this order: Harmony and IsoRim Waylith. RimWorld 1.7. RECOMMENDED: IsoRim ProjectZ (the stacked-floors
+mod these half walls are made for) - with it you get upper floors and the slab height rule; without it the windows work
+just the same on a one-floor map. Either way nothing in that base mod has to be changed or updated.
 给房子开一扇窗！本 mod 添加半墙和装在半墙上的推拉窗。
 
 - 半墙：齐腰高、过不去的墙。像墙一样能围出房间，但不撑屋顶 —— 日光从墙头上越过。
@@ -83,7 +78,8 @@ has to be changed or updated for this addon.
 - 血量、建造时间、开关速度、易燃性、美观都和同材料的门一致；木窗 10 木头，是同材料门成本的五分之二。
   拆窗本身返还一半；连墙一起拆则是把窗砸下来，返还四分之一。
 
-**必须**按顺序装：Harmony、IsoRim Waylith，以及 **IsoRim ProjectZ**（本 mod 依赖的基座，需要另外放进 Mods 文件夹）。
+**必须**按顺序装：Harmony、IsoRim Waylith。**推荐**再装 IsoRim ProjectZ（叠层楼板，本 mod 的半墙就是为它设计的）：
+装了就有二楼和楼板高度规则，不装也能在单层地图上正常使用。两种情况下都**不需要**改动基座。
 RimWorld 1.7。
 
 MIT License.</description>

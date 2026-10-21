@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
   <!-- Half wall: the lower half of a wall.
@@ -29,6 +29,10 @@
     <uiIconPath>Things/Building/Linked/Barricade_MenuIcon</uiIconPath>
     <altitudeLayer>Building</altitudeLayer>
     <passability>Impassable</passability>
+    <!-- A half wall is impassable but only partly filled, which vanilla flags as a config error ("can be shot/seen over")
+         because that combination is what player-built windows use. Here it is on purpose: nothing crosses it, but light
+         and sight pass over its top (the window in it is what closes the cell). -->
+    <disableImpassableShotOverConfigError>true</disableImpassableShotOverConfigError>
     <fillPercent>0.55</fillPercent>
     <holdsRoof>false</holdsRoof>
     <blockLight>false</blockLight>

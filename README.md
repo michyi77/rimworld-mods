@@ -14,10 +14,13 @@ Half walls, and the sliding windows that go on them, for RimWorld 1.7 with
    **Harmony** -> **IsoRim Waylith** -> **IsoRim ProjectZ** -> **Add windows to your house！**
 5. Restart the game when it asks.
 
-Requires RimWorld 1.7, Harmony, IsoRim Waylith and IsoRim ProjectZ.
+Requires RimWorld 1.7, Harmony and IsoRim Waylith. Recommended: **IsoRim ProjectZ** (the stacked-floors mod these half
+walls are made for) - with it you get upper floors and the slab height rule; without it the windows work just the same on
+a one-floor map.
 
-Works with **IsoRim ProjectZ as it is published** - nothing in the base mod has to be changed or updated for this
-addon: every rule it needs from the base is patched from this side.
+Works with IsoRim ProjectZ as it is published - nothing in that base mod has to be changed or updated for this addon:
+every rule it needs from the base is patched from this side, and each of those hooks simply does nothing when the base
+is absent.
 
 Taking it out again: remove the half walls and windows of a save first. Removing the mod while a save still holds them
 leaves them as missing defs, and RimWorld deletes unknown things - the same as removing any mod.
@@ -55,6 +58,14 @@ leaves them as missing defs, and RimWorld deletes unknown things - the same as r
 MIT License.
 
 ## Changelog
+
+### 1.1.2
+
+- The bare half wall no longer trips vanilla's config error for an impassable building that can be seen over: it is
+  exempt on purpose, since light and sight are meant to pass over its top.
+- Optional: with HSK's FPS Control Bridge installed, its first-person bullets meet windows too - a shut window is a
+  solid, a half-open one covers part of the opening, and the window takes the hit. The hook is looked up by name and
+  does nothing when that mod is absent.
 
 ### 1.1.1
 
