@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -27,6 +27,7 @@ namespace ProjectZ.Windows
         {
             base.SpawnSetup(map, respawningAfterLoad);
             AdoptWallFaction();
+            AdoptWallStuff();
             // A window turns the barricade it is fitted on into a wall: impassable, holding a roof, closing a room.
             HalfWallState.Glaze(HalfWallState.WallAt(Position, map), Latch != null && Latch.openPct > 0.001f);
         }
@@ -54,6 +55,26 @@ namespace ProjectZ.Windows
             {
                 SetFaction(wall.Faction);
             }
+        }
+
+        // The boards are the wall's material, always (user, 2026-10-22: a steel frame on a wooden wall looked wrong).
+        // A window fitted from the wall's own button already uses its stuff; one ordered from the Structure menu can
+        // carry any stuff, so it takes the wall's on spawn, and the hit points follow the new material.
+        public void AdoptWallStuff()
+        {
+            Map map = Map;
+            if (map == null)
+            {
+                return;
+            }
+            Building wall = HalfWallState.WallAt(Position, map);
+            if (wall == null || wall.Stuff == null || wall.Stuff == Stuff)
+            {
+                return;
+            }
+            float share = MaxHitPoints > 0 ? (float)HitPoints / MaxHitPoints : 1f;
+            SetStuffDirect(wall.Stuff);
+            HitPoints = Mathf.Clamp(Mathf.RoundToInt(MaxHitPoints * share), 1, MaxHitPoints);
         }
 
         // Vacuum (Odyssey): the def is isAirtight, so shut the window seals a room exactly like a brick wall. From the

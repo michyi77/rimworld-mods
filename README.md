@@ -1,4 +1,4 @@
-﻿# Add windows to your house！
+# Add windows to your house！
 
 Half walls, and the sliding windows that go on them, for RimWorld 1.7 with
 [IsoRim Waylith](https://github.com/peren717/IsoRim-1.7) and **IsoRim ProjectZ**.
@@ -58,6 +58,14 @@ leaves them as missing defs, and RimWorld deletes unknown things - the same as r
 MIT License.
 
 ## Changelog
+
+### 1.1.3
+
+- The Structure menu icon now takes the colour of the material the window is built from, the same way a wall's icon
+  does: pick granite and it turns granite grey, pick steel and it turns steel grey, pick wood and it is wood brown.
+  It used to be a picture with the wood colour baked in, so the game tinted it again and every window came out the
+  same dark brown.
+- A new cover picture, and the menu icon redrawn at 128 pixels so it stays sharp at higher UI scales.
 
 ### 1.1.2
 
