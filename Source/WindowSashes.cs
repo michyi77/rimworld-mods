@@ -19,10 +19,10 @@ namespace ProjectZ.Windows
     // to load, and the public entry points have already returned before they are reached.
     public static class WindowSashes
     {
-        // How far each leaf slides when the window is fully open, in cells. The frame's inner edge is at 0.420 (the
-        // model is 0.956 of a cell wide since 1.1.6) and a wall is one cell deep, so 0.451 tucks the leaf into the
-        // wall beside it.
-        public const float Slide = 0.451f;
+        // How far each leaf slides when the window is fully open, in cells. The frame's inner edge is at 0.438 and a
+        // wall is one cell deep, so 0.47 tucks the leaf into the wall beside it. (The model is back to its full 0.996
+        // width: the 0.956 of 1.1.6 left a real gap between the window and the walls on either side - SPEC §29.)
+        public const float Slide = 0.47f;
 
         // Blueprint blue, for a window that is only planned or half built.
         public static readonly Color GhostColor = new Color(0.45f, 0.7f, 1f);

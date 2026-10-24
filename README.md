@@ -59,6 +59,18 @@ MIT License.
 
 ## Changelog
 
+### 1.2.1
+
+中文更新说明见 [CHANGELOG-1.2.1.md](CHANGELOG-1.2.1.md)。
+
+- **Fixed**: a gap between a window and the walls on either side. The window model had been narrowed to 0.956 of a cell in
+  1.1.6 to match the half wall block - which only *reads* a few percent narrower because it sits lower and further from
+  the camera - and against a full-height wall run that left a real slot on both sides. The window is back to its full
+  0.996 width, flush with the cell.
+
+Requires RimWorld 1.7, Harmony, IsoRim Waylith and IsoRim ProjectZ. Saves from older versions keep working (a one-time
+"missing mod" notice can appear because the packageId is `michyi77.AddWindowsToYourHouse`).
+
 ### 1.2.0
 
 Everything from 1.1.4 to 1.1.9 in one update:
@@ -68,13 +80,6 @@ Everything from 1.1.4 to 1.1.9 in one update:
 - Removed the "Fit window" button
 - New half wall icon (face follows the material)
 - Half walls can now be drag-built in a row, like walls
-
-中文更新说明见 [CHANGELOG-1.2.0.md](CHANGELOG-1.2.0.md)。
-
-Requires RimWorld 1.7, Harmony, IsoRim Waylith and IsoRim ProjectZ. Saves from older versions keep working (a one-time
-"missing mod" notice can appear because the packageId is now `michyi77.AddWindowsToYourHouse`).
-
-### 1.1.9
 
 ### 1.1.9
 
