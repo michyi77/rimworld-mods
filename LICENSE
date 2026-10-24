@@ -22,5 +22,10 @@ SOFTWARE.
 
 ---
 
-This repository is a RimWorld 1.7 port of IsoRim by Connor (kndzio), https://github.com/kndzio/IsoRim.
-The original MIT licence above applies to the original work. Port changes (c) 2026 Lin (peren717), also under the MIT licence.
+This addon is built for IsoRim Waylith (https://github.com/peren717/IsoRim-1.7) and IsoRim ProjectZ, two separate mods
+by their own authors. It ships none of their files and none of their code: every rule of theirs this addon needs is
+hooked from this side with Harmony patches.
+
+The deprecated PZ_Window / PZ_WindowWall window code and their defs were moved here from IsoRim ProjectZ so that saves
+made with the earlier layouts keep loading. That code stays (c) Lin (peren717), MIT.
+

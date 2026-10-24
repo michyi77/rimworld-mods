@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-  <name>Add windows to your house！</name>
+  <name>IsoRim - Add windows to your house!</name>
   <author>Michael Yin</author>
   <packageId>michyi77.AddWindowsToYourHouse</packageId>
   <modVersion>1.2.0</modVersion>
@@ -25,11 +25,11 @@
     <li>Peren.IsoRim17</li>
     <li>Peren.IsoRimProjectZ</li>
   </loadAfter>
-  <description>Add windows to your house！This mod adds half walls and the sliding windows that go on them.
+  <description>IsoRim - Add windows to your house! This mod adds half walls and the sliding windows that go on them.
 
 - Half walls: a waist-high wall nothing crosses. Like a wall it closes a room, but it holds up no roof - and the day
   comes in over its top.
-- Windows: fit one on top of a half wall (the button on the wall, or the Structure menu) and a colonist builds it. One
+- Windows: fit one on top of a half wall (from the Structure menu, where you pick the material and the turn) and a colonist builds it. One
   half wall takes one window. Once a window is in, that half wall counts as a real wall: it closes a room and holds a
   roof.
 - Two solid boards in a frame, no glass. Open and close a window by hand: a colonist slides the boards apart or shut;
@@ -61,7 +61,7 @@ just the same on a one-floor map. Either way nothing in that base mod has to be 
 给房子开一扇窗！本 mod 添加半墙和装在半墙上的推拉窗。
 
 - 半墙：齐腰高、过不去的墙。像墙一样能围出房间，但不撑屋顶 —— 日光从墙头上越过。
-- 窗户：在半墙上装窗（半墙上的按钮，或建造菜单），小人建造；一堵半墙只装一扇窗。装上窗之后，那格半墙就算真正的墙：
+- 窗户：在半墙上装窗（从建造菜单，自己选材料和朝向），小人建造；一堵半墙只装一扇窗。装上窗之后，那格半墙就算真正的墙：
   能围出房间、能撑屋顶。
 - 两扇实心木板加边框，没有玻璃。窗要手动开合：小人把木板推开或拉回；关到一半被打断，下次接着来。
 - 透光：关着时像墙一样挡光；开着时把日光放进屋里，亮度和照得多远都跟着木板推开的程度走，开着的窗也放灯光过去。

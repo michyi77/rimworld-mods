@@ -1,4 +1,4 @@
-# Add windows to your house！
+# IsoRim - Add windows to your house!
 
 Half walls, and the sliding windows that go on them, for RimWorld 1.7 with
 [IsoRim Waylith](https://github.com/peren717/IsoRim-1.7) and **IsoRim ProjectZ**.
@@ -11,7 +11,7 @@ Half walls, and the sliding windows that go on them, for RimWorld 1.7 with
 3. Install **IsoRim ProjectZ** the same way if you do not have it (this mod needs it) and make sure **Harmony** and
    **IsoRim Waylith** are installed.
 4. Start the game, open **Options > Mods**, and enable, in this order:
-   **Harmony** -> **IsoRim Waylith** -> **IsoRim ProjectZ** -> **Add windows to your house！**
+   **Harmony** -> **IsoRim Waylith** -> **IsoRim ProjectZ** -> **IsoRim - Add windows to your house!**
 5. Restart the game when it asks.
 
 Requires RimWorld 1.7, Harmony and IsoRim Waylith. Recommended: **IsoRim ProjectZ** (the stacked-floors mod these half
