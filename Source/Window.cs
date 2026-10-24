@@ -50,10 +50,10 @@ namespace ProjectZ.Windows
             yield return new Command_Toggle
             {
                 // M1 uses plain text; keyed translations come with the rest of the UI work.
-                defaultLabel = isOpen ? "Close window" : "Open window",
+                defaultLabel = isOpen ? "ProjectZ.CloseWindow".Translate() : "ProjectZ.OpenWindow".Translate(),
                 defaultDesc = isOpen
-                    ? "Close this window: no light or air passes through it."
-                    : "Open this window: light and air pass through it.",
+                    ? "ProjectZ.CloseWindowDesc".Translate()
+                    : "ProjectZ.OpenWindowDesc".Translate(),
                 icon = ContentFinder<Texture2D>.Get("UI/Commands/Vent"),
                 isActive = () => Open,
                 toggleAction = Toggle

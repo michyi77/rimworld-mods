@@ -8,10 +8,11 @@
        colonist can slide them (Building_WindowGlass.DrawAt -> WindowSashes.Draw), which is why the thing is
        drawerType RealtimeOnly - and tickerType Normal, because the slide itself is driven in CompWindowLatch.CompTick.
 
-       Buildable twice over: the "Fit window" button on a half wall orders it as a blueprint (Source/WindowFitGizmo.cs),
-       and the Structure menu has it too; PlaceWorker_OnHalfWall keeps it to half walls either way. canPlaceOverWall
+       Buildable from the Structure menu; PlaceWorker_OnHalfWall keeps it to half walls. canPlaceOverWall
        lets the blueprint sit on the wall's occupied cell, and the GenSpawn.SpawningWipes patch in this mod stops the
-       game from wiping the wall when the window is finished (Patches/WindowNoWallWipe.cs).
+       game from wiping the wall when the window is finished (Patches/WindowNoWallWipe.cs). The half wall's own
+       "Fit window" button is gone since 1.1.6: it took the wall's turn, which was not always the right one now that
+       half walls are not rotated at all.
 
        Stats are a door's, to the number, and the stuff's statFactors scale them exactly as they scale a door's:
        MaxHitPoints 160 and WorkToBuild 850 from DoorBase/Door, Flammability 1.0 (wood x1 = 100%, steel x0.4 = 40%);

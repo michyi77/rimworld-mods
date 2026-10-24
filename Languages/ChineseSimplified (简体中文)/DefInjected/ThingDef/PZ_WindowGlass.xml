@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <PZ_WindowGlass.label>窗户</PZ_WindowGlass.label>
+  <PZ_WindowGlass.description>装在半墙顶部的窗：一个窗框里两扇实心窗板，没有玻璃。打开时小人会把窗板向两边滑开。</PZ_WindowGlass.description>
+
+  <PZ_WindowGlassOpen.label>窗户</PZ_WindowGlassOpen.label>
+  <PZ_WindowGlassOpen.description>装在半墙顶部的窗，已经滑开。</PZ_WindowGlassOpen.description>
+</LanguageData>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
   <!-- Half wall: the lower half of a wall.
@@ -26,7 +26,19 @@
       </linkFlags>
       <color>(139,122,87)</color>
     </graphicData>
-    <uiIconPath>Things/Building/Linked/Barricade_MenuIcon</uiIconPath>
+    <uiIconPath>ProjectZ/HalfWall_MenuIcon</uiIconPath>
+    <!-- Wood is planks and stone blocks are bricks, so those get their own face; metal keeps the smooth plate (user,
+         2026-10-24). Same mechanism as the vanilla wall def's uiIconPathsStuff. -->
+    <uiIconPathsStuff>
+      <li>
+        <appearance>Planks</appearance>
+        <iconPath>ProjectZ/HalfWallPlanks_MenuIcon</iconPath>
+      </li>
+      <li>
+        <appearance>Bricks</appearance>
+        <iconPath>ProjectZ/HalfWallBricks_MenuIcon</iconPath>
+      </li>
+    </uiIconPathsStuff>
     <altitudeLayer>Building</altitudeLayer>
     <passability>Impassable</passability>
     <!-- A half wall is impassable but only partly filled, which vanilla flags as a config error ("can be shot/seen over")
@@ -59,6 +71,12 @@
     </stuffCategories>
     <costStuffCount>5</costStuffCount>
     <designationCategory>Structure</designationCategory>
+    <!-- Same as a wall's: the designator gets the line/rectangle drag tools, so holding the button and dragging lays a
+         whole run of half walls instead of one cell at a time (user, 2026-10-24). -->
+    <drawStyleCategory>Walls</drawStyleCategory>
+    <!-- A wall has no direction: the block is drawn as a block and the window in it carries its own turn. Leaving this
+         out made the def rotatable, which is what the old "Fit window" button inherited (user, 2026-10-24). -->
+    <rotatable>false</rotatable>
     <uiOrder>2006</uiOrder>
     <building>
       <isInert>true</isInert>
@@ -83,6 +101,7 @@
     <defName>PZ_HalfWallGlazed</defName>
     <label>half wall</label>
     <description>The lower half of a wall with a window fitted on it: it counts as a wall, holds up a roof and closes a room.</description>
+    <rotatable>false</rotatable>
     <graphicData>
       <texPath>Things/Building/Linked/Barricade_Atlas</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -92,7 +111,19 @@
       </linkFlags>
       <color>(139,122,87)</color>
     </graphicData>
-    <uiIconPath>Things/Building/Linked/Barricade_MenuIcon</uiIconPath>
+    <uiIconPath>ProjectZ/HalfWall_MenuIcon</uiIconPath>
+    <!-- Wood is planks and stone blocks are bricks, so those get their own face; metal keeps the smooth plate (user,
+         2026-10-24). Same mechanism as the vanilla wall def's uiIconPathsStuff. -->
+    <uiIconPathsStuff>
+      <li>
+        <appearance>Planks</appearance>
+        <iconPath>ProjectZ/HalfWallPlanks_MenuIcon</iconPath>
+      </li>
+      <li>
+        <appearance>Bricks</appearance>
+        <iconPath>ProjectZ/HalfWallBricks_MenuIcon</iconPath>
+      </li>
+    </uiIconPathsStuff>
     <altitudeLayer>Building</altitudeLayer>
     <passability>Impassable</passability>
     <fillPercent>1</fillPercent>
@@ -130,6 +161,7 @@
     <defName>PZ_HalfWallGlazedOpen</defName>
     <label>half wall</label>
     <description>The lower half of a wall with a window fitted on it and slid open: air passes the way it does through a vent.</description>
+    <rotatable>false</rotatable>
     <graphicData>
       <texPath>Things/Building/Linked/Barricade_Atlas</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -139,7 +171,19 @@
       </linkFlags>
       <color>(139,122,87)</color>
     </graphicData>
-    <uiIconPath>Things/Building/Linked/Barricade_MenuIcon</uiIconPath>
+    <uiIconPath>ProjectZ/HalfWall_MenuIcon</uiIconPath>
+    <!-- Wood is planks and stone blocks are bricks, so those get their own face; metal keeps the smooth plate (user,
+         2026-10-24). Same mechanism as the vanilla wall def's uiIconPathsStuff. -->
+    <uiIconPathsStuff>
+      <li>
+        <appearance>Planks</appearance>
+        <iconPath>ProjectZ/HalfWallPlanks_MenuIcon</iconPath>
+      </li>
+      <li>
+        <appearance>Bricks</appearance>
+        <iconPath>ProjectZ/HalfWallBricks_MenuIcon</iconPath>
+      </li>
+    </uiIconPathsStuff>
     <altitudeLayer>Building</altitudeLayer>
     <passability>Impassable</passability>
     <fillPercent>1</fillPercent>

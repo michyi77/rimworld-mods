@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <ProjectZ.OpenWindow>Open window</ProjectZ.OpenWindow>
+  <ProjectZ.OpenWindowDesc>Have a colonist slide the boards apart: light and air pass through.</ProjectZ.OpenWindowDesc>
+  <ProjectZ.CloseWindow>Close window</ProjectZ.CloseWindow>
+  <ProjectZ.CloseWindowDesc>Have a colonist slide the boards shut.</ProjectZ.CloseWindowDesc>
+
+  <ProjectZ.OpenThisSide>Open window (this side)</ProjectZ.OpenThisSide>
+  <ProjectZ.OpenThisSideDesc>Swing the sashes out to this face of the wall. Light and air pass through.</ProjectZ.OpenThisSideDesc>
+  <ProjectZ.OpenOtherSide>Open window (other side)</ProjectZ.OpenOtherSide>
+  <ProjectZ.OpenOtherSideDesc>Swing the sashes out to the opposite face of the wall. Light and air pass through.</ProjectZ.OpenOtherSideDesc>
+  <ProjectZ.CloseSashesDesc>Shut the sashes: no light or air passes through.</ProjectZ.CloseSashesDesc>
+
+  <ProjectZ.NeedHalfWall>A window has to go on a half wall: build one in this cell first.</ProjectZ.NeedHalfWall>
+  <ProjectZ.HalfWallHasWindow>This half wall already has a window: a half wall takes one window.</ProjectZ.HalfWallHasWindow>
+</LanguageData>

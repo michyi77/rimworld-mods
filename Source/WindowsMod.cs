@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
@@ -25,7 +25,7 @@ namespace ProjectZ.Windows
             // target must not take the whole addon down with it, so it is caught and logged.
             try
             {
-                Harmony harmony = new Harmony("Peren.IsoRimProjectZ.Windows");
+                Harmony harmony = new Harmony("michyi77.AddWindowsToYourHouse");
                 harmony.PatchAll(typeof(WindowsMod).Assembly);
                 // Only when IsoRim ProjectZ is installed: its slab height rule must not count a window as too tall.
                 WindowIsNotTooTall.TryPatch(harmony);

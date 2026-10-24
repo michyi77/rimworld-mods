@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <ProjectZ.OpenWindow>打开窗户</ProjectZ.OpenWindow>
+  <ProjectZ.OpenWindowDesc>让小人把窗板滑开：光线和空气可以通过。</ProjectZ.OpenWindowDesc>
+  <ProjectZ.CloseWindow>关闭窗户</ProjectZ.CloseWindow>
+  <ProjectZ.CloseWindowDesc>让小人把窗板关上。</ProjectZ.CloseWindowDesc>
+
+  <ProjectZ.OpenThisSide>打开窗户（朝这一面）</ProjectZ.OpenThisSide>
+  <ProjectZ.OpenThisSideDesc>把窗扇朝墙的这一面推开，光线和空气可以通过。</ProjectZ.OpenThisSideDesc>
+  <ProjectZ.OpenOtherSide>打开窗户（朝另一面）</ProjectZ.OpenOtherSide>
+  <ProjectZ.OpenOtherSideDesc>把窗扇朝墙的另一面推开，光线和空气可以通过。</ProjectZ.OpenOtherSideDesc>
+  <ProjectZ.CloseSashesDesc>关上窗扇：光线和空气无法通过。</ProjectZ.CloseSashesDesc>
+
+  <ProjectZ.NeedHalfWall>窗户必须装在半墙上：请先在这一格建一堵半墙。</ProjectZ.NeedHalfWall>
+  <ProjectZ.HalfWallHasWindow>这堵半墙上已经有窗户了：一堵半墙只能装一扇窗。</ProjectZ.HalfWallHasWindow>
+</LanguageData>

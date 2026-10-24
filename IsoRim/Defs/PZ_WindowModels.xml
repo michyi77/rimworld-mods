@@ -68,11 +68,11 @@
     <groundShadow>false</groundShadow>
   </IsoRim.ModelDef>
 
-  <!-- Half wall (this addon's own building, not the base mod's): NO <model> on purpose. With a listed entry but no
-       model file, IsoRim skips the model path (Baking.cs:107 needs `entry.HasModel`) and falls through to the block
-       path, where `setHeight = entry.def.height` overrides the drawn height. So the def keeps fillPercent 1 - a real
-       wall for rooms, roofs and upper floors - while the block is drawn half height with IsoRim's own wall textures
-       and tint. -->
+  <!-- Half wall (this addon's own building, not the base mod's): NO <model> on purpose. IsoRim then takes the block
+       path and draws the def as a wall block with its own textures and tint. The <height> below is what the block
+       should be - but the current IsoRim build only applies a ModelDef's height to entries that carry a model file,
+       so the drawn height is actually pinned by Patches/HalfWallHeight.cs (0.825 for all three half walls). Keep the
+       <height> anyway: it is the number that patch pins, and a future IsoRim that honours it agrees with the patch. -->
 <IsoRim.ModelDef>
     <defName>R3D_PZ_HalfWall</defName>
     <thingDef>PZ_HalfWall</thingDef>

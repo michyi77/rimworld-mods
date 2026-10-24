@@ -1,4 +1,4 @@
-﻿using RimWorld;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -9,8 +9,9 @@ namespace ProjectZ.Windows
     //   not isAttachment   -> WallMount leaves it alone (an attachment is shifted a cell off the wall and turned 180,
     //                         which is what made the earlier attempts look wrong)
     //
-    // The window is a real building: ordered as a blueprint (the "Fit window" button on the wall, or the Structure
-    // menu), built by a colonist for two fifths of a door's cost, and taken out with the normal Deconstruct.
+    // The window is a real building: ordered as a blueprint from the Structure menu, built by a colonist for two fifths
+    // of a door's cost, and taken out with the normal Deconstruct. (The half wall's "Fit window" button was removed in
+    // 1.1.6: it ordered the window along the wall's own turn, and the turn was not always the right one.)
     public class Building_WindowGlass : Building
     {
         public const string ClosedDefName = "PZ_WindowGlass";
@@ -23,11 +24,14 @@ namespace ProjectZ.Windows
 
         // The glazing has no faction of its own, so without this the game treats it as an unclaimed building
         // (right-click "Claim" before it counts as the player's). It belongs to whoever owns the half wall it sits in.
+        //
+        // Its material is NOT taken from the wall: a window keeps whatever it was ordered with (user, 2026-10-24).
+        // Fitted from the wall's own button it is ordered with the wall's stuff, so it matches; ordered from the
+        // Structure menu it is the material that was picked there, which is what the icon and the blueprint show.
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
             base.SpawnSetup(map, respawningAfterLoad);
             AdoptWallFaction();
-            AdoptWallStuff();
             // A window turns the barricade it is fitted on into a wall: impassable, holding a roof, closing a room.
             HalfWallState.Glaze(HalfWallState.WallAt(Position, map), Latch != null && Latch.openPct > 0.001f);
         }
@@ -57,25 +61,9 @@ namespace ProjectZ.Windows
             }
         }
 
-        // The boards are the wall's material, always (user, 2026-10-22: a steel frame on a wooden wall looked wrong).
-        // A window fitted from the wall's own button already uses its stuff; one ordered from the Structure menu can
-        // carry any stuff, so it takes the wall's on spawn, and the hit points follow the new material.
-        public void AdoptWallStuff()
-        {
-            Map map = Map;
-            if (map == null)
-            {
-                return;
-            }
-            Building wall = HalfWallState.WallAt(Position, map);
-            if (wall == null || wall.Stuff == null || wall.Stuff == Stuff)
-            {
-                return;
-            }
-            float share = MaxHitPoints > 0 ? (float)HitPoints / MaxHitPoints : 1f;
-            SetStuffDirect(wall.Stuff);
-            HitPoints = Mathf.Clamp(Mathf.RoundToInt(MaxHitPoints * share), 1, MaxHitPoints);
-        }
+        // (Removed 2026-10-24: the window used to take the wall's material on spawn - AdoptWallStuff - so a window
+        // picked in one material always came out in the wall's, whatever the icon said. A window is now built from
+        // whatever it was ordered with.)
 
         // Vacuum (Odyssey): the def is isAirtight, so shut the window seals a room exactly like a brick wall. From the
         // first crack the boards are open, so the room leaks like it does through a fully open door. IsAirtight is what

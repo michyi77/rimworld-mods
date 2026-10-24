@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <PZ_HalfWall.label>半墙</PZ_HalfWall.label>
+  <PZ_HalfWall.description>墙的下半截：任何东西都无法翻越，但光线和空气可以从上方通过。它不能支撑屋顶，只有装上窗户之后才能支撑屋顶并封闭房间。可以在空地上建造，也可以直接拖到已有的墙上，把它削成半墙。</PZ_HalfWall.description>
+
+  <PZ_HalfWallGlazed.label>半墙（带窗）</PZ_HalfWallGlazed.label>
+  <PZ_HalfWallGlazed.description>下半截墙，上面装了一扇窗：它算作一堵墙，能支撑屋顶、封闭房间。</PZ_HalfWallGlazed.description>
+
+  <PZ_HalfWallGlazedOpen.label>半墙（窗已滑开）</PZ_HalfWallGlazedOpen.label>
+  <PZ_HalfWallGlazedOpen.description>下半截墙，上面的窗已经滑开：空气像通过通风口一样流通。</PZ_HalfWallGlazedOpen.description>
+</LanguageData>

@@ -10,3 +10,6 @@ bin/
 # Release packages (put them on the Releases page instead)
 _dist/
 *.zip
+
+# RimWorld writes this next to About.xml after an upload: it ties the folder to one Workshop item
+About/PublishedFileId.txt

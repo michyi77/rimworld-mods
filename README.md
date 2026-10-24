@@ -29,9 +29,9 @@ leaves them as missing defs, and RimWorld deletes unknown things - the same as r
 
 - **Half walls**: a waist-high wall nothing crosses. Like a wall it closes a room, but it holds up no roof - and the day
   comes in over its top. Drag one over a standing wall to cut that wall down.
-- **Windows**: fit a window on top of a half wall (the button on the wall, or the Structure menu) and a colonist builds
-  it, for two fifths of a door's cost. One half wall takes one window. Once a window is in, that half wall counts as a
-  real wall: it closes a room and holds a roof.
+- **Windows**: fit a window on top of a half wall (from the Structure menu - pick the material you want) and a colonist
+  builds it, for two fifths of a door's cost. One half wall takes one window. Once a window is in, that half wall counts
+  as a real wall: it closes a room and holds a roof.
 - Two solid boards in a frame, no glass. Open and close a window by hand: a colonist slides the boards apart or shut,
   and a half-open window carries on from where it stopped.
 - **Light**: shut, the window blocks light like a wall; open, it lets the day in. How bright it gets and how far it
@@ -58,6 +58,73 @@ leaves them as missing defs, and RimWorld deletes unknown things - the same as r
 MIT License.
 
 ## Changelog
+
+### 1.2.0
+
+Everything from 1.1.4 to 1.1.9 in one update:
+
+- Simplified Chinese added
+- Several bug fixes (glazed half wall drawn as a full wall, windows ignoring the chosen material, etc.)
+- Removed the "Fit window" button
+- New half wall icon (face follows the material)
+- Half walls can now be drag-built in a row, like walls
+
+中文更新说明见 [CHANGELOG-1.2.0.md](CHANGELOG-1.2.0.md)。
+
+Requires RimWorld 1.7, Harmony, IsoRim Waylith and IsoRim ProjectZ. Saves from older versions keep working (a one-time
+"missing mod" notice can appear because the packageId is now `michyi77.AddWindowsToYourHouse`).
+
+### 1.1.9
+
+### 1.1.9
+
+- **Fixed**: a half wall with a window in it was drawn as a full-height wall, with the window buried inside it. IsoRim
+  only applies a model def's `height` to defs that carry a model file, so the glazed wall (fillPercent 1, because it
+  has to hold a roof) came out at a full wall's height. The drawn height of all three half walls is now pinned to
+  0.825 cells, the height the window model sits on. Bare half walls become exactly 0.825 too (they were ~0.91, which
+  put the bottom of the window slightly inside the wall).
+
+### 1.1.8
+
+- **简体中文**: the window and the half wall are called 窗户 and 半墙 in game now, with translated descriptions, the
+  open/close buttons, and the two "a window has to go on a half wall" messages. (The mod's own name and description in
+  the mod list come from About.xml and stay as written there - RimWorld does not translate those.)
+- The window job and workgiver labels were already Chinese; they are unchanged.
+
+### 1.1.7
+
+- The half wall has **its own menu icon** now instead of borrowing the vanilla barricade's: the block it really is
+  (0.825 high), drawn from the same camera as the window icon - 20° from above, front view - in neutral grey, so the
+  game tints it with whatever material it is built from. Its face follows the material, the way the vanilla wall icon
+  does: **vertical planks** for wood, **courses of brick** for the stone blocks, and a plain **riveted plate** for
+  metal.
+
+### 1.1.6
+
+- Half walls are straight walls as far as the game is concerned now: **no direction** (they used to be rotatable, which is
+  what the old "Fit window" button picked up) and **drag-built like a wall** - hold the button and drag to lay a run of
+  them, with the same line and rectangle tools walls have.
+- The **"Fit window" button is gone**: it ordered the window along the wall's own turn, which was not always the right
+  one. Windows come from the Structure menu, where you turn them yourself.
+- The window is a little narrower (0.956 of a cell instead of 0.996), so it sits flush with the half wall's face
+  instead of sticking out slightly on both sides.
+
+### 1.1.5
+
+- A window now keeps the material it was ordered in: pick granite in the Structure menu and it is built from granite,
+  the same colour its icon shows. Before, a window silently took the material of the half wall it was fitted on, so on
+  a steel wall every window came out steel whatever was picked in the menu. (The wall's old "Fit window" button, which
+  was the other way to order one, is gone since 1.1.6.)
+
+### 1.1.4
+
+- Planned windows are drawn through IsoRim's public API (`IsoRim.Api.DrawGhost`, API 20+), not through its internal
+  `Ghosts.DrawPreview`. IsoRim changed that internal signature in its October 2026 update, which made every placement
+  throw `MissingMethodException` and left the ghost invisible. On an older IsoRim, or with the 3D view switched off,
+  the mod now draws a plain flat ghost itself instead of failing.
+- New package id and author (`michyi77.AddWindowsToYourHouse`, by Michael Yin): the old `Peren.…` id and the author name
+  were copied from IsoRim's own metadata and could collide with the base mod. **RimWorld will ask you to enable the mod
+  once under its new id**; existing saves load unchanged.
 
 ### 1.1.3
 

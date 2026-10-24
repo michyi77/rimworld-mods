@@ -72,4 +72,4 @@ foreach ($c in $checks) {
     }
 }
 
-Write-Host "部署完成。启动游戏前确认 ModsConfig.xml 里 peren.isorimprojectzwindows 在 peren.isorimprojectz 之后。" -ForegroundColor Green
+Write-Host "部署完成。启动游戏前确认 ModsConfig.xml 里 michyi77.addwindowstoyourhouse 在 peren.isorimprojectz 之后。" -ForegroundColor Green

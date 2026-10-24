@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -351,10 +351,10 @@ namespace ProjectZ.Windows
             // even for one that somehow ended up unclaimed.
             Command_Toggle cmd = new Command_Toggle
             {
-                defaultLabel = wantOpen ? "Close window" : "Open window",
+                defaultLabel = wantOpen ? "ProjectZ.CloseWindow".Translate() : "ProjectZ.OpenWindow".Translate(),
                 defaultDesc = wantOpen
-                    ? "Have a colonist slide the boards shut."
-                    : "Have a colonist slide the boards apart: light and air pass through.",
+                    ? "ProjectZ.CloseWindowDesc".Translate()
+                    : "ProjectZ.OpenWindowDesc".Translate(),
                 icon = ContentFinder<Texture2D>.Get("UI/Commands/Vent"),
                 isActive = () => wantOpen,
                 toggleAction = () => { wantOpen = !wantOpen; }

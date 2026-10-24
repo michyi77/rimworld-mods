@@ -55,17 +55,17 @@ namespace ProjectZ.Windows
 
             if (IsClosed)
             {
-                yield return OpenGizmo(OpenADefName, "Open window (this side)",
-                    "Swing the sashes out to this face of the wall. Light and air pass through.");
-                yield return OpenGizmo(OpenBDefName, "Open window (other side)",
-                    "Swing the sashes out to the opposite face of the wall. Light and air pass through.");
+                yield return OpenGizmo(OpenADefName, "ProjectZ.OpenThisSide".Translate(),
+                    "ProjectZ.OpenThisSideDesc".Translate());
+                yield return OpenGizmo(OpenBDefName, "ProjectZ.OpenOtherSide".Translate(),
+                    "ProjectZ.OpenOtherSideDesc".Translate());
             }
             else
             {
                 yield return new Command_Action
                 {
-                    defaultLabel = "Close window",
-                    defaultDesc = "Shut the sashes: no light or air passes through.",
+                    defaultLabel = "ProjectZ.CloseWindow".Translate(),
+                    defaultDesc = "ProjectZ.CloseSashesDesc".Translate(),
                     icon = ContentFinder<Texture2D>.Get("UI/Commands/Vent"),
                     action = () => SwapTo(ClosedDefName)
                 };

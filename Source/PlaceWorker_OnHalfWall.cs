@@ -15,7 +15,7 @@ namespace ProjectZ.Windows
     // with the same key, or turned a quarter - each draw their own frame and sash pair, so the frames cross over each
     // other ("cross-shaped window frame"). The window is a 1x1 thing in a 1x1 cell: there is no room for a second one,
     // whichever way it is turned, so any window already in the cell - built, or a blueprint, or a frame going up -
-    // refuses the next one. The "Fit window" gizmo asks the same question (WindowFitGizmo).
+    // refuses the next one.
     public class PlaceWorker_OnHalfWall : PlaceWorker
     {
         public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map,
@@ -24,13 +24,13 @@ namespace ProjectZ.Windows
             Thing edifice = loc.GetEdifice(map);
             if (edifice == null || !HalfWallState.IsHalfWall(edifice.def))
             {
-                return new AcceptanceReport("A window has to go on a half wall: build one in this cell first.");
+                return new AcceptanceReport("ProjectZ.NeedHalfWall".Translate());
             }
             // `thing` is what is being placed (if anything): never let it count as the window already there, so a plan
             // that is being turned into a frame in its own cell is not refused by its own remains.
             if (WindowInCell(loc, map, thing ?? thingToIgnore))
             {
-                return new AcceptanceReport("This half wall already has a window: a half wall takes one window.");
+                return new AcceptanceReport("ProjectZ.HalfWallHasWindow".Translate());
             }
             return AcceptanceReport.WasAccepted;
         }
