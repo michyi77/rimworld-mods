@@ -200,13 +200,27 @@ namespace ProjectZ.Windows
             return f;
         }
 
+        private static bool mapFieldWarned;
+
         internal static Map MapOf(GlowGrid grid)
         {
-            if (mapOfGrid == null)
+            try
             {
-                mapOfGrid = AccessTools.FieldRefAccess<GlowGrid, Map>("map");
+                if (mapOfGrid == null)
+                {
+                    mapOfGrid = AccessTools.FieldRefAccess<GlowGrid, Map>("map");
+                }
+                return mapOfGrid(grid);
             }
-            return mapOfGrid(grid);
+            catch (Exception e)
+            {
+                if (!mapFieldWarned)
+                {
+                    mapFieldWarned = true;
+                    Log.Warning("[ProjectZ] windows: GlowGrid.map not found, daylight stays at the vanilla cap: " + e.Message);
+                }
+                return null;
+            }
         }
 
         public static void Forget(Map map)
