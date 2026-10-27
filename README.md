@@ -35,7 +35,8 @@ leaves them as missing defs, and RimWorld deletes unknown things - the same as r
 - Two solid boards in a frame, no glass. Open and close a window by hand: a colonist slides the boards apart or shut,
   and a half-open window carries on from where it stopped.
 - **Light**: a window is a hole in a wall, so what comes through it is the sky. Shut, it blocks light like a wall; open,
-  it lets the day in, and how bright it is follows the sky and how far the boards are apart. The daylight is a real light
+  it lets the day in, and how bright it is follows the sky - weather included, so a window goes dim in rain and darker
+  still in a thunderstorm - and how far the boards are apart. The daylight is a real light
   source in vanilla's light grid: walls block it, a porch or a pillar-roofed platform is never lit by it, and it counts
   for work speed, plant growth and the rest. A lamp's light passes through an open window too.
   A window set across the wall (sideways) is always open to the light, always ventilates at a fully open vent's rate

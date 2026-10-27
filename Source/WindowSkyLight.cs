@@ -54,11 +54,23 @@ namespace ProjectZ.Windows
                 {
                     return 0f;
                 }
-                float sky = map.skyManager != null ? map.skyManager.CurSkyGlow : 0f;
+                float sky = map.skyManager != null ? DaylightSky(map.skyManager) : 0f;
                 CompWindowLatch latch = Latch;
                 float open = latch != null ? Mathf.Clamp01(latch.openPct) : 1f;
                 return Mathf.Clamp01(sky * open * Props.skyStrength);
             }
+        }
+
+        // How much daylight the sky is actually putting down. CurSkyGlow is the celestial glow and does not drop for
+        // weather (rain and storms only change the sky *colour*), so the colour's brightness is taken with it: a clear
+        // day is white (1.0), rain is 0.8, a thunderstorm darker still. Without it a window kept its pre-storm brightness
+        // while the outdoors went dark (user, 2026-10-27: thunderstorm).
+        private static float DaylightSky(SkyManager sky)
+        {
+            float glow = sky.CurSkyGlow;
+            Color colour = sky.CurSky.colors.sky;
+            float luma = 0.299f * colour.r + 0.587f * colour.g + 0.114f * colour.b;
+            return glow * Mathf.Clamp01(luma);
         }
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
