@@ -135,12 +135,14 @@ namespace ProjectZ.Windows
             // paints a bright disc around every half wall on the map (user, 2026-10-27: "半墙变成了一个光源比自然光亮一圈").
             // Only light a cell that is under a roof, or next to one - that is where a window or a half wall actually
             // makes a shaded place brighter.
-            if (!NearRoof(map, parent.Position))
+            // The blocker is about lamp light passing through an open window, which an inner window does too: it is
+            // synced whatever the sky does.
+            SyncBlocker(map);
+            if (!NearRoof(map, parent.Position) || !SeesSky(map, parent.Position))
             {
                 Drop(map);
                 return;
             }
-            SyncBlocker(map);
             float level = Level;
             if (!force && Mathf.Abs(level - lastLevel) < WindowLightSettings.Step)
             {
@@ -160,6 +162,24 @@ namespace ProjectZ.Windows
                 Mathf.RoundToInt(colour.b * 255f), 0) * (1.45f * level);
             handle = map.glowGrid.RegisterCustomGlower(parent.Position, Props.glowRadius, light);
             lit = true;
+        }
+
+        // A window between two roofed rooms sees no sky at all, so it lets no daylight in: there has to be an unroofed
+        // cell next to it (or over it) for the light to come from (user, 2026-10-27: an inner window lit both rooms).
+        private static bool SeesSky(Map map, IntVec3 c)
+        {
+            if (!map.roofGrid.Roofed(c))
+            {
+                return true;
+            }
+            for (int i = 0; i < GenAdj.CardinalDirections.Length; i++)
+            {
+                if (!map.roofGrid.Roofed(c + GenAdj.CardinalDirections[i]))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private static bool NearRoof(Map map, IntVec3 c)

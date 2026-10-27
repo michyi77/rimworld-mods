@@ -70,7 +70,7 @@ MIT License.
   now, driven by the sky: walls block it, it reaches only the room the window opens into, and the light level counts for
   work speed, plant growth and the rest. Bare half walls get the same, smaller light, and nothing is lit unless there
   is a roof near the opening: out in the open the sky already lights the ground, and a light there only drew a bright
-  disc around every half wall.
+  disc around every half wall. A window between two roofed rooms sees no sky, so it lets no daylight in at all.
 - **Mod settings**: how often the window light is refreshed (0.5-20 s) and how big a change in the sky is worth a refresh,
   because every refresh makes the grid recompute the cells around each window. The light can also be switched off.
 
