@@ -5,19 +5,18 @@ using Verse;
 
 namespace ProjectZ.Windows
 {
-    // A window is a hole in a wall, so what lights the room through it is the sky, not a lamp. The picture is drawn by a
-    // vanilla light (a custom glower in the GlowGrid, so walls block it); the light *level* is handled by
-    // WindowDaylight, which lets daylight go above the 0.5 an ordinary light is capped at and merges it by max instead
-    // of adding it to the lamps (SPEC §30).
+    // A window is a hole in a wall, so what lights the room through it is the sky, not a lamp. The light level and the
+    // picture are both handled by WindowDaylight (a small grid that GroundGlowAt and VisualGlowAt take the max of), so
+    // no glower is registered at the window: a glower's level is capped at 0.5 by the game and adds to the lamps, and
+    // that is exactly what this must not do (SPEC §30.12).
     //
-    // The colour follows SkyManager.CurSkyGlow and the boards' opening, and the light is re-registered only when that
-    // changed by more than the mod setting says: every registration makes the grid recompute the cells around the
-    // window, which is the expensive part.
+    // This comp only says how much daylight the opening lets in - the sky, dimmed by the weather, times how far the
+    // boards are open - and how often that is looked at, per the mod settings.
     public class CompProperties_WindowSkyLight : CompProperties
     {
         public float glowRadius = 7f;
         public float skyStrength = 1f;   // brightness at full daylight with the boards wide open
-        public float dimmest = 0.04f;    // below this nothing is registered at all
+        public float dimmest = 0.04f;    // below this the opening reports nothing
 
         public CompProperties_WindowSkyLight()
         {
@@ -27,9 +26,6 @@ namespace ProjectZ.Windows
 
     public class CompWindowSkyLight : ThingComp
     {
-        private int handle;              // the custom glower's handle; negative, and only valid while lit
-        private bool lit;
-        private float lastLevel = -1f;
         private int lastCheck = -99999;
         private bool lastOpen;
         private string lastWallDef;
@@ -61,10 +57,9 @@ namespace ProjectZ.Windows
             }
         }
 
-        // How much daylight the sky is actually putting down. CurSkyGlow is the celestial glow and does not drop for
-        // weather (rain and storms only change the sky *colour*), so the colour's brightness is taken with it: a clear
-        // day is white (1.0), rain is 0.8, a thunderstorm darker still. Without it a window kept its pre-storm brightness
-        // while the outdoors went dark (user, 2026-10-27: thunderstorm).
+        // How much daylight the sky is putting down. CurSkyGlow is the celestial glow and does not drop for weather
+        // (rain and storms only change the sky *colour*), so the colour's brightness is taken with it: a clear day is
+        // white (1.0), rain is 0.8, a thunderstorm darker still (user, 2026-10-27).
         private static float DaylightSky(SkyManager sky)
         {
             float glow = sky.CurSkyGlow;
@@ -94,7 +89,6 @@ namespace ProjectZ.Windows
         public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
         {
             base.PostDeSpawn(map, mode);
-            Drop(map);
             WindowDaylight.Remove(map, parent.thingIDNumber);
         }
 
@@ -104,8 +98,7 @@ namespace ProjectZ.Windows
             Refresh(false);
         }
 
-        // Offered to the latch when the boards move: throttled and change-checked like the tick, so calling it every
-        // step of a slide costs nothing.
+        // Offered to the latch when the boards move: throttled and change-checked like the tick.
         public void RefreshSoon()
         {
             Refresh(false);
@@ -130,13 +123,10 @@ namespace ProjectZ.Windows
             {
                 return;
             }
-            // The blocker is about lamp light passing through an open window, which an inner window does too: it is
-            // synced whatever the sky does.
+            // Lamp light through an open window is a matter of the light blocker, not of the sky: synced either way.
             SyncBlocker(map);
-            // Nothing to light out in the open, and no sky to borrow in an inner window: both gates have to pass.
             if (!WindowLightSettings.On || !NearRoof(map, parent.Position) || !SeesSky(map, parent.Position))
             {
-                Drop(map);
                 WindowDaylight.Remove(map, parent.thingIDNumber);
                 return;
             }
@@ -150,31 +140,11 @@ namespace ProjectZ.Windows
                 lastCheck = now;
             }
             float level = Level;
-            // The light level the room gets: above 0.5 is allowed, merged by max (WindowDaylight), not added.
             WindowDaylight.Report(map, parent.thingIDNumber, parent.Position, Props.glowRadius, level);
             WindowDaylight.RebuildIfDue(map);
-            if (!force && Mathf.Abs(level - lastLevel) < WindowLightSettings.Step)
-            {
-                return;
-            }
-            lastLevel = level;
-            Drop(map);
-            if (level < Props.dimmest)
-            {
-                return;
-            }
-            // dawn and dusk are warm, midday is white; alpha 0 like a vanilla glower, so the grid does not read it as
-            // "overlit" (GlowGrid.AddColors uses the alpha as the overlight flag)
-            float sky = map.skyManager != null ? map.skyManager.CurSkyGlow : 1f;
-            Color colour = Color.Lerp(new Color(1f, 0.84f, 0.62f), Color.white, Mathf.Clamp01(sky * 1.6f));
-            ColorInt light = new ColorInt(Mathf.RoundToInt(colour.r * 255f), Mathf.RoundToInt(colour.g * 255f),
-                Mathf.RoundToInt(colour.b * 255f), 0) * (1.45f * level);
-            handle = map.glowGrid.RegisterCustomGlower(parent.Position, Props.glowRadius, light);
-            lit = true;
         }
 
-        // A window that is between two roofed rooms sees no sky at all, so it lets no daylight in: there has to be an
-        // unroofed cell next to it (or over it) for the light to come from.
+        // A window between two roofed rooms sees no sky at all, so it lets no daylight in.
         private static bool SeesSky(Map map, IntVec3 c)
         {
             if (!map.roofGrid.Roofed(c))
@@ -191,8 +161,7 @@ namespace ProjectZ.Windows
             return false;
         }
 
-        // ... and out in the open there is nothing to light: the ground already has the sky on it, and a glower there
-        // only paints a bright disc around every half wall on the map.
+        // Out in the open there is nothing to light: the ground already has the sky on it.
         private static bool NearRoof(Map map, IntVec3 c)
         {
             if (map.roofGrid.Roofed(c))
@@ -207,15 +176,6 @@ namespace ProjectZ.Windows
                 }
             }
             return false;
-        }
-
-        private void Drop(Map map)
-        {
-            if (lit && map != null && map.glowGrid != null)
-            {
-                map.glowGrid.DeregisterCustomGlower(handle);
-            }
-            lit = false;
         }
 
         // An open window is a hole: take the cell out of the light-blocker set so a lamp on one side reaches the other,

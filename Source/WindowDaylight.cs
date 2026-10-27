@@ -7,17 +7,18 @@ using Verse;
 
 namespace ProjectZ.Windows
 {
-    // Daylight that comes through a window is *sky* light: vanilla caps an ordinary glower's ground glow at 0.5, and adds
-    // glowers together, which is wrong for a hole in a wall. So the window keeps its glower for the picture (it is what
-    // draws the light), and this class keeps a second, tiny grid of "daylight through windows", which GroundGlowAt takes
-    // the max of:
+    // Daylight that comes through a window is *sky* light: vanilla caps an ordinary glower's ground glow at 0.5 and adds
+    // lights together, which is wrong for a hole in a wall. So the windows' and bare half walls' daylight lives here,
+    // in its own small per-map grid, and both the light level and the light overlay take the max of it and the vanilla
+    // light:
     //
     //   - it may go above 0.5, because the sky does (user, 2026-10-27);
-    //   - it never adds up: a lamp, a second window and the daylight itself all merge by max, not by sum;
-    //   - it is blocked by walls exactly like the glow grid.
+    //   - it never adds up: a lamp, a second window and the daylight itself all merge by max (user, 2026-10-27);
+    //   - walls block it, and it is gated by roof/sky in CompWindowSkyLight;
+    //   - no glower is registered at the window at all, so the light grid cannot round it to 0.5 or paint a halo.
     //
-    // The grid is rebuilt at most once per WindowLightSettings interval, from the sources the window/half-wall comps
-    // report every time they refresh (SPEC §30.10).
+    // The grid is rebuilt at most once per WindowLightSettings interval, from the sources the comps report each refresh
+    // (SPEC §30.12).
     public static class WindowDaylight
     {
         private sealed class Source
@@ -34,7 +35,7 @@ namespace ProjectZ.Windows
             public int generation = 1;
             public int lastBuild = -99999;
             public readonly Dictionary<int, Source> sources = new Dictionary<int, Source>();
-            public readonly List<int> touched = new List<int>();
+            public readonly List<int> touched = new List<int>();   // cells written in the latest generation
         }
 
         private static readonly Dictionary<Map, Field> fields = new Dictionary<Map, Field>();
@@ -42,6 +43,7 @@ namespace ProjectZ.Windows
         private static Map lastMap;
         private static Field lastField;
         private static int builds;
+        private static bool mapFieldWarned;
 
         public static void Report(Map map, int id, IntVec3 pos, float radius, float level)
         {
@@ -86,11 +88,7 @@ namespace ProjectZ.Windows
                 }
             }
             Field f = lastField;
-            if (f == null || f.value == null)
-            {
-                return 0f;
-            }
-            if (!c.InBounds(map))
+            if (f == null || f.value == null || !c.InBounds(map))
             {
                 return 0f;
             }
@@ -117,12 +115,17 @@ namespace ProjectZ.Windows
         private static void Rebuild(Map map, Field f)
         {
             f.lastBuild = Find.TickManager.TicksGame;
+            // Cells that were lit last time but may not be now have to be redrawn too.
+            for (int i = 0; i < f.touched.Count; i++)
+            {
+                map.glowGrid.DirtyCell(map.cellIndices.IndexToCell(f.touched[i]));
+            }
+            f.touched.Clear();
+            f.generation++;
             if (++builds % 200 == 0)
             {
                 Prune();
             }
-            f.generation++;
-            f.touched.Clear();
             foreach (Source s in f.sources.Values)
             {
                 Flood(map, f, s);
@@ -132,16 +135,11 @@ namespace ProjectZ.Windows
         private static void Flood(Map map, Field f, Source s)
         {
             int radius = Mathf.CeilToInt(s.radius);
-            if (radius <= 0)
+            if (radius <= 0 || !s.pos.InBounds(map))
             {
                 return;
             }
             IntVec3 start = s.pos;
-            if (!start.InBounds(map))
-            {
-                return;
-            }
-            // Breadth first, four-way, walls (light blockers) stop it - the same shape the glow grid uses.
             var queue = new Queue<IntVec3>();
             var seen = new HashSet<int>();
             queue.Enqueue(start);
@@ -154,11 +152,17 @@ namespace ProjectZ.Windows
                 if (v > 0f)
                 {
                     int idx = map.cellIndices.CellToIndex(c);
-                    if (f.stamp[idx] != f.generation || v > f.value[idx])
+                    if (f.stamp[idx] != f.generation)
                     {
                         f.stamp[idx] = f.generation;
                         f.value[idx] = v;
                         f.touched.Add(idx);
+                        map.glowGrid.DirtyCell(c);
+                    }
+                    else if (v > f.value[idx])
+                    {
+                        f.value[idx] = v;
+                        map.glowGrid.DirtyCell(c);
                     }
                 }
                 for (int i = 0; i < GenAdj.CardinalDirections.Length; i++)
@@ -169,18 +173,14 @@ namespace ProjectZ.Windows
                         continue;
                     }
                     int nidx = map.cellIndices.CellToIndex(n);
-                    if (seen.Contains(nidx))
-                    {
-                        continue;
-                    }
-                    if ((n - start).LengthHorizontal > radius)
+                    if (seen.Contains(nidx) || (n - start).LengthHorizontal > radius)
                     {
                         continue;
                     }
                     Building ed = n.GetEdifice(map);
                     if (ed != null && ed.def != null && ed.def.blockLight)
                     {
-                        continue;
+                        continue;   // walls stop the daylight, exactly like the glow grid
                     }
                     seen.Add(nidx);
                     queue.Enqueue(n);
@@ -201,8 +201,6 @@ namespace ProjectZ.Windows
             return f;
         }
 
-        private static bool mapFieldWarned;
-
         internal static Map MapOf(GlowGrid grid)
         {
             try
@@ -218,7 +216,7 @@ namespace ProjectZ.Windows
                 if (!mapFieldWarned)
                 {
                     mapFieldWarned = true;
-                    Log.Warning("[ProjectZ] windows: GlowGrid.map not found, daylight stays at the vanilla cap: " + e.Message);
+                    Log.Warning("[ProjectZ] windows: GlowGrid.map not found, the window daylight is off: " + e.Message);
                 }
                 return null;
             }
@@ -234,8 +232,7 @@ namespace ProjectZ.Windows
             }
         }
 
-        // Every rebuild now and then, drop the maps that are no longer loaded (the dictionary would otherwise keep a
-        // whole map alive after it is closed).
+        // Every rebuild now and then, drop maps that are no longer loaded (the dictionary would keep a whole map alive).
         private static void Prune()
         {
             if (Find.Maps == null)
@@ -257,8 +254,7 @@ namespace ProjectZ.Windows
         }
     }
 
-    // Ground glow asks for a float; the window's daylight may be higher than the 0.5 vanilla allows a lamp, so the max
-    // is taken here. ignoreSky is respected: this is sky light.
+    // The light *level*: above 0.5 is allowed for daylight, merged by max with whatever lamps already give.
     [HarmonyPatch(typeof(GlowGrid), nameof(GlowGrid.GroundGlowAt))]
     internal static class WindowDaylightGroundGlow
     {
@@ -273,6 +269,31 @@ namespace ProjectZ.Windows
             if (day > __result)
             {
                 __result = day;
+            }
+        }
+    }
+
+    // The picture: the light overlay is drawn from VisualGlowAt, so the daylight is stamped in here, max'ed with the
+    // lamps' colour instead of being added to it. DirtyCell (in the rebuild) makes the section redraw.
+    [HarmonyPatch(typeof(GlowGrid), nameof(GlowGrid.VisualGlowAt))]
+    internal static class WindowDaylightVisualGlow
+    {
+        public static void Postfix(GlowGrid __instance, int index, ref Color32 __result)
+        {
+            Map map = WindowDaylight.MapOf(__instance);
+            if (map == null)
+            {
+                return;
+            }
+            float day = WindowDaylight.At(map, map.cellIndices.IndexToCell(index));
+            if (day <= 0f)
+            {
+                return;
+            }
+            int v = Mathf.Clamp(Mathf.RoundToInt(day * 255f * 1.45f), 0, 255);
+            if (v > Mathf.Max(__result.r, Mathf.Max(__result.g, __result.b)))
+            {
+                __result = new Color32((byte)v, (byte)v, (byte)v, 0);
             }
         }
     }
