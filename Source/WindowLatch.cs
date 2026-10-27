@@ -151,7 +151,7 @@ namespace ProjectZ.Windows
             // window counts as open depends on the walls around it, and those can be built or taken down.
             if (parent.IsHashIntervalTick(LightCheckTicks))
             {
-                WindowLight.RequestRefresh(parent.Map);
+                WindowSkyLight().RefreshSoon();
                 WindowSight.Sync(Window);
             }
 
@@ -319,14 +319,20 @@ namespace ProjectZ.Windows
             }
         }
 
-        // Asks for the light to be worked out again: the boards moved, or it is time to look at the sun and the lamps
-        // again. WindowLight answers for the whole map and throttles itself, so this is safe on every step of the slide.
+        // Asks for the light to be worked out again: the boards moved, or it is time to look at the sun again. The
+        // sky-light comp throttles itself and only touches the light grid when the sky really changed, so this is safe
+        // on every step of the slide.
         private void SyncLight()
         {
             if (parent.Spawned)
             {
-                WindowLight.RequestRebuild(parent.Map);
+                WindowSkyLight().RefreshSoon();
             }
+        }
+
+        private CompWindowSkyLight WindowSkyLight()
+        {
+            return parent.GetComp<CompWindowSkyLight>();
         }
 
         // A window that is built (or loaded) fully open is a firing slit from the start; a shut one is a wall.
@@ -336,13 +342,12 @@ namespace ProjectZ.Windows
             WindowSight.Sync(Window);
         }
 
-        // The window is gone: its light goes with it on the next look (the map load or the slow refresh clears it, and a
-        // full rebuild here would scan the whole map once per destroyed window), and its cell goes back to being a wall.
+        // The window is gone: its own sky-light comp deregisters its light in PostDeSpawn, and its cell goes back to
+        // being a wall.
         public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
         {
             base.PostDeSpawn(map, mode);
             WindowSight.Forget(Window, map);
-            WindowLight.RequestRebuild(map);
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()

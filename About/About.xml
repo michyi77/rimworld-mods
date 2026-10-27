@@ -3,7 +3,7 @@
   <name>IsoRim - Add windows to your house!</name>
   <author>Michael Yin</author>
   <packageId>michyi77.AddWindowsToYourHouse</packageId>
-  <modVersion>1.2.1</modVersion>
+  <modVersion>1.3.0</modVersion>
   <supportedVersions>
     <li>1.7</li>
   </supportedVersions>
@@ -34,9 +34,10 @@
   roof.
 - Two solid boards in a frame, no glass. Open and close a window by hand: a colonist slides the boards apart or shut;
   a half-open window carries on from where it stopped.
-- Light: shut, the window blocks light like a wall; open, it lets the day in. How bright it gets and how far it
-  reaches follow how far the boards are apart, and a lamp's light passes through an open window too. The light only
-  goes to the darker side - a window never glows back into the sunlight it faces.
+- Light: a window is a hole in a wall, so what comes through it is the sky. Shut, it blocks light like a wall; open, it
+  lets the day in, and how bright it is follows the sky and how far the boards are apart. The daylight is a real light in
+  vanilla's light grid: walls block it, a porch or a platform on pillars is never lit by it, and it counts for work speed
+  and plant growth. A lamp's light passes through an open window too.
 - A window set across the wall (sideways) is always open to the light, always ventilates at a fully open vent's rate,
   and always leaks vacuum like a fully open window: its boards slide along the wall and cover nothing. Shots go
   through it too, but only as a slot (below).
@@ -64,8 +65,9 @@ just the same on a one-floor map. Either way nothing in that base mod has to be 
 - 窗户：在半墙上装窗（从建造菜单，自己选材料和朝向），小人建造；一堵半墙只装一扇窗。装上窗之后，那格半墙就算真正的墙：
   能围出房间、能撑屋顶。
 - 两扇实心木板加边框，没有玻璃。窗要手动开合：小人把木板推开或拉回；关到一半被打断，下次接着来。
-- 透光：关着时像墙一样挡光；开着时把日光放进屋里，亮度和照得多远都跟着木板推开的程度走，开着的窗也放灯光过去。
-  光只往暗的那一侧透，不会朝对着的太阳那一面发光。
+- 透光：窗就是墙上的一个洞，照进来的是天光。关着时像墙一样挡光；开着时把日光放进屋里，亮度跟着天色和木板推开的程度走。
+  天光走的是原版光照网格：会被墙挡住，柱子撑起的平台、门廊不会再被它点亮，光照等级也会参与工作速度和植物生长。
+  开着的窗也放灯光通过。
 - 侧着放（横跨墙）的窗永远透光、永远按全开通风孔的速率通风、永远像全开的窗一样漏真空 —— 它的木板是沿墙滑的，
   挡不住开口；它也能被射击穿过，但只算一个射孔（见下）。
 - 隔窗射击：开度一半以上的窗可以射击、可以看穿，侧向窗任何时候都可以；全开（100%）没有惩罚，

@@ -34,9 +34,10 @@ leaves them as missing defs, and RimWorld deletes unknown things - the same as r
   as a real wall: it closes a room and holds a roof.
 - Two solid boards in a frame, no glass. Open and close a window by hand: a colonist slides the boards apart or shut,
   and a half-open window carries on from where it stopped.
-- **Light**: shut, the window blocks light like a wall; open, it lets the day in. How bright it gets and how far it
-  reaches follow how far the boards are apart, and a lamp's light passes through an open window too. The light only
-  goes to the darker side - a window never glows back into the sunlight it faces, and two windows never add up.
+- **Light**: a window is a hole in a wall, so what comes through it is the sky. Shut, it blocks light like a wall; open,
+  it lets the day in, and how bright it is follows the sky and how far the boards are apart. The daylight is a real light
+  source in vanilla's light grid: walls block it, a porch or a pillar-roofed platform is never lit by it, and it counts
+  for work speed, plant growth and the rest. A lamp's light passes through an open window too.
   A window set across the wall (sideways) is always open to the light, always ventilates at a fully open vent's rate
   and always leaks vacuum like a fully open window, because its boards slide along the wall and cover nothing. Shots
   go through it too, but only as a slot (below).
@@ -59,9 +60,19 @@ MIT License.
 
 ## Changelog
 
-### 1.2.1
+### 1.3.0
 
-中文更新说明见 [CHANGELOG-1.2.1.md](CHANGELOG-1.2.1.md)。
+中文更新说明见 [CHANGELOG-1.3.0.md](CHANGELOG-1.3.0.md)。
+
+- **Window daylight rebuilt**: a window is no longer lit by a custom pass that painted sky light into roofed cells around
+  it - that pass also "lit" every roofed cell within four cells of open sky, so a porch or a platform on pillars came out
+  as bright as the open sky (1.17x daylight instead of 0.63x). The window is a real light source in vanilla's light grid
+  now, driven by the sky: walls block it, it reaches only the room the window opens into, and the light level counts for
+  work speed, plant growth and the rest. Bare half walls get the same, smaller light.
+- **Mod settings**: how often the window light is refreshed (0.5-20 s) and how big a change in the sky is worth a refresh,
+  because every refresh makes the grid recompute the cells around each window. The light can also be switched off.
+
+### 1.2.1
 
 - **Fixed**: a gap between a window and the walls on either side. The window model had been narrowed to 0.956 of a cell in
   1.1.6 to match the half wall block - which only *reads* a few percent narrower because it sits lower and further from
