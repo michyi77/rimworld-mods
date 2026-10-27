@@ -275,9 +275,28 @@ namespace ProjectZ.Windows
 
     // The picture: the light overlay is drawn from VisualGlowAt, so the daylight is stamped in here, max'ed with the
     // lamps' colour instead of being added to it. DirtyCell (in the rebuild) makes the section redraw.
-    [HarmonyPatch(typeof(GlowGrid), nameof(GlowGrid.VisualGlowAt))]
+    // VisualGlowAt has two overloads (int and IntVec3), so the int one is named exactly: patching by bare name is
+    // ambiguous and silently does nothing.
+    [HarmonyPatch]
     internal static class WindowDaylightVisualGlow
     {
+        private static System.Reflection.MethodBase target;
+
+        public static bool Prepare()
+        {
+            target = AccessTools.Method(typeof(GlowGrid), "VisualGlowAt", new[] { typeof(int) });
+            if (target == null)
+            {
+                Log.Warning("[ProjectZ] windows: GlowGrid.VisualGlowAt(int) not found, the window daylight will not show");
+            }
+            return target != null;
+        }
+
+        public static System.Reflection.MethodBase TargetMethod()
+        {
+            return target;
+        }
+
         public static void Postfix(GlowGrid __instance, int index, ref Color32 __result)
         {
             Map map = WindowDaylight.MapOf(__instance);
