@@ -131,6 +131,15 @@ namespace ProjectZ.Windows
                 }
                 lastCheck = now;
             }
+            // Out in the open there is nothing to light: the ground already has the sky on it, and a glower there only
+            // paints a bright disc around every half wall on the map (user, 2026-10-27: "半墙变成了一个光源比自然光亮一圈").
+            // Only light a cell that is under a roof, or next to one - that is where a window or a half wall actually
+            // makes a shaded place brighter.
+            if (!NearRoof(map, parent.Position))
+            {
+                Drop(map);
+                return;
+            }
             SyncBlocker(map);
             float level = Level;
             if (!force && Mathf.Abs(level - lastLevel) < WindowLightSettings.Step)
@@ -151,6 +160,22 @@ namespace ProjectZ.Windows
                 Mathf.RoundToInt(colour.b * 255f), 0) * (1.45f * level);
             handle = map.glowGrid.RegisterCustomGlower(parent.Position, Props.glowRadius, light);
             lit = true;
+        }
+
+        private static bool NearRoof(Map map, IntVec3 c)
+        {
+            if (map.roofGrid.Roofed(c))
+            {
+                return true;
+            }
+            for (int i = 0; i < GenAdj.CardinalDirections.Length; i++)
+            {
+                if (map.roofGrid.Roofed(c + GenAdj.CardinalDirections[i]))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void Drop(Map map)
