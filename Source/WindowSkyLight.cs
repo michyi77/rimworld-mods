@@ -5,10 +5,10 @@ using Verse;
 
 namespace ProjectZ.Windows
 {
-    // A window is a hole in a wall, so what lights the room through it is the sky, not a lamp. Vanilla's GlowGrid has a
-    // public entry for a light that is not a CompGlower - RegisterCustomGlower(cell, radius, colour) - and the same job
-    // that spreads a lamp's light spreads this one: walls block it, the light level counts for work speed and plant
-    // growth, and nothing leaks into a room that has no window (SPEC §30).
+    // A window is a hole in a wall, so what lights the room through it is the sky, not a lamp. The picture is drawn by a
+    // vanilla light (a custom glower in the GlowGrid, so walls block it); the light *level* is handled by
+    // WindowDaylight, which lets daylight go above the 0.5 an ordinary light is capped at and merges it by max instead
+    // of adding it to the lamps (SPEC §30).
     //
     // The colour follows SkyManager.CurSkyGlow and the boards' opening, and the light is re-registered only when that
     // changed by more than the mod setting says: every registration makes the grid recompute the cells around the
@@ -83,6 +83,7 @@ namespace ProjectZ.Windows
         {
             base.PostDeSpawn(map, mode);
             Drop(map);
+            WindowDaylight.Remove(map, parent.thingIDNumber);
         }
 
         public override void CompTick()
@@ -117,9 +118,14 @@ namespace ProjectZ.Windows
             {
                 return;
             }
-            if (!WindowLightSettings.On)
+            // The blocker is about lamp light passing through an open window, which an inner window does too: it is
+            // synced whatever the sky does.
+            SyncBlocker(map);
+            // Nothing to light out in the open, and no sky to borrow in an inner window: both gates have to pass.
+            if (!WindowLightSettings.On || !NearRoof(map, parent.Position) || !SeesSky(map, parent.Position))
             {
                 Drop(map);
+                WindowDaylight.Remove(map, parent.thingIDNumber);
                 return;
             }
             if (!force)
@@ -131,19 +137,10 @@ namespace ProjectZ.Windows
                 }
                 lastCheck = now;
             }
-            // Out in the open there is nothing to light: the ground already has the sky on it, and a glower there only
-            // paints a bright disc around every half wall on the map (user, 2026-10-27: "半墙变成了一个光源比自然光亮一圈").
-            // Only light a cell that is under a roof, or next to one - that is where a window or a half wall actually
-            // makes a shaded place brighter.
-            // The blocker is about lamp light passing through an open window, which an inner window does too: it is
-            // synced whatever the sky does.
-            SyncBlocker(map);
-            if (!NearRoof(map, parent.Position) || !SeesSky(map, parent.Position))
-            {
-                Drop(map);
-                return;
-            }
             float level = Level;
+            // The light level the room gets: above 0.5 is allowed, merged by max (WindowDaylight), not added.
+            WindowDaylight.Report(map, parent.thingIDNumber, parent.Position, Props.glowRadius, level);
+            WindowDaylight.RebuildIfDue(map);
             if (!force && Mathf.Abs(level - lastLevel) < WindowLightSettings.Step)
             {
                 return;
@@ -164,8 +161,8 @@ namespace ProjectZ.Windows
             lit = true;
         }
 
-        // A window between two roofed rooms sees no sky at all, so it lets no daylight in: there has to be an unroofed
-        // cell next to it (or over it) for the light to come from (user, 2026-10-27: an inner window lit both rooms).
+        // A window that is between two roofed rooms sees no sky at all, so it lets no daylight in: there has to be an
+        // unroofed cell next to it (or over it) for the light to come from.
         private static bool SeesSky(Map map, IntVec3 c)
         {
             if (!map.roofGrid.Roofed(c))
@@ -182,6 +179,8 @@ namespace ProjectZ.Windows
             return false;
         }
 
+        // ... and out in the open there is nothing to light: the ground already has the sky on it, and a glower there
+        // only paints a bright disc around every half wall on the map.
         private static bool NearRoof(Map map, IntVec3 c)
         {
             if (map.roofGrid.Roofed(c))

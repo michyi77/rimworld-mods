@@ -10,6 +10,7 @@
   柱子撑起的平台/门廊不会再被点亮，光照等级也参与工作速度和植物生长
 · 只有"附近有屋顶"的地方才会补光：露天的半墙/窗不再变成独立光源（地上不会再有光圈）
 · 内窗（两边都有屋顶、看不见天）不再漏天光；开窗时灯光仍可穿过
+· 窗透进来的天光可以超过 0.5（和室外一样亮），但与人造光、与其它窗一律取最大值，不再叠加
 · 新增"模组设置"：窗户光照的刷新间隔（0.5–20 秒）、天色变化多大才刷新，也可以整个关掉
 · 更新简体中文
 · 修复若干 bug（带窗半墙被画成整墙、窗户不跟所选材质、窗与两侧墙之间的缝隙等）
@@ -25,6 +26,8 @@
 - Window daylight rebuilt: a window is a real light source in vanilla's light grid now, driven by the sky. Walls block
   it, so a porch or a platform on pillars is never lit by it, and the light counts for work speed and plant growth.
   Nothing is lit unless there is a roof near the opening, so a half wall out in the open is not a lamp any more.
+  Daylight through a window may go above 0.5 (as bright as outside), but it merges with lamps and with other windows by
+  max, never by addition.
 - New Mod settings: how often the window light refreshes (0.5-20 s), how big a sky change is worth a refresh, and an
   off switch.
 - Simplified Chinese added

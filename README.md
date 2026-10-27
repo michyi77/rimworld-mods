@@ -68,9 +68,11 @@ MIT License.
   it - that pass also "lit" every roofed cell within four cells of open sky, so a porch or a platform on pillars came out
   as bright as the open sky (1.17x daylight instead of 0.63x). The window is a real light source in vanilla's light grid
   now, driven by the sky: walls block it, it reaches only the room the window opens into, and the light level counts for
-  work speed, plant growth and the rest. Bare half walls get the same, smaller light, and nothing is lit unless there
-  is a roof near the opening: out in the open the sky already lights the ground, and a light there only drew a bright
-  disc around every half wall. A window between two roofed rooms sees no sky, so it lets no daylight in at all.
+  work speed, plant growth and the rest. Daylight through a window may be brighter than half (as bright as outside), but
+  it merges with lamps and with other windows by max, never by addition - so a room with a lamp and a window is as bright
+  as the brighter of the two. Bare half walls get the same, smaller light, and nothing is lit unless there is a roof near
+  the opening: out in the open the sky already lights the ground, and a light there only drew a bright disc around every
+  half wall. A window between two roofed rooms sees no sky, so it lets no daylight in at all.
 - **Mod settings**: how often the window light is refreshed (0.5-20 s) and how big a change in the sky is worth a refresh,
   because every refresh makes the grid recompute the cells around each window. The light can also be switched off.
 
