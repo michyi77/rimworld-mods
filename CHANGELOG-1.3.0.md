@@ -6,13 +6,11 @@
 
 ```
 1.3.0 更新
-· 重做窗户采光：窗现在是原版光照网格里的真实光源，亮度跟着天色走；光被墙挡住，
-  柱子撑起的平台/门廊不会再被点亮，光照等级也参与工作速度和植物生长
-· 只有"附近有屋顶"的地方才会补光：露天的半墙/窗不再变成独立光源（地上不会再有光圈）
-· 内窗（两边都有屋顶、看不见天）不再漏天光；开窗时灯光仍可穿过
-· 跟着天气走：下雨、雷暴时窗外的天色变暗，窗透进来的光同样变暗
-· 窗透进来的天光可以超过 0.5（和室外一样亮），但与人造光、与其它窗一律取最大值，不再叠加
-· 新增"模组设置"：窗户光照的刷新间隔（0.5–20 秒）、天色变化多大才刷新，也可以整个关掉
+· 修复屋顶平台/门廊被额外点亮的问题：窗户和半墙还是按 1.2 的方式把天光透进屋里，
+  但"露天屋顶边缘"不再自动补光——柱撑平台回到原版亮度（约 0.63 倍，而不是 1.17 倍）
+· 窗透进来的光取自它朝外那一侧：露天是天光（会随天气变暗），夜里也可以是外面的灯；
+  不和屋里的人造光叠加、两扇窗也不叠加（取较亮）
+· 新增"模组设置"：补光刷新间隔（0.5–20 秒）和总开关
 · 更新简体中文
 · 修复若干 bug（带窗半墙被画成整墙、窗户不跟所选材质、窗与两侧墙之间的缝隙等）
 · 去除 "Fit window" 按钮
@@ -24,13 +22,12 @@
 
 ```
 1.3.0 update
-- Window daylight rebuilt: a window is a real light source in vanilla's light grid now, driven by the sky. Walls block
-  it, so a porch or a platform on pillars is never lit by it, and the light counts for work speed and plant growth.
-  Nothing is lit unless there is a roof near the opening, so a half wall out in the open is not a lamp any more.
-  Daylight through a window may go above 0.5 (as bright as outside), but it merges with lamps and with other windows by
-  max, never by addition. The daylight also follows the weather: rain dims it, a thunderstorm dims it further.
-- New Mod settings: how often the window light refreshes (0.5-20 s), how big a sky change is worth a refresh, and an
-  off switch.
+- Fixed roofed platforms and porches being lit brighter than the world: windows and half walls still pass the daylight
+  in (the 1.2 way), but a bare roof edge no longer gets light of its own - a platform on pillars is back to vanilla
+  (about 0.63x, not 1.17x).
+- The light a window passes comes from its sky side: the open sky (dimmed by weather) or, at night, a lamp out there.
+  It does not add to the room's lamps and two windows do not stack - the brighter one wins.
+- New Mod settings: how often the light is refreshed (0.5-20 s) and an off switch.
 - Simplified Chinese added
 - Several bug fixes (glazed half wall drawn as a full wall, windows ignoring the chosen material, a gap between the
   window and the walls beside it, etc.)

@@ -34,14 +34,11 @@ leaves them as missing defs, and RimWorld deletes unknown things - the same as r
   as a real wall: it closes a room and holds a roof.
 - Two solid boards in a frame, no glass. Open and close a window by hand: a colonist slides the boards apart or shut,
   and a half-open window carries on from where it stopped.
-- **Light**: a window is a hole in a wall, so what comes through it is the sky. Shut, it blocks light like a wall; open,
-  it lets the day in, and how bright it is follows the sky - weather included, so a window goes dim in rain and darker
-  still in a thunderstorm - and how far the boards are apart. The daylight is a real light
-  source in vanilla's light grid: walls block it, a porch or a pillar-roofed platform is never lit by it, and it counts
-  for work speed, plant growth and the rest. A lamp's light passes through an open window too.
-  A window set across the wall (sideways) is always open to the light, always ventilates at a fully open vent's rate
-  and always leaks vacuum like a fully open window, because its boards slide along the wall and cover nothing. Shots
-  go through it too, but only as a slot (below).
+- **Light**: shut, the window blocks light like a wall; open, it lets the day in. The light comes from what is on the
+  window's sky side - the open sky, dimmed by the weather, or a lamp out there - and fades over a few cells into the
+  room. It never adds to the room's own lamps (the brighter of the two wins), two windows never stack, and a bare
+  platform or porch roof is left exactly as vanilla draws it. A lamp's light passes out through an open window too, and
+  a bare half wall lets the day over its top.
 - **Shooting**: any crack lets a shot through. From 50% to 99% open - and always for a sideways window - the opening
   is a slot: shots go, but part of them are stopped by the window itself. Fully open (100%) is a clean shot. Below
   half open it is a crack: nine in ten shots are stopped by the window. Only a window shut tight is a wall - and even
@@ -65,17 +62,10 @@ MIT License.
 
 中文更新说明见 [CHANGELOG-1.3.0.md](CHANGELOG-1.3.0.md)。
 
-- **Window daylight rebuilt**: a window is no longer lit by a custom pass that painted sky light into roofed cells around
-  it - that pass also "lit" every roofed cell within four cells of open sky, so a porch or a platform on pillars came out
-  as bright as the open sky (1.17x daylight instead of 0.63x). The window is a real light source in vanilla's light grid
-  now, driven by the sky: walls block it, it reaches only the room the window opens into, and the light level counts for
-  work speed, plant growth and the rest. Daylight through a window may be brighter than half (as bright as outside), but
-  it merges with lamps and with other windows by max, never by addition - so a room with a lamp and a window is as bright
-  as the brighter of the two. Bare half walls get the same, smaller light, and nothing is lit unless there is a roof near
-  the opening: out in the open the sky already lights the ground, and a light there only drew a bright disc around every
-  half wall. A window between two roofed rooms sees no sky, so it lets no daylight in at all.
-- **Mod settings**: how often the window light is refreshed (0.5-20 s) and how big a change in the sky is worth a refresh,
-  because every refresh makes the grid recompute the cells around each window. The light can also be switched off.
+- **The roof-edge light is gone**: the old light pass also lit every roofed cell within four cells of open sky, so a porch
+  or a platform on pillars came out at 1.17x the open sky while vanilla leaves it at 0.63x. Windows and bare half walls
+  are now the only things that let daylight in; a roof that simply ends in the open stays vanilla.
+- **Mod settings**: how often the window light is worked out (0.5-20 s) and whether it is on at all.
 
 ### 1.2.1
 

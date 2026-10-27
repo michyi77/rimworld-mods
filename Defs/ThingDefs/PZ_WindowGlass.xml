@@ -68,12 +68,6 @@
     </building>
     <comps>
       <li Class="ProjectZ.Windows.CompProperties_WindowLatch" />
-      <!-- The daylight the opening lets in: a custom glower in vanilla's light grid, so walls block it and the light
-           level counts for work speed and plants (SPEC §30). -->
-      <li Class="ProjectZ.Windows.CompProperties_WindowSkyLight">
-        <glowRadius>7</glowRadius>
-        <skyStrength>1</skyStrength>
-      </li>
     </comps>
   </ThingDef>
 
@@ -121,12 +115,6 @@
     </building>
     <comps>
       <li Class="ProjectZ.Windows.CompProperties_WindowLatch" />
-      <!-- The daylight the opening lets in: a custom glower in vanilla's light grid, so walls block it and the light
-           level counts for work speed and plants (SPEC §30). -->
-      <li Class="ProjectZ.Windows.CompProperties_WindowSkyLight">
-        <glowRadius>7</glowRadius>
-        <skyStrength>1</skyStrength>
-      </li>
     </comps>
   </ThingDef>
 

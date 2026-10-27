@@ -33,6 +33,8 @@ namespace ProjectZ.Windows
                 harmony.PatchAll(typeof(WindowsMod).Assembly);
                 // Only when IsoRim ProjectZ is installed: its slab height rule must not count a window as too tall.
                 WindowIsNotTooTall.TryPatch(harmony);
+                // The window light: its own GlowGrid read hooks, patched (and reported) on their own.
+                WindowLight.TryPatch(harmony);
                 // Sight through an open window: three separate hooks, each reported on its own.
                 WindowSight.TryPatch(harmony);
                 // A half wall swapped for another (fitting, sliding, taking out a window) must not throw the room's heat

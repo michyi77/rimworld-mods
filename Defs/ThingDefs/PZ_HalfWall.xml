@@ -89,11 +89,7 @@
       </blueprintGraphicData>
     </building>
     <comps>
-      <!-- A bare half wall lets the day over its top: the same sky-driven glower, smaller and dimmer (SPEC §30). -->
-      <li Class="ProjectZ.Windows.CompProperties_WindowSkyLight">
-        <glowRadius>3.5</glowRadius>
-        <skyStrength>0.6</skyStrength>
-      </li>
+      <li Class="ProjectZ.Windows.CompProperties_HalfWallLight" />
     </comps>
   </ThingDef>
 
