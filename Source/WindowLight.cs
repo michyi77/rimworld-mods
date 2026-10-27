@@ -142,6 +142,10 @@ namespace ProjectZ.Windows
                 Deposit(map, f, Building_WindowGlass.ClosedDefName);
                 Deposit(map, f, Building_WindowGlass.OpenDefName);
                 DepositHalfWalls(map, f);
+                // Roof-edge openings: a roofed cell that looks out on open sky. They are always capped to the share of
+                // the sky the roof hides (RoofCover), so one opening can only fill in what the roof took away and
+                // several openings never add up (AddToCell takes the brightest).
+                DepositOpenEdges(map, f);
             }
             catch (Exception e)
             {
@@ -378,9 +382,60 @@ namespace ProjectZ.Windows
             return OpenSky(map, skyCell);
         }
 
+        // A roofed cell standing under open sky, with nothing but light-transparent things in it, is an opening in the roof
+        // line: the day comes in there. That is the other half of what the player asked about (user, 2026-10-20) - take
+        // the half wall away and the roof is still there, so the game shows nothing at all. Only real rooms are lit, and
+        // only a cell that looks out on open sky on at least one side, so an ordinary roofed room (walls all round) is
+        // untouched.
+        private static void DepositOpenEdges(Map map, Field f)
+        {
+            if (map.roofGrid == null || map.skyManager == null)
+            {
+                return;
+            }
+            float sky = Mathf.Clamp01(map.skyManager.CurSkyGlow);
+            if (sky <= 0.01f)
+            {
+                return;
+            }
+            Color bright = map.skyManager.CurSky.colors.sky * sky;
+            foreach (IntVec3 c in map.AllCells)
+            {
+                if (!map.roofGrid.Roofed(c))
+                {
+                    continue;
+                }
+                Thing edifice = c.GetEdifice(map);
+                if (edifice != null && edifice.def.blockLight)
+                {
+                    continue;   // a wall or a door: not an opening
+                }
+                // A walkable roofed cell always has a room; a wall cell (no region) does not, and is not an opening.
+                Room room = c.GetRoom(map);
+                if (room == null)
+                {
+                    continue;
+                }
+                bool skyNext = false;
+                for (int i = 0; i < GenAdj.CardinalDirections.Length; i++)
+                {
+                    if (OpenSky(map, c + GenAdj.CardinalDirections[i]))
+                    {
+                        skyNext = true;
+                        break;
+                    }
+                }
+                if (skyNext)
+                {
+                    DepositField(map, f, c, bright, sky, 1f, true);
+                }
+            }
+        }
+
         // Spreads one opening's light into the darker side: brightest at the opening, fading to nothing at the reach, and
         // only inside that side's own room (light must not pass the room's walls into the next room).
-        private static void DepositField(Map map, Field f, IntVec3 darkCell, Color bright, float brightLevel, float open)
+        private static void DepositField(Map map, Field f, IntVec3 darkCell, Color bright, float brightLevel, float open,
+            bool openEdge = false)
         {
             float reach = Mathf.Lerp(MinReach, MaxReach, open);
             Room darkRoom = darkCell.GetRoom(map);
@@ -394,7 +449,11 @@ namespace ProjectZ.Windows
             // game does not draw as indoor already keeps 1 - RoofCover of it and only the covered part has to be filled
             // in. Adding a whole sky on top of that part is what made a roof in the open brighter than the field around
             // it (user, 2026-10-20).
-            float gain = darkRoom.ProperRoom ? 1f : RoofCover;
+            // An open edge is a gap in the roof, not a window: it can only hand over the part of the sky the roof hides
+            // (RoofCover), never a second full sky. Without this, a roofed platform read brighter than the field next to
+            // it (the 1.17x the IsoRim author measured); with it the edge is exactly as bright as the open sky and
+            // fades into the shade, and two edges cannot add up.
+            float gain = openEdge ? RoofCover : (darkRoom.ProperRoom ? 1f : RoofCover);
             int radius = Mathf.CeilToInt(reach);
             for (int dz = -radius; dz <= radius; dz++)
             {
@@ -413,6 +472,9 @@ namespace ProjectZ.Windows
                     float falloff = (1f - distance / reach) * open;
                     // The colour is scaled by the gain (how much of the day is missing there); the figure is not - a cell
                     // standing in the sun reads as fully lit whether or not its roof covers it (user, 2026-10-20).
+                    // The colour is only the part of the day the roof hides, so an edge never draws a second sky on top
+                    // of the one the shader already keeps; the figure stays the real thing (a cell at an open edge
+                    // stands in the sun, so it reads as lit as the field outside).
                     AddToCell(map, f, c, bright * (falloff * gain), brightLevel * falloff);
                 }
             }
