@@ -16,6 +16,7 @@
 · 去除 "Fit window" 按钮
 · 更新半墙图标（按材质分面）
 · 半墙现在可以像墙一样连续拖拽建造
+· 修复半墙脚下露出草地/和旁边地板接不上的问题（按满格方块绘制，掩体数值不变）
 ```
 
 ## English
@@ -34,6 +35,7 @@
 - Removed the "Fit window" button
 - New half wall icon (face follows the material)
 - Half walls can now be drag-built in a row, like walls
+- Fixed the strip of bare ground under a half wall (drawn as a full block now; cover figures unchanged)
 ```
 
 需要 RimWorld 1.7 + Harmony + IsoRim Waylith + IsoRim ProjectZ。
