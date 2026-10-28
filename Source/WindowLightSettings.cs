@@ -6,10 +6,11 @@ namespace ProjectZ.Windows
     // Mod settings for the daylight the windows and bare half walls let in (SPEC §30).
     public class WindowLightSettings : ModSettings
     {
-        // 0.5 s: the light follows a window being slid open closely, and the work is throttled by the rebuild itself
-        // (user, 2026-10-28: the default should be the shortest interval).
-        public float seconds = 0.5f;   // how often the light is looked at
-        public float step = 0.05f;     // how much the sky has to change before the grid is touched
+        // In ticks now, 1..60, default 30 (half a second, the middle of the slider). The lowest setting really is every
+        // tick - the light table is then rebuilt every tick, so the periodic pass (which also scans open roof edges)
+        // costs a full map walk each tick (user, 2026-10-28).
+        public int ticks = 30;        // how often the light is looked at
+        public float step = 0.05f;    // how much the sky has to change before the grid is touched
 
         public static WindowLightSettings Current
         {
@@ -18,7 +19,7 @@ namespace ProjectZ.Windows
 
         public static int IntervalTicks
         {
-            get { return Mathf.Max(1, Mathf.RoundToInt((Current == null ? 0.5f : Current.seconds) * 60f)); }
+            get { return Mathf.Clamp(Current == null ? 30 : Current.ticks, 1, 60); }
         }
 
         public static float Step
@@ -28,7 +29,7 @@ namespace ProjectZ.Windows
 
         public override void ExposeData()
         {
-            Scribe_Values.Look(ref seconds, "seconds", 0.5f);
+            Scribe_Values.Look(ref ticks, "ticks", 30);
             Scribe_Values.Look(ref step, "step", 0.05f);
         }
     }

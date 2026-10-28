@@ -15,7 +15,7 @@
   <ProjectZ.HalfWallHasWindow>This half wall already has a window: a half wall takes one window.</ProjectZ.HalfWallHasWindow>
 
   <!-- Mod settings window -->
-  <ProjectZ.LightRefresh>Refresh the window light every {0} s</ProjectZ.LightRefresh>
+  <ProjectZ.LightRefresh>Refresh the window light every {0} ticks</ProjectZ.LightRefresh>
   <ProjectZ.LightStep>Refresh when the sky changes by {0}</ProjectZ.LightStep>
   <ProjectZ.LightCostNote>Each refresh makes the light grid recompute the cells around every window and half wall. A longer interval, or a bigger step, costs less.</ProjectZ.LightCostNote>
 </LanguageData>

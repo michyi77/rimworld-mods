@@ -101,7 +101,8 @@ namespace ProjectZ.Windows
                 return;
             }
             int last;
-            if (builtTicks.TryGetValue(map, out last) && GenTicks.TicksGame - last < RebuildTicks)
+            int gap = Mathf.Min(RebuildTicks, WindowLightSettings.IntervalTicks);
+            if (builtTicks.TryGetValue(map, out last) && GenTicks.TicksGame - last < gap)
             {
                 return;
             }

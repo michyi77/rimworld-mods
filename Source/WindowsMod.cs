@@ -136,8 +136,8 @@ namespace ProjectZ.Windows
             }
             Listing_Standard list = new Listing_Standard();
             list.Begin(inRect);
-            list.Label("ProjectZ.LightRefresh".Translate(s.seconds.ToString("0.0")));
-            s.seconds = list.Slider(s.seconds, 0.5f, 20f);
+            list.Label("ProjectZ.LightRefresh".Translate(s.ticks));
+            s.ticks = Mathf.RoundToInt(list.Slider(s.ticks, 1f, 60f));
             list.Gap(8f);
             list.Label("ProjectZ.LightStep".Translate(s.step.ToString("0.00")));
             s.step = list.Slider(s.step, 0.01f, 0.30f);

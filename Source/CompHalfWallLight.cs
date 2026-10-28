@@ -18,12 +18,10 @@ namespace ProjectZ.Windows
 
     public class CompHalfWallLight : ThingComp
     {
-        private const int RefreshTicks = 60;
-
         public override void CompTick()
         {
             base.CompTick();
-            if (parent.IsHashIntervalTick(RefreshTicks))
+            if (parent.IsHashIntervalTick(WindowLightSettings.IntervalTicks))
             {
                 WindowLight.RequestRefresh(parent.Map);
             }

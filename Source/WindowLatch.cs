@@ -67,7 +67,11 @@ namespace ProjectZ.Windows
         // worked out cell by cell in WindowLight, because the glow grid's blocker is a yes/no and its lights shine every
         // way. Here it is only asked for again: on every step of the boards, and now and then so the light follows the
         // sun and whatever lamps are about.
-        private const int LightCheckTicks = 60;
+        // How often a window asks for the light to be looked at: the mod setting (1..60 ticks, default 30).
+        private static int LightCheckTicks
+        {
+            get { return WindowLightSettings.IntervalTicks; }
+        }
 
 
         public Building_WindowGlass Window
