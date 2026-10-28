@@ -13,4 +13,9 @@
 
   <ProjectZ.NeedHalfWall>窗户必须装在半墙上：请先在这一格建一堵半墙。</ProjectZ.NeedHalfWall>
   <ProjectZ.HalfWallHasWindow>这堵半墙上已经有窗户了：一堵半墙只能装一扇窗。</ProjectZ.HalfWallHasWindow>
+
+  <!-- 模组设置 -->
+  <ProjectZ.LightRefresh>每 {0} 秒重新计算一次窗光</ProjectZ.LightRefresh>
+  <ProjectZ.LightStep>天色变化超过 {0} 时重算</ProjectZ.LightStep>
+  <ProjectZ.LightCostNote>每次重算都会让光照网格重新计算每扇窗和半墙周围的格子。间隔越长、阈值越大，开销越小。</ProjectZ.LightCostNote>
 </LanguageData>

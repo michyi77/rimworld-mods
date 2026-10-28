@@ -136,17 +136,13 @@ namespace ProjectZ.Windows
             }
             Listing_Standard list = new Listing_Standard();
             list.Begin(inRect);
-            list.CheckboxLabeled("Daylight through windows and half walls", ref s.daylight,
-                "Off: no light is added at all, so a roofed room stays as dark as vanilla makes it.");
-            list.Gap(8f);
-            list.Label("Refresh the window light every " + s.seconds.ToString("0.0") + " s");
+            list.Label("ProjectZ.LightRefresh".Translate(s.seconds.ToString("0.0")));
             s.seconds = list.Slider(s.seconds, 0.5f, 20f);
             list.Gap(8f);
-            list.Label("Refresh when the sky changes by " + s.step.ToString("0.00"));
+            list.Label("ProjectZ.LightStep".Translate(s.step.ToString("0.00")));
             s.step = list.Slider(s.step, 0.01f, 0.30f);
             list.Gap(10f);
-            list.Label("Each refresh makes the light grid recompute the cells around every window and half wall. "
-                + "A longer interval, or a bigger step, costs less.");
+            list.Label("ProjectZ.LightCostNote".Translate());
             list.End();
         }
     }
