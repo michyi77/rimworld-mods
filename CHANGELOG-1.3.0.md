@@ -17,6 +17,7 @@
 · 更新半墙图标（按材质分面）
 · 半墙现在可以像墙一样连续拖拽建造
 · 修复半墙脚下露出草地/和旁边地板接不上的问题（按满格方块绘制，掩体数值不变）
+· 窗透进来的光不再被画面颜色抬高：室外 20% 时屋里最多 20%；两扇窗、窗和灯之间也不再叠加（取最大值）
 ```
 
 ## English
@@ -36,6 +37,7 @@
 - New half wall icon (face follows the material)
 - Half walls can now be drag-built in a row, like walls
 - Fixed the strip of bare ground under a half wall (drawn as a full block now; cover figures unchanged)
+- Window light no longer reads brighter than the sky: 20% outside means 20% at most inside, and two windows or a window and a lamp no longer add up (the brighter one wins)
 ```
 
 需要 RimWorld 1.7 + Harmony + IsoRim Waylith + IsoRim ProjectZ。

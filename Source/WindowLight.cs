@@ -78,6 +78,11 @@ namespace ProjectZ.Windows
         // never the tables of the build before them.
         public static bool Computing;
 
+        // Set while GroundGlowAt reads its own accumulated colour: the deposited colour is there to draw the light, not
+        // to be read back as a light level (it goes through the x3.6 conversion and the 0.5 cap, which made a 20% sky
+        // read as 50% indoors). The level is answered by OnGroundGlow instead, straight from the table.
+        private static bool inGroundGlow;
+
         // The field the patches asked for last time (the light map asks for thousands of cells in a row).
         private static Map cachedMap;
         private static Field cachedField;
@@ -595,7 +600,9 @@ namespace ProjectZ.Windows
             var groundGlow = AccessTools.Method(typeof(GlowGrid), nameof(GlowGrid.GroundGlowAt), new[] { typeof(IntVec3), typeof(bool), typeof(bool) });
             if (groundGlow != null)
             {
-                harmony.Patch(groundGlow, postfix: new HarmonyMethod(typeof(WindowLight), nameof(OnGroundGlow)));
+                harmony.Patch(groundGlow,
+                    prefix: new HarmonyMethod(typeof(WindowLight), nameof(OnGroundGlowBegin)),
+                    postfix: new HarmonyMethod(typeof(WindowLight), nameof(OnGroundGlow)));
             }
             else
             {
@@ -607,7 +614,9 @@ namespace ProjectZ.Windows
         // through them), so one patch covers the light overlay, the 3D view IsoRim builds from it, and the plain reads.
         public static void OnGlowRead(GlowGrid __instance, int index, ref Color32 __result)
         {
-            if (Computing)
+            // Computing: the tables are being worked out and must be read from the grid's own light, never from
+            // themselves. inGroundGlow: GroundGlowAt asked for the colour, see above.
+            if (Computing || inGroundGlow)
             {
                 return;
             }
@@ -626,17 +635,26 @@ namespace ProjectZ.Windows
                 logged = true;
                 Log.Message("[ProjectZ] windows: window light is reaching the map's light");
             }
+            // The brighter of the two, never the sum: two windows over the same cell, or a window and a lamp, must not
+            // make the picture brighter than the brighter of them (user, 2026-10-28: two windows stacked up in the
+            // crossing between them).
             __result = new Color32(
-                (byte)Mathf.Min(255, __result.r + add.r),
-                (byte)Mathf.Min(255, __result.g + add.g),
-                (byte)Mathf.Min(255, __result.b + add.b),
+                (byte)Mathf.Max(__result.r, add.r),
+                (byte)Mathf.Max(__result.g, add.g),
+                (byte)Mathf.Max(__result.b, add.b),
                 __result.a);
+        }
+
+        public static void OnGroundGlowBegin()
+        {
+            inGroundGlow = true;
         }
 
         // The gameplay figure: a fully open window has to read like the bare half wall it stands in (the sky's own
         // brightness), which the glow grid's own half-brightness cap on light sources would never reach.
         public static void OnGroundGlow(GlowGrid __instance, IntVec3 c, bool ignoreSky, ref float __result)
         {
+            inGroundGlow = false;
             if (Computing || ignoreSky)
             {
                 return;   // the darkness overlay asks for the light without the sky; the window must not answer for it
