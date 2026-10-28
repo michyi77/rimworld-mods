@@ -17,5 +17,5 @@
   <!-- Mod settings window -->
   <ProjectZ.LightRefresh>Refresh the window light every {0} ticks</ProjectZ.LightRefresh>
   <ProjectZ.LightStep>Refresh when the sky changes by {0}</ProjectZ.LightStep>
-  <ProjectZ.LightCostNote>Each refresh makes the light grid recompute the cells around every window and half wall. A longer interval, or a bigger step, costs less.</ProjectZ.LightCostNote>
+  <ProjectZ.LightCostNote>Each refresh works the whole map's daylight out again: every window, every half wall, and every roof edge that looks out on open sky. A longer interval, or a bigger step, costs less.</ProjectZ.LightCostNote>
 </LanguageData>

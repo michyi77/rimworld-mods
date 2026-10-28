@@ -17,5 +17,5 @@
   <!-- 模组设置 -->
   <ProjectZ.LightRefresh>每 {0} 个游戏刻重新计算一次窗光</ProjectZ.LightRefresh>
   <ProjectZ.LightStep>天色变化超过 {0} 时重算</ProjectZ.LightStep>
-  <ProjectZ.LightCostNote>每次重算都会让光照网格重新计算每扇窗和半墙周围的格子。间隔越长、阈值越大，开销越小。</ProjectZ.LightCostNote>
+  <ProjectZ.LightCostNote>每次重算都会把整张地图的透光重新算一遍：每扇窗、每堵半墙，以及所有“有屋顶、又挨着露天”的屋顶边缘。间隔越长、阈值越大，开销越小。</ProjectZ.LightCostNote>
 </LanguageData>
