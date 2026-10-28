@@ -16,7 +16,7 @@
 · 去除 "Fit window" 按钮
 · 更新半墙图标（按材质分面）
 · 半墙现在可以像墙一样连续拖拽建造
-· 修复半墙脚下露出草地/和旁边地板接不上的问题（按满格方块绘制，掩体数值不变）
+· 修复半墙脚下那条草地过渡带：半墙现在和原版墙一样设置 coversFloor，地板直接铺到墙根（掩体/光照不变）
 · 窗透进来的光不再被画面颜色抬高：室外 20% 时屋里最多 20%；两扇窗、窗和灯之间也不再叠加（取最大值）
 ```
 
@@ -36,7 +36,7 @@
 - Removed the "Fit window" button
 - New half wall icon (face follows the material)
 - Half walls can now be drag-built in a row, like walls
-- Fixed the strip of bare ground under a half wall (drawn as a full block now; cover figures unchanged)
+- Fixed the grass band at the foot of a half wall: half walls now set coversFloor like a vanilla wall, so the floor runs right up to them (cover and light unchanged)
 - Window light no longer reads brighter than the sky: 20% outside means 20% at most inside, and two windows or a window and a lamp no longer add up (the brighter one wins)
 ```
 

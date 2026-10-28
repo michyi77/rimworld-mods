@@ -10,6 +10,11 @@
        isFence true                 blocks animals the way a fence does
        IsoRim draws it half height through the R3D_PZ_HalfWall ModelDef (height 0.825, no model file).
 
+       coversFloor true            what a vanilla Wall sets: with it the terrain layer treats the cell as "under a
+                                   wall" (TerrainDefOf.Underwall) and draws no floor-to-grass blend strip into the
+                                   neighbouring floor. Without it a half wall left a soft grass band at its foot that
+                                   a full wall does not have (user, 2026-10-28).
+
        Once a window is fitted the wall is replaced by PZ_HalfWallGlazed, which adds the things a window brings with it:
        roof support and an airtight seal (HalfWallState in the windows addon). Being impassable, a run of bare half
        walls does enclose a room; it just holds no roof and lets light over the top. -->
@@ -46,6 +51,9 @@
          and sight pass over its top (the window in it is what closes the cell). -->
     <disableImpassableShotOverConfigError>true</disableImpassableShotOverConfigError>
     <fillPercent>0.55</fillPercent>
+    <!-- A wall's own flag: without it the game draws a terrain-edge blend strip into the floor next to it,
+             so a half wall looked like it had grass at its foot (user, 2026-10-28). -->
+    <coversFloor>true</coversFloor>
     <holdsRoof>false</holdsRoof>
     <blockLight>false</blockLight>
     <blockWind>false</blockWind>
@@ -127,6 +135,9 @@
     <altitudeLayer>Building</altitudeLayer>
     <passability>Impassable</passability>
     <fillPercent>1</fillPercent>
+    <!-- A wall's own flag: without it the game draws a terrain-edge blend strip into the floor next to it,
+             so a half wall looked like it had grass at its foot (user, 2026-10-28). -->
+    <coversFloor>true</coversFloor>
     <holdsRoof>true</holdsRoof>
     <blockLight>true</blockLight>
     <blockWind>true</blockWind>
@@ -187,6 +198,9 @@
     <altitudeLayer>Building</altitudeLayer>
     <passability>Impassable</passability>
     <fillPercent>1</fillPercent>
+    <!-- A wall's own flag: without it the game draws a terrain-edge blend strip into the floor next to it,
+             so a half wall looked like it had grass at its foot (user, 2026-10-28). -->
+    <coversFloor>true</coversFloor>
     <holdsRoof>true</holdsRoof>
     <!-- The cell keeps blocking light even with the window open: the blocker is a yes/no per cell, so letting it through
          here would pass a lamp's light whole no matter how little the window is open. What the window lets through is
