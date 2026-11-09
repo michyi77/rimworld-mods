@@ -60,9 +60,9 @@ MIT License.
 
 ## Changelog
 
-### 1.3.0
+### 1.3.1
 
-中文更新说明见 [CHANGELOG-1.3.0.md](CHANGELOG-1.3.0.md)。
+中文更新说明见 [CHANGELOG-1.3.1.md](CHANGELOG-1.3.1.md)。
 
 - **The roof-edge light is gone**: the old light pass also lit every roofed cell within four cells of open sky, so a porch
   or a platform on pillars came out at 1.17x the open sky while vanilla leaves it at 0.63x. Windows and bare half walls

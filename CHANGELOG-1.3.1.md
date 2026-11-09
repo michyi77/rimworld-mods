@@ -1,11 +1,11 @@
-# 1.3.0 更新说明 / Update notes
+# 1.3.1 更新说明 / Update notes
 
-（1.3.0 = 1.2.x 的全部内容 + 窗户光照重做 / 1.3.0 is 1.2.x plus the rebuilt window daylight）
+（1.3.1 = 1.2.x 的全部内容 + 窗户光照重做 / 1.3.1 is 1.2.x plus the rebuilt window daylight）
 
 ## 中文
 
 ```
-1.3.0 更新
+1.3.1 更新
 · 修复屋顶平台/门廊被额外点亮的问题：窗户和半墙还是按 1.2 的方式把天光透进屋里，
   但"露天屋顶边缘"不再自动补光——柱撑平台回到原版亮度（约 0.63 倍，而不是 1.17 倍）
 · 窗透进来的光取自它朝外那一侧：露天是天光（会随天气变暗），夜里也可以是外面的灯；
@@ -26,7 +26,7 @@
 ## English
 
 ```
-1.3.0 update
+1.3.1 update
 - Fixed roofed platforms and porches being lit brighter than the world: windows and half walls still pass the daylight
   in (the 1.2 way), but a bare roof edge no longer gets light of its own - a platform on pillars is back to vanilla
   (about 0.63x, not 1.17x).
