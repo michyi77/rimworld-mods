@@ -11,7 +11,8 @@
   <ProjectZ.OpenOtherSideDesc>把窗扇朝墙的另一面推开，光线和空气可以通过。</ProjectZ.OpenOtherSideDesc>
   <ProjectZ.CloseSashesDesc>关上窗扇：光线和空气无法通过。</ProjectZ.CloseSashesDesc>
 
-  <ProjectZ.NeedHalfWall>窗户必须装在半墙上：请先在这一格建一堵半墙。</ProjectZ.NeedHalfWall>
+  <ProjectZ.NeedHalfWall>窗户要装进墙里：请先在这一格建一堵墙或半墙。</ProjectZ.NeedHalfWall>
+  <ProjectZ.WallNotCuttable>这堵墙没法削成半墙来装窗：它的材料做不出半墙。</ProjectZ.WallNotCuttable>
   <ProjectZ.HalfWallHasWindow>这堵半墙上已经有窗户了：一堵半墙只能装一扇窗。</ProjectZ.HalfWallHasWindow>
 
   <!-- 模组设置 -->

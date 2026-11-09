@@ -32,8 +32,23 @@ namespace ProjectZ.Windows
         {
             base.SpawnSetup(map, respawningAfterLoad);
             AdoptWallFaction();
+            // Ordered straight onto a full wall (the "fit it into the wall" route): cut that wall down to the bare half
+            // wall of its own stuff first, so the glazing has the same thing to sit in as everywhere else.
+            Building host = HalfWallState.WallAt(Position, map);
+            if (host == null)
+            {
+                host = HalfWallState.CutDown(Position.GetEdifice(map));
+            }
+            if (host == null)
+            {
+                // The wall it was ordered onto is gone: a window has nothing to stand in.
+                Log.WarningOnce("[ProjectZ] windows: a window was finished with no wall under it at " + Position
+                    + "; it was removed", 0x5A17C9);
+                Destroy(DestroyMode.Vanish);
+                return;
+            }
             // A window turns the barricade it is fitted on into a wall: impassable, holding a roof, closing a room.
-            HalfWallState.Glaze(HalfWallState.WallAt(Position, map), Latch != null && Latch.openPct > 0.001f);
+            HalfWallState.Glaze(host, Latch != null && Latch.openPct > 0.001f);
         }
 
         // Taking the window out returns the wall to a barricade (a bare half wall).

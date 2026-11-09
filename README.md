@@ -29,8 +29,10 @@ leaves them as missing defs, and RimWorld deletes unknown things - the same as r
 
 - **Half walls**: a waist-high wall nothing crosses. Like a wall it closes a room, but it holds up no roof - and the day
   comes in over its top. Drag one over a standing wall to cut that wall down.
-- **Windows**: fit a window on top of a half wall (from the Structure menu - pick the material you want) and a colonist
-  builds it, for two fifths of a door's cost. One half wall takes one window. Once a window is in, that half wall counts
+- **Windows**: fit a window into a wall, or onto a half wall (from the Structure menu - pick the material you want) and
+  a colonist builds it. Ordered straight onto a wall, the wall is cut down to a half wall of its own material when the
+  window is finished - so you pay for the glazing, not for a wall you already had. One half wall takes one window.
+  Once a window is in, that half wall counts
   as a real wall: it closes a room and holds a roof.
 - Two solid boards in a frame, no glass. Open and close a window by hand: a colonist slides the boards apart or shut,
   and a half-open window carries on from where it stopped.

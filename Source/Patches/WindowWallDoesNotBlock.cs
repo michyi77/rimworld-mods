@@ -19,7 +19,9 @@ namespace ProjectZ.Windows
             {
                 return;
             }
-            if (t.def.defName != "PZ_HalfWall")
+            // A half wall with a window in it, or a full wall the window is being fitted into (the wall is cut down to
+            // a half wall when the window is finished, HalfWallState.CutDown): neither is in the way.
+            if (t.def.defName != "PZ_HalfWall" && !PlaceWorker_OnHalfWall.IsCuttableWall(t))
             {
                 return;
             }

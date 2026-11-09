@@ -29,8 +29,9 @@
 
 - Half walls: a waist-high wall nothing crosses. Like a wall it closes a room, but it holds up no roof - and the day
   comes in over its top.
-- Windows: fit one on top of a half wall (from the Structure menu, where you pick the material and the turn) and a colonist builds it. One
-  half wall takes one window. Once a window is in, that half wall counts as a real wall: it closes a room and holds a
+- Windows: fit one into a wall, or onto a half wall (from the Structure menu, where you pick the material and the turn) and a
+  colonist builds it. Ordered straight onto a wall, that wall is cut down to a half wall of its own material when the
+  window is finished. One half wall takes one window. Once a window is in, that half wall counts as a real wall: it closes a room and holds a
   roof.
 - Two solid boards in a frame, no glass. Open and close a window by hand: a colonist slides the boards apart or shut;
   a half-open window carries on from where it stopped.
@@ -62,7 +63,7 @@ just the same on a one-floor map. Either way nothing in that base mod has to be 
 给房子开一扇窗！本 mod 添加半墙和装在半墙上的推拉窗。
 
 - 半墙：齐腰高、过不去的墙。像墙一样能围出房间，但不撑屋顶 —— 日光从墙头上越过。
-- 窗户：在半墙上装窗（从建造菜单，自己选材料和朝向），小人建造；一堵半墙只装一扇窗。装上窗之后，那格半墙就算真正的墙：
+- 窗户：在墙上或半墙上装窗（从建造菜单，自己选材料和朝向），小人建造；直接点在已有的墙上时，窗装好后那堵墙会被削成同材质的半墙。一堵半墙只装一扇窗。装上窗之后，那格半墙就算真正的墙：
   能围出房间、能撑屋顶。
 - 两扇实心木板加边框，没有玻璃。窗要手动开合：小人把木板推开或拉回；关到一半被打断，下次接着来。
 - 透光：关着时像墙一样挡光；开着时把天光放进屋里。光取自窗**朝外那一侧**的光（露天就是天光，会被天气压暗；

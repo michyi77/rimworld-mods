@@ -11,7 +11,8 @@
   <ProjectZ.OpenOtherSideDesc>Swing the sashes out to the opposite face of the wall. Light and air pass through.</ProjectZ.OpenOtherSideDesc>
   <ProjectZ.CloseSashesDesc>Shut the sashes: no light or air passes through.</ProjectZ.CloseSashesDesc>
 
-  <ProjectZ.NeedHalfWall>A window has to go on a half wall: build one in this cell first.</ProjectZ.NeedHalfWall>
+  <ProjectZ.NeedHalfWall>A window goes into a wall: build a wall or a half wall in this cell first.</ProjectZ.NeedHalfWall>
+  <ProjectZ.WallNotCuttable>This wall cannot be cut down for a window: its material cannot make a half wall.</ProjectZ.WallNotCuttable>
   <ProjectZ.HalfWallHasWindow>This half wall already has a window: a half wall takes one window.</ProjectZ.HalfWallHasWindow>
 
   <!-- Mod settings window -->

@@ -23,7 +23,15 @@ namespace ProjectZ.Windows
             {
                 return;
             }
-            if (newEntDef.defName == Building_WindowGlass.ClosedDefName || newEntDef.defName == Building_WindowGlass.OpenDefName)
+            // The window itself, and the blueprint and frame that lead up to it: none of them may take the wall away.
+            // The blueprint is what a player lays on an existing wall now, and the frame is what a colonist builds in
+            // its place, so both have to leave the wall standing until the window is finished.
+            ThingDef built = newEntDef as ThingDef;
+            if (built != null && (built.IsBlueprint || built.IsFrame))
+            {
+                built = built.entityDefToBuild as ThingDef;
+            }
+            if (built != null && (built.defName == Building_WindowGlass.ClosedDefName || built.defName == Building_WindowGlass.OpenDefName))
             {
                 __result = false;
                 if (!logged)

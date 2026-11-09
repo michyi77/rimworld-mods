@@ -69,6 +69,44 @@ namespace ProjectZ.Windows
             Swap(wall, open ? GlazedOpenDefName : GlazedDefName);
         }
 
+        // A window ordered straight onto a full wall: the wall is cut down to the bare half wall of the SAME stuff, and
+        // the window's own SpawnSetup glazes it. Nothing is returned to the player - the material is still there, just
+        // thinner - and the wall's damage carries over as the same fraction of its hit points.
+        public static Building CutDown(Building wall)
+        {
+            if (wall == null || wall.Destroyed || !wall.Spawned || wall.def == null || IsHalfWall(wall.def))
+            {
+                return wall;
+            }
+            ThingDef bare = DefDatabase<ThingDef>.GetNamedSilentFail(BareDefName);
+            ThingDef stuff = wall.Stuff;
+            if (bare == null || stuff == null)
+            {
+                return null;
+            }
+            Map map = wall.Map;
+            IntVec3 pos = wall.Position;
+            Rot4 rot = wall.Rotation;
+            Faction fac = wall.Faction;
+            int hp = wall.HitPoints;
+            int max = wall.MaxHitPoints;
+            Building fresh = ThingMaker.MakeThing(bare, stuff) as Building;
+            if (fresh == null)
+            {
+                return null;
+            }
+            KeepRoom(map, pos);
+            wall.Destroy(DestroyMode.Vanish);
+            GenSpawn.Spawn(fresh, pos, map, rot);
+            if (fac != null)
+            {
+                fresh.SetFaction(fac);
+            }
+            int newMax = fresh.MaxHitPoints;
+            fresh.HitPoints = Mathf.Clamp(Mathf.RoundToInt(newMax * (max > 0 ? (float)hp / max : 1f)), 1, newMax);
+            return fresh;
+        }
+
         // The window is gone: back to a barricade.
         public static void Strip(Building wall)
         {
