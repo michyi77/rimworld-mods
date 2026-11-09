@@ -5,11 +5,12 @@
          passability Impassable      nothing crosses it, exactly like a full wall (user, 2026-10-20: a barricade's
                                      PassThroughOnly let colonists climb over, which was wrong for this building)
        fillPercent 0.55             a waist-high block: it still gives cover and still lets a shot pass over its top
-       2 stuff / 60 work / 180 hp   not a wall's figures: it holds no roof, keeps no heat and gives less cover, so it is
-                                    cheaper and frailer than the wall it is cut from (user, 2026-11-09, after the
+       2 stuff / 60 work             not a wall's figures (5 / 135): it holds no roof, keeps no heat and gives less
+                                    cover, so it is cheaper than the wall it is cut from (user, 2026-11-09, after the
                                     workshop comment "the half-wall is the same price as a full wall"). 2 is what
                                     cutting a 5-stuff wall down gives back, so converting a wall costs the glazing
-                                    only (user, 2026-11-09)
+                                    only. MaxHitPoints 180 is a BASE figure, 60% of a wall's 300, and scales with the
+                                    material exactly as a wall's does - do not quote 180 as "the hp". (user, 2026-11-09)
        holdsRoof false              no roof support: only the windowed version holds a storey up
        blockLight / blockWind off   a waist-high wall does not shut out light or wind
        isFence true                 blocks animals the way a fence does
