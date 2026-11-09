@@ -14,12 +14,14 @@
        "Fit window" button is gone since 1.1.6: it took the wall's turn, which was not always the right one now that
        half walls are not rotated at all.
 
-       Stats are a door's, to the number, and the stuff's statFactors scale them exactly as they scale a door's:
-       MaxHitPoints 160 and WorkToBuild 850 from DoorBase/Door, Flammability 1.0 (wood x1 = 100%, steel x0.4 = 40%);
-       DoorOpenSpeed has no statBase (1) and comes from the stuff (wood x1.2 -> 50 ticks, stone x0.45 -> 133).
-       Beauty has no statBase either, so it is 0 like a door's.
+       MaxHitPoints 160 is a door's, and the stuff's statFactors scale it exactly as they scale a door's (Flammability
+       1.0: wood x1 = 100%, steel x0.4 = 40%; DoorOpenSpeed comes from the stuff: wood x1.2 -> 50 ticks, stone x0.45
+       -> 133). Beauty has no statBase either, so it is 0 like a door's.
 
-       Cost is two fifths of a door's 25 (wooden door 25 wood -> wooden window 10). -->
+       Cost and work are NOT a door's any more: a pane in a frame with two sliding boards is not a door. 4 stuff and
+       220 work, so a windowed half wall (3 + 4 = 7 stuff, 60 + 220 = 280 work) sits just above a plain wall's 5 and
+       135 instead of triple its material and seven times its work (user, 2026-11-09, after the workshop comment
+       "a window is somehow double"). -->
   <ThingDef ParentName="BuildingBase">
     <defName>PZ_WindowGlass</defName>
     <label>window</label>
@@ -51,7 +53,7 @@
     <castEdgeShadows>false</castEdgeShadows>
     <statBases>
       <MaxHitPoints>160</MaxHitPoints>
-      <WorkToBuild>850</WorkToBuild>
+      <WorkToBuild>220</WorkToBuild>
       <Flammability>1.0</Flammability>
     </statBases>
     <stuffCategories>
@@ -59,7 +61,7 @@
       <li>Woody</li>
       <li>Stony</li>
     </stuffCategories>
-    <costStuffCount>10</costStuffCount>
+    <costStuffCount>4</costStuffCount>
     <building>
       <isEdifice>false</isEdifice>
       <isInert>true</isInert>
@@ -98,7 +100,7 @@
     <castEdgeShadows>false</castEdgeShadows>
     <statBases>
       <MaxHitPoints>160</MaxHitPoints>
-      <WorkToBuild>850</WorkToBuild>
+      <WorkToBuild>220</WorkToBuild>
       <Flammability>1.0</Flammability>
     </statBases>
     <stuffCategories>

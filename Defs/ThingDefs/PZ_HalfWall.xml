@@ -5,6 +5,9 @@
          passability Impassable      nothing crosses it, exactly like a full wall (user, 2026-10-20: a barricade's
                                      PassThroughOnly let colonists climb over, which was wrong for this building)
        fillPercent 0.55             a waist-high block: it still gives cover and still lets a shot pass over its top
+       3 stuff / 60 work / 180 hp   not a wall's figures: it holds no roof, keeps no heat and gives less cover, so it is
+                                    cheaper and frailer than the wall it is cut from (user, 2026-11-09, after the
+                                    workshop comment "the half-wall is the same price as a full wall")
        holdsRoof false              no roof support: only the windowed version holds a storey up
        blockLight / blockWind off   a waist-high wall does not shut out light or wind
        isFence true                 blocks animals the way a fence does
@@ -68,8 +71,8 @@
     <useStuffTerrainAffordance>true</useStuffTerrainAffordance>
     <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <statBases>
-      <MaxHitPoints>300</MaxHitPoints>
-      <WorkToBuild>135</WorkToBuild>
+      <MaxHitPoints>180</MaxHitPoints>
+      <WorkToBuild>60</WorkToBuild>
       <Flammability>1.0</Flammability>
     </statBases>
     <stuffCategories>
@@ -77,7 +80,7 @@
       <li>Woody</li>
       <li>Stony</li>
     </stuffCategories>
-    <costStuffCount>5</costStuffCount>
+    <costStuffCount>3</costStuffCount>
     <designationCategory>Structure</designationCategory>
     <!-- Same as a wall's: the designator gets the line/rectangle drag tools, so holding the button and dragging lays a
          whole run of half walls instead of one cell at a time (user, 2026-10-24). -->
@@ -149,8 +152,8 @@
     <useStuffTerrainAffordance>true</useStuffTerrainAffordance>
     <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <statBases>
-      <MaxHitPoints>300</MaxHitPoints>
-      <WorkToBuild>135</WorkToBuild>
+      <MaxHitPoints>180</MaxHitPoints>
+      <WorkToBuild>60</WorkToBuild>
       <Flammability>1.0</Flammability>
     </statBases>
     <stuffCategories>
@@ -158,7 +161,7 @@
       <li>Woody</li>
       <li>Stony</li>
     </stuffCategories>
-    <costStuffCount>5</costStuffCount>
+    <costStuffCount>3</costStuffCount>
     <building>
       <isInert>true</isInert>
       <ai_chillDestination>false</ai_chillDestination>
@@ -215,8 +218,8 @@
     <useStuffTerrainAffordance>true</useStuffTerrainAffordance>
     <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <statBases>
-      <MaxHitPoints>300</MaxHitPoints>
-      <WorkToBuild>135</WorkToBuild>
+      <MaxHitPoints>180</MaxHitPoints>
+      <WorkToBuild>60</WorkToBuild>
       <Flammability>1.0</Flammability>
     </statBases>
     <stuffCategories>
@@ -224,7 +227,7 @@
       <li>Woody</li>
       <li>Stony</li>
     </stuffCategories>
-    <costStuffCount>5</costStuffCount>
+    <costStuffCount>3</costStuffCount>
     <building>
       <isInert>true</isInert>
       <ai_chillDestination>false</ai_chillDestination>
