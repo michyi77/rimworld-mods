@@ -19,7 +19,7 @@
        -> 133). Beauty has no statBase either, so it is 0 like a door's.
 
        Cost and work are NOT a door's any more: a pane in a frame with two sliding boards is not a door. 4 stuff and
-       220 work, so a windowed half wall (3 + 4 = 7 stuff, 60 + 220 = 280 work) sits just above a plain wall's 5 and
+       220 work, so a windowed half wall (2 + 4 = 6 stuff, 60 + 220 = 280 work) sits just above a plain wall's 5 and
        135 instead of triple its material and seven times its work (user, 2026-11-09, after the workshop comment
        "a window is somehow double"). -->
   <ThingDef ParentName="BuildingBase">

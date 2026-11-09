@@ -16,7 +16,7 @@
 · 去除 "Fit window" 按钮
 · 更新半墙图标（按材质分面）
 · 半墙现在可以像墙一样连续拖拽建造
-· 价格调整：半墙 3 材料 / 60 工作 / 180 HP，窗 4 材料 / 220 工作（一面带窗的墙合计 7 材料 / 280 工作，原本是 15 / 985）
+· 价格调整：半墙 2 材料 / 60 工作 / 180 HP，窗 4 材料 / 220 工作（一面带窗的墙合计 6 材料 / 280 工作，原本是 15 / 985）
 · 把墙削成半墙（或把窗装到墙上）时，那堵墙会返还一半材料，不再凭空消失
 · 新增：窗的蓝图可以直接点在已有的墙上——建好后那堵墙会变成同材质的半墙并装上窗（不用先造半墙）
 · 修复半墙脚下那条草地过渡带：半墙现在和原版墙一样设置 coversFloor，地板直接铺到墙根（掩体/光照不变）
@@ -39,7 +39,7 @@
 - Removed the "Fit window" button
 - New half wall icon (face follows the material)
 - Half walls can now be drag-built in a row, like walls
-- Rebalanced: a half wall is 3 stuff / 60 work / 180 hp and the glazing 4 stuff / 220 work (a windowed wall is 7 / 280, down from 15 / 985)
+- Rebalanced: a half wall is 2 stuff / 60 work / 180 hp and the glazing 4 stuff / 220 work (a windowed wall is 6 / 280, down from 15 / 985)
 - Cutting a wall down to fit a window gives half of the wall's material back instead of vanishing it
 - New: order a window straight onto an existing wall - when it is finished the wall becomes a half wall of the same material with the window fitted in it (no half wall needed first)
 - Fixed the grass band at the foot of a half wall: half walls now set coversFloor like a vanilla wall, so the floor runs right up to them (cover and light unchanged)
