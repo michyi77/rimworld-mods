@@ -67,7 +67,9 @@ MIT License.
 - **The roof-edge light is gone**: the old light pass also lit every roofed cell within four cells of open sky, so a porch
   or a platform on pillars came out at 1.17x the open sky while vanilla leaves it at 0.63x. Windows and bare half walls
   are now the only things that let daylight in; a roof that simply ends in the open stays vanilla.
-- **Mod settings**: how often the window light is worked out (0.5-20 s) and whether it is on at all.
+- **Mod settings**: how often the window light is worked out (1-60 ticks, default 30) and how big a sky change is worth a refresh.
+- **Vanilla Diagonal Walls**: half walls join diagonally now, like vanilla walls (the diagonal mod is purely
+  visual, so a window in one still sits square).
 
 ### 1.2.1
 

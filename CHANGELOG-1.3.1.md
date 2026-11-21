@@ -16,6 +16,7 @@
 · 去除 "Fit window" 按钮
 · 更新半墙图标（按材质分面）
 · 半墙现在可以像墙一样连续拖拽建造
+· 兼容 Vanilla Diagonal Walls：半墙现在也会参与斜接，斜着排的半墙看着是一道斜墙（斜墙只是绘制，窗仍按正交格摆放）
 · 价格调整：半墙 2 材料 / 60 工作 / 180 HP，窗 4 材料 / 220 工作（一面带窗的墙合计 6 材料 / 280 工作，原本是 15 / 985）
 · 把墙削成半墙（或把窗装到墙上）时，那堵墙会返还一半材料，不再凭空消失
 · 新增：窗的蓝图可以直接点在已有的墙上——建好后那堵墙会变成同材质的半墙并装上窗（不用先造半墙）
@@ -39,6 +40,7 @@
 - Removed the "Fit window" button
 - New half wall icon (face follows the material)
 - Half walls can now be drag-built in a row, like walls
+- Compatible with Vanilla Diagonal Walls: half walls take part in the diagonal joins now, so a diagonal run of half walls reads as a diagonal wall (that mod is purely visual; a window in one still sits square)
 - Rebalanced: a half wall is 2 stuff / 60 work / 180 hp and the glazing 4 stuff / 220 work (a windowed wall is 6 / 280, down from 15 / 985)
 - Cutting a wall down to fit a window gives half of the wall's material back instead of vanishing it
 - New: order a window straight onto an existing wall - when it is finished the wall becomes a half wall of the same material with the window fitted in it (no half wall needed first)
