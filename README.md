@@ -60,6 +60,14 @@ MIT License.
 
 ## Changelog
 
+### 1.3.2
+
+中文更新说明见 [CHANGELOG-1.3.2.md](CHANGELOG-1.3.2.md)。
+
+- **Vanilla Diagonal Walls**: half walls take part in the diagonal joins now, like vanilla walls, so a diagonal run of
+  half walls reads as one diagonal wall. That mod is purely a rendering change and adds no buildings, so a window in a
+  diagonally joined cell still sits square - its light, air-tightness and opening all work off the orthogonal cell.
+
 ### 1.3.1
 
 中文更新说明见 [CHANGELOG-1.3.1.md](CHANGELOG-1.3.1.md)。
