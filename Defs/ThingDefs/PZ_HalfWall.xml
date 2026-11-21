@@ -28,14 +28,18 @@
     <defName>PZ_HalfWall</defName>
     <label>half wall</label>
     <description>The lower half of a wall: nothing can cross it, but light and air pass over the top. It holds up no roof, and only once a window is fitted on it does it support one and seal a room. Build it on open ground, or drag it over an existing wall to cut that wall down.</description>
+    <!-- Wall-like linked graphic (not the barricade atlas): Vanilla Diagonal Walls only joins things whose
+         GraphicData.Linked and whose wrapped Graphic_Linked has LinkerType CornerFiller (a wall) or Basic (a fence).
+         Same texPath/graphicClass as vanilla Wall, so the wall appearances (Planks/Bricks/Metal) resolve, and the
+         half wall now takes part in diagonal joins and gets trimmed by IsoRim's wall shapes (SPEC §38). -->
     <graphicData>
-      <texPath>Things/Building/Linked/Barricade_Atlas</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <linkType>Basic</linkType>
+      <texPath>Things/Building/Linked/Wall</texPath>
+      <graphicClass>Graphic_Appearances</graphicClass>
+      <linkType>CornerFiller</linkType>
       <linkFlags>
+        <li>Wall</li>
         <li>Barricades</li>
       </linkFlags>
-      <color>(139,122,87)</color>
     </graphicData>
     <uiIconPath>ProjectZ/HalfWall_MenuIcon</uiIconPath>
     <!-- Wood is planks and stone blocks are bricks, so those get their own face; metal keeps the smooth plate (user,
@@ -116,14 +120,18 @@
     <label>half wall</label>
     <description>The lower half of a wall with a window fitted on it: it counts as a wall, holds up a roof and closes a room.</description>
     <rotatable>false</rotatable>
+    <!-- Wall-like linked graphic (not the barricade atlas): Vanilla Diagonal Walls only joins things whose
+         GraphicData.Linked and whose wrapped Graphic_Linked has LinkerType CornerFiller (a wall) or Basic (a fence).
+         Same texPath/graphicClass as vanilla Wall, so the wall appearances (Planks/Bricks/Metal) resolve, and the
+         half wall now takes part in diagonal joins and gets trimmed by IsoRim's wall shapes (SPEC §38). -->
     <graphicData>
-      <texPath>Things/Building/Linked/Barricade_Atlas</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <linkType>Basic</linkType>
+      <texPath>Things/Building/Linked/Wall</texPath>
+      <graphicClass>Graphic_Appearances</graphicClass>
+      <linkType>CornerFiller</linkType>
       <linkFlags>
+        <li>Wall</li>
         <li>Barricades</li>
       </linkFlags>
-      <color>(139,122,87)</color>
     </graphicData>
     <uiIconPath>ProjectZ/HalfWall_MenuIcon</uiIconPath>
     <!-- Wood is planks and stone blocks are bricks, so those get their own face; metal keeps the smooth plate (user,
@@ -179,14 +187,18 @@
     <label>half wall</label>
     <description>The lower half of a wall with a window fitted on it and slid open: air passes the way it does through a vent.</description>
     <rotatable>false</rotatable>
+    <!-- Wall-like linked graphic (not the barricade atlas): Vanilla Diagonal Walls only joins things whose
+         GraphicData.Linked and whose wrapped Graphic_Linked has LinkerType CornerFiller (a wall) or Basic (a fence).
+         Same texPath/graphicClass as vanilla Wall, so the wall appearances (Planks/Bricks/Metal) resolve, and the
+         half wall now takes part in diagonal joins and gets trimmed by IsoRim's wall shapes (SPEC §38). -->
     <graphicData>
-      <texPath>Things/Building/Linked/Barricade_Atlas</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <linkType>Basic</linkType>
+      <texPath>Things/Building/Linked/Wall</texPath>
+      <graphicClass>Graphic_Appearances</graphicClass>
+      <linkType>CornerFiller</linkType>
       <linkFlags>
+        <li>Wall</li>
         <li>Barricades</li>
       </linkFlags>
-      <color>(139,122,87)</color>
     </graphicData>
     <uiIconPath>ProjectZ/HalfWall_MenuIcon</uiIconPath>
     <!-- Wood is planks and stone blocks are bricks, so those get their own face; metal keeps the smooth plate (user,
