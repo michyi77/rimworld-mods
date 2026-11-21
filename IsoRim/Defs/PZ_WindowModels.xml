@@ -1,29 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- Loaded only while IsoRim is active (LoadFolders.xml): IsoRim's model definitions for the window.
+  <!-- Loaded only while IsoRim is active (LoadFolders.xml).
 
-       The closed/open models are the FRAME only. The frame is static and IsoRim bakes it into the map mesh; the two
-       sashes are their own model (Models/pz_window_sash.obj) and are drawn every frame by
-       Building_WindowGlass.DrawAt -> WindowSashes.Draw, so a colonist's opening slides them over the opening.
+       The window has NO ModelDef on purpose any more: its frame and both sashes are drawn every frame by
+       Building_WindowGlass.DrawAt -> WindowSashes.Draw from Models/pz_window_glass.obj and pz_window_sash.obj. A baked
+       frame cannot be turned per cell, and Vanilla Diagonal Walls trims the wall of a cell into a diagonal band, so
+       the whole window has to be drawn where the band runs (SPEC 搂39).
 
-       Written by tools/make_window_glass_obj.py (frame) and the same script's sash output. No <model> on the sash:
-       it has no def of its own, it is loaded by path. -->
-  <IsoRim.ModelDef>
-    <defName>R3D_PZ_WindowGlass</defName>
-    <thingDef>PZ_WindowGlass</thingDef>
-    <model>Models/pz_window_glass.obj</model>
-    <builtFor>(1, 1)</builtFor>
-    <groundShadow>false</groundShadow>
-  </IsoRim.ModelDef>
-
-  <IsoRim.ModelDef>
-    <defName>R3D_PZ_WindowGlassOpen</defName>
-    <thingDef>PZ_WindowGlassOpen</thingDef>
-    <model>Models/pz_window_glass_open.obj</model>
-    <builtFor>(1, 1)</builtFor>
-    <groundShadow>false</groundShadow>
-  </IsoRim.ModelDef>
+       The defs below are the DEPRECATED window designs: they keep their models so an old save that still holds one
+       still draws. Written by tools/make_window_glass_obj.py. -->
 
   <!-- ==================== Deprecated: the earlier window designs ====================
        Moved here from the base mod together with their defs, so a save that still holds one keeps it. Nothing places
